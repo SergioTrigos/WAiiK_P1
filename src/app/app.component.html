@@ -1,70 +1,37 @@
-<style>
-  :host {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-    font-size: 14px;
-    color: #333;
-    box-sizing: border-box;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
+<div class="entireScreen" layout="column"> 
+  <div flex class="toolbar" role="banner">
 
-  .toolbar {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 60px;
-    display: flex;
-    align-items: center;
-    background-color: #e6e6e6;
-    font-weight: 600;
-  }
-
-  .icon {
-    margin: 0 16px;
-  }
-
-  .groundTab {
-    background-color: #003c80;
-  }
-
-
-</style>
-
-<!-- Toolbar -->
-<div class="toolbar" role="banner">
-
-  <mat-tab-group dynamicHeight>
-
-    <mat-tab class="groundTab">
-      <ng-template mat-tab-label>
-        <img class="icon" width="40" src="assets\Icon\HallIcon.png" />
-        Hall
-      </ng-template>
-    </mat-tab>
-
-    <mat-tab class="groundTab">
-      <ng-template mat-tab-label>
-        <img class="icon" width="40" src="assets\Icon\WAiiK_logo3.png" />
-        WAiiK
-      </ng-template>
-    </mat-tab>
-
-
-  </mat-tab-group>
-
-  <div>
-    <button mat-button>
-      <mat-icon>add</mat-icon>
-    </button>
+    <div class="tabs tab">
+      <mat-tab-group>
+    
+        <mat-tab class="groundTab">
+          <ng-template mat-tab-label>
+            <img class="icon" width="40" src="assets\Icon\HallIcon.png" />
+            Hall
+          </ng-template>
+        </mat-tab>
+    
+        <mat-tab class="groundTab">
+          <ng-template mat-tab-label>
+            <img class="icon" width="40" src="assets\Icon\WAiiK_logo3.png" />
+            WAiiK
+          </ng-template>
+        </mat-tab>
+    
+      </mat-tab-group>
+    </div>
+  
+  
+    <div class="addStage tab">
+      <button mat-button class="addStage">
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+    
+  </div>
+  
+  <div flex class="stagDisplay">
+    <p class="stage">stage</p>
   </div>
 
 </div>
-
-
-
-
-
-
-  
-
