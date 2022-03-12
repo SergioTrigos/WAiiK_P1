@@ -1,0 +1,50 @@
+:root 
+    --ShellWidth: 200px
+    --ShellHeight: 80px
+    --ShellPlusMenu: 220px
+
+
+
+.coreHitBox
+  width: 220px
+  height: var(--ShellHeight)
+
+.shell
+  width: var(--ShellWidth)
+  height: var(--ShellHeight)
+  padding: 10px
+  box-sizing: border-box
+  border: solid 1px #ccc
+  color: rgba(0, 0, 0, 0.87)
+  display: flex
+  justify-content: center
+  align-items: center
+  text-align: center
+  background: #fff
+  border-radius: 4px
+  position: relative
+  z-index: 1
+  transition: box-shadow 200ms cubic-bezier(0, 0, 0.2, 1)
+  box-shadow: (0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12))
+
+
+.shell:active 
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12)
+
+
+.coreMenu
+    margin-top: auto
+    margin-bottom: auto
+    margin-right: 4px
+    height: 34px
+    width: 23px
+    cursor: move
+    border: 1px solid #99afbf
+    border-radius: 25%
+
+.dot
+    height: 4px
+    width: 4px
+    margin: auto
+    background-color: #a2a3a3
+    border-radius: 50%

@@ -11,10 +11,13 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { CoreComponent } from './core/core.component';
+import { DragDropModule } from '@angular/cdk/drag-drop'
 
 @NgModule({
   declarations: [
     AppComponent,
+    CoreComponent,
   ],
   imports: [
     BrowserModule,
@@ -27,6 +30,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MatListModule,
     BrowserAnimationsModule,
     FlexLayoutModule,
+    DragDropModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
