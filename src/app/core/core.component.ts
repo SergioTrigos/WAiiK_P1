@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CoreComponent implements OnInit {
 
+  designIsOpen = false;
+
   constructor() { }
 
   ngOnInit(): void {

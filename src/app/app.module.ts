@@ -12,7 +12,9 @@ import { MatListModule } from '@angular/material/list';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { CoreComponent } from './core/core.component';
-import { DragDropModule } from '@angular/cdk/drag-drop'
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { MatMenuModule } from '@angular/material/menu';
+
 
 @NgModule({
   declarations: [
@@ -31,6 +33,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop'
     BrowserAnimationsModule,
     FlexLayoutModule,
     DragDropModule,
+    MatMenuModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

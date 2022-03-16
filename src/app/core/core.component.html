@@ -1,13 +1,60 @@
 <div class="coreHitBox" cdkDragBoundary=".stageDisplay" fxLayout="row" cdkDrag>
 
-    <div class="coreMenu" fxLayout="column" cdkDragHandle>
+    <div class="core-menu-button" mat-icon-button [matMenuTriggerFor]="menu" fxLayout="column" cdkDragHandle>
             <span class="dot"></span>
             <span class="dot"></span>
             <span class="dot"></span>
     </div>
 
+    <!-- Core Menu -->
+
+    <mat-menu #menu="matMenu">
+        <button mat-menu-item [matMenuTriggerFor]="actions">
+            <img src="" alt="">
+            <span>Actions</span>
+        </button>
+        <button mat-menu-item [matMenuTriggerFor]="modifications">
+            <img src="" alt="">
+            <span>Modifications</span>
+        </button>
+        <button mat-menu-item [matMenuTriggerFor]="design">
+            <img src="" alt="">
+            <span>Design</span>
+        </button>
+    </mat-menu>
+
+    <mat-menu #actions="matMenu">
+        <button mat-menu-item>
+            <mat-icon>delete</mat-icon>
+            <span>Delete Core</span>
+        </button>
+        <button mat-menu-item>
+            <span>Duplicate Core</span>
+        </button>
+        <button mat-menu-item>
+            <span>Hyperlink Core</span>
+        </button>
+        <button mat-menu-item>
+            <span>List of Bonds</span>
+        </button>
+    </mat-menu>
+    <mat-menu #modifications="matMenu">
+        <button mat-menu-item>
+            <mat-icon>add</mat-icon>
+            <span>Add Rune</span>
+        </button>
+        <button mat-menu-item>
+            <span>List of Runes</span>
+        </button>
+    </mat-menu>
+    <mat-menu #design="matMenu">
+
+    </mat-menu>
+
+    <!-- Shell -->
+
     <div class="shell" >
-        I can only be dragged using the handle
+        I can only be dragged from the menu
     </div>
   
 </div>
