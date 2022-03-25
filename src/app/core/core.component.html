@@ -2,11 +2,14 @@
     [ngStyle]="initialPos()"
 >
 
-    <div  [matMenuTriggerFor]="menu" fxLayout="column" cdkDragHandle  >
-        <div  class="core-menu-button" mat-icon-button>
-                <span class="dot"></span>
-                <span class="dot"></span>
-                <span class="dot"></span>
+    <!-- Core Menu BUTTON -->
+    <div mat-button   
+        (mousedown)="onHoldStart()" (mouseup)="onholdEnd()" [matMenuTriggerFor]="menu" 
+    >
+        <div fxLayout="column" cdkDragHandle class="core-menu-button">
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
         </div>
     </div>
 

@@ -72,7 +72,7 @@ export class StageComponent implements OnInit {
 
   newPosition(pos: number[]) {
     CoresData[1].position = pos
-    alert("the positions changed to: " + pos[0] + " and " + pos[1]);
+    console.log("the positions changed to: " + pos[0] + " and " + pos[1]);
   }
 
 }
