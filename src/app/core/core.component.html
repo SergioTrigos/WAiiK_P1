@@ -2,18 +2,20 @@
     [ngStyle]="initialPos()"
 >
 
-    <!-- Core Menu BUTTON -->
-    <div mat-button   
-        (mousedown)="onHoldStart()" (mouseup)="onholdEnd()" [matMenuTriggerFor]="menu" 
-    >
-        <div fxLayout="column" cdkDragHandle class="core-menu-button">
+    <!-- Core Menu BUTTON    [disabled]="willOpen === false"  -->
+    <div  cdkDragHandle class="core-menu-handle"
+        (mousedown)="onHoldStart()" (mouseup)="onholdEnd()" 
+    >   
+        <button fxLayout="column"  class="core-menu-button" #CMbutton  cdkDragHandle
+            [matMenuTriggerFor]="menu"
+        >
             <span class="dot"></span>
             <span class="dot"></span>
             <span class="dot"></span>
-        </div>
+        </button>
     </div>
 
-    <!-- Core Menu -->
+    <!-- Core Menu    -->
 
     <mat-menu #menu="matMenu">
         <button mat-menu-item [matMenuTriggerFor]="actions">

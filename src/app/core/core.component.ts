@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output, EventEmitter, ViewChild} from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter, ViewChild, ElementRef} from '@angular/core';
 import { CdkDragEnd } from '@angular/cdk/drag-drop';
 import { MatMenuTrigger } from '@angular/material/menu';
 
@@ -13,8 +13,10 @@ export class CoreComponent implements OnInit {
 
   designIsOpen = false;
 
-  @ViewChild(MatMenuTrigger)
-  trigger!: MatMenuTrigger;
+  //@ViewChild(MatMenuTrigger)
+  //trigger!: MatMenuTrigger;
+  //@ViewChild('CMbutton')
+  //coreMB!: ElementRef;
 
   constructor() {
    }
@@ -48,8 +50,10 @@ export class CoreComponent implements OnInit {
 
   //menu button interaction dynamics
   private isHeld = false ;
-  private willOpen = true;
+  menuBeh: any = "menu";
+  private shouldOpen!: boolean;
   private activeHoldTimeoutId: any;
+
 
 
   onHoldStart() {
@@ -57,19 +61,19 @@ export class CoreComponent implements OnInit {
 
     this.activeHoldTimeoutId = setTimeout(() => { 
       if (this.isHeld) {
-        this.willOpen = false;
-        console.log("more than 1 second has passed");
+        this.menuBeh = "l";
+        //this.coreMB.nativeElement.setAttribute('matMenuTriggerFor','notMenu');
+        console.log("more than 1 second has passed, it should not open");
       }
-    }, 500);
+    }, 300);
   }
 
   onholdEnd() {
-    if (this.willOpen == false) {
-      this.trigger.toggleMenu();
-    }
+    this.menuBeh = "menu";
+    //this.coreMB.nativeElement.setAttribute('[matMenuTriggerFor]','menu');
     this.isHeld = false;
-    this.willOpen = true;
     clearTimeout(this.activeHoldTimeoutId);
+    console.log("it should open after another click");
   }
 
 

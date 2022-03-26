@@ -21,7 +21,7 @@ let CoresData: Core[] = [
   {
     creator: "bob",
     parentStage: 1000000001,
-    position: [],
+    position: [300, 500],
     scale: 1,
     datumType: "text",
     datumText: "Cat!!",
