@@ -13,13 +13,14 @@ export class CoreComponent implements OnInit {
 
   designIsOpen = false;
   shouldOpen!: boolean;
-  
+  menuPosition = { x: '0', y: '0' };
+  pos =  { x: 0, y: 0 };
 
   @ViewChild(MatMenuTrigger)
   trigger!: MatMenuTrigger;
 
   constructor() {
-   }
+  }
 
   //Core Data
   @Input()
@@ -29,8 +30,12 @@ export class CoreComponent implements OnInit {
   coreMoved = new EventEmitter();
 
   ngOnInit(): void {
+    this.pos.x = this.coreData.position[0];
+    this.pos.y = this.coreData.position[1];
     positionX = this.coreData.position[0] + "px";
     positionY = this.coreData.position[1] + "px";
+    this.menuPosition.x = this.coreData.position[0] + "px";
+    this.menuPosition.y = (this.coreData.position[1] - 170) + "px";
     this.shouldOpen = true;
   }
 
@@ -47,17 +52,14 @@ export class CoreComponent implements OnInit {
     const dropPoint = event.source.getFreeDragPosition()
     this.coreData.position = [dropPoint.x, dropPoint.y]
     this.coreMoved.emit([dropPoint.x, dropPoint.y]);
+    this.menuPosition.x = (dropPoint.x + this.pos.x) + 'px';
+    this.menuPosition.y = (dropPoint.y + this.pos.y - 170) + 'px';
+    console.log("the positions changed to: " + dropPoint.x + " and " + dropPoint.y);
   }
 
   //menu button interaction dynamics
   private isHeld = false;
   private activeHoldTimeoutId: any;
-
-  calcVis() {
-    return {
-      'hiddenMenu': true
-    }
-  }
 
   onHoldStart() {
     this.isHeld = true;
@@ -70,12 +72,17 @@ export class CoreComponent implements OnInit {
     }, 500);
   }
 
-  onHoldEnd() {
-    this.calcVis();
-    if (this.shouldOpen == false) { 
-      this.trigger.toggleMenu();
-      console.log("it should have closed");
+  onHoldEnd(event: MouseEvent) {
+    event.preventDefault();
+
+    if (this.shouldOpen === true) { 
+      this.trigger.openMenu();
+      console.log("it should have opened");
+    } else {
+      console.log("it should not have opened");
     }
+
+    
     this.isHeld = false;
     this.shouldOpen = true;
     clearTimeout(this.activeHoldTimeoutId);

@@ -1,12 +1,18 @@
+<div style="visibility: hidden; position: absolute;"
+[style.left]="menuPosition.x"
+[style.top]="menuPosition.y"
+[matMenuTriggerFor]="menu"
+></div>
+
 <div class="coreHitBox" cdkDragBoundary=".stageDisplay" fxLayout="row" cdkDrag (cdkDragEnded)="onDrop($event)"
     [ngStyle]="initialPos()"
->
+>                                                                                                                                                               
 
     <!-- Core Menu BUTTON    [disabled]="willOpen === false"  -->
     <div  cdkDragHandle class="core-menu-handle"
     >   
         <button fxLayout="column"  class="core-menu-button"
-            [matMenuTriggerFor]="menu"  (mousedown)="onHoldStart()" (mouseup)="onHoldEnd()"
+            (mousedown)="onHoldStart()" (mouseup)="onHoldEnd($event)"
         >
             <span class="dot"></span>
             <span class="dot"></span>
@@ -22,7 +28,7 @@
   [ngClass]="{'hiddenMenu': true}"
     -->
 
-    <mat-menu #menu="matMenu" class="mat-menu-panel hiddenMenu" >
+    <mat-menu #menu="matMenu" >
         <button mat-menu-item [matMenuTriggerFor]="actions">
             <img src="" alt="">
             <span>Actions</span>
