@@ -7,7 +7,7 @@ let positionY: string;
 @Component({
   selector: 'app-core',
   templateUrl: './core.component.html',
-  styleUrls: ['./core.component.sass']
+  styleUrls: ['./core.component.sass'],
 })
 export class CoreComponent implements OnInit {
 
@@ -53,6 +53,12 @@ export class CoreComponent implements OnInit {
   private isHeld = false;
   private activeHoldTimeoutId: any;
 
+  calcVis() {
+    return {
+      'hiddenMenu': true
+    }
+  }
+
   onHoldStart() {
     this.isHeld = true;
 
@@ -65,6 +71,7 @@ export class CoreComponent implements OnInit {
   }
 
   onHoldEnd() {
+    this.calcVis();
     if (this.shouldOpen == false) { 
       this.trigger.toggleMenu();
       console.log("it should have closed");
@@ -73,6 +80,8 @@ export class CoreComponent implements OnInit {
     this.shouldOpen = true;
     clearTimeout(this.activeHoldTimeoutId);
   }
+
+
 
 
 

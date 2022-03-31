@@ -14,9 +14,15 @@
         </button>
     </div>
 
-    <!-- Core Menu    -->
+    <!-- Core Menu  
+    ::ng-deep .mat-menu-panel.hiddenMenu
+  visibility: hidden
+  oppasity: 0%
 
-    <mat-menu #menu="matMenu" [ngClass]="{ 'hiddenMenu' : !shouldOpen}">
+  [ngClass]="{'hiddenMenu': true}"
+    -->
+
+    <mat-menu #menu="matMenu" class="mat-menu-panel hiddenMenu" >
         <button mat-menu-item [matMenuTriggerFor]="actions">
             <img src="" alt="">
             <span>Actions</span>
