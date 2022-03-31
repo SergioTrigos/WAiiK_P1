@@ -4,10 +4,9 @@
 
     <!-- Core Menu BUTTON    [disabled]="willOpen === false"  -->
     <div  cdkDragHandle class="core-menu-handle"
-        (mousedown)="onHoldStart()" (mouseup)="onholdEnd()" 
     >   
-        <button fxLayout="column"  class="core-menu-button" #CMbutton  cdkDragHandle
-            [matMenuTriggerFor]="menu"
+        <button fxLayout="column"  class="core-menu-button"
+            [matMenuTriggerFor]="menu"  (mousedown)="onHoldStart()" (mouseup)="onHoldEnd()"
         >
             <span class="dot"></span>
             <span class="dot"></span>
@@ -17,7 +16,7 @@
 
     <!-- Core Menu    -->
 
-    <mat-menu #menu="matMenu">
+    <mat-menu #menu="matMenu" [ngClass]="{ 'hiddenMenu' : !shouldOpen}">
         <button mat-menu-item [matMenuTriggerFor]="actions">
             <img src="" alt="">
             <span>Actions</span>

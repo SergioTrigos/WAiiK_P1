@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output, EventEmitter, ViewChild, ElementRef} from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter, ViewChild} from '@angular/core';
 import { CdkDragEnd } from '@angular/cdk/drag-drop';
 import { MatMenuTrigger } from '@angular/material/menu';
 
@@ -12,11 +12,11 @@ let positionY: string;
 export class CoreComponent implements OnInit {
 
   designIsOpen = false;
+  shouldOpen!: boolean;
+  
 
-  //@ViewChild(MatMenuTrigger)
-  //trigger!: MatMenuTrigger;
-  //@ViewChild('CMbutton')
-  //coreMB!: ElementRef;
+  @ViewChild(MatMenuTrigger)
+  trigger!: MatMenuTrigger;
 
   constructor() {
    }
@@ -31,6 +31,7 @@ export class CoreComponent implements OnInit {
   ngOnInit(): void {
     positionX = this.coreData.position[0] + "px";
     positionY = this.coreData.position[1] + "px";
+    this.shouldOpen = true;
   }
 
   //Position Dynamcs
@@ -49,31 +50,28 @@ export class CoreComponent implements OnInit {
   }
 
   //menu button interaction dynamics
-  private isHeld = false ;
-  menuBeh: any = "menu";
-  private shouldOpen!: boolean;
+  private isHeld = false;
   private activeHoldTimeoutId: any;
-
-
 
   onHoldStart() {
     this.isHeld = true;
 
     this.activeHoldTimeoutId = setTimeout(() => { 
       if (this.isHeld) {
-        this.menuBeh = "l";
-        //this.coreMB.nativeElement.setAttribute('matMenuTriggerFor','notMenu');
+        this.shouldOpen = false;
         console.log("more than 1 second has passed, it should not open");
       }
-    }, 300);
+    }, 500);
   }
 
-  onholdEnd() {
-    this.menuBeh = "menu";
-    //this.coreMB.nativeElement.setAttribute('[matMenuTriggerFor]','menu');
+  onHoldEnd() {
+    if (this.shouldOpen == false) { 
+      this.trigger.toggleMenu();
+      console.log("it should have closed");
+    }
     this.isHeld = false;
+    this.shouldOpen = true;
     clearTimeout(this.activeHoldTimeoutId);
-    console.log("it should open after another click");
   }
 
 
