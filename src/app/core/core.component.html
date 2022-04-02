@@ -29,47 +29,90 @@
     -->
 
     <mat-menu #menu="matMenu" >
-        <button mat-menu-item [matMenuTriggerFor]="actions">
-            <img src="" alt="">
-            <span>Actions</span>
+        <button mat-menu-item [matMenuTriggerFor]="actions" >
+            <img src="assets\Icon\Actions_Icon.png" class="iconAct">
+            <span class="iconText">Actions</span>
         </button>
         <button mat-menu-item [matMenuTriggerFor]="modifications">
-            <img src="" alt="">
-            <span>Modifications</span>
+            <img src="assets\Icon\Modifications_Icon.png" class="icon">
+            <span class="iconText">Modifications</span>
         </button>
-        <button mat-menu-item [matMenuTriggerFor]="design">
-            <img src="" alt="">
-            <span>Design</span>
+        <button mat-menu-item (click)="designIsOpen = !designIsOpen" cdkOverlayOrigin #trigger="cdkOverlayOrigin">
+            <img src="assets\Icon\Design_Icon.png" class="icon">
+            <span class="iconText">Design</span>
         </button>
     </mat-menu>
 
     <mat-menu #actions="matMenu">
         <button mat-menu-item>
-            <mat-icon>delete</mat-icon>
+            <img src="assets\Icon\Actions_Delete_Icon.png" class="iconAct">
             <span>Delete Core</span>
         </button>
         <button mat-menu-item>
+            <img src="assets\Icon\Actions_Duplicate_Icon.png" class="icon">
             <span>Duplicate Core</span>
         </button>
         <button mat-menu-item>
+            <img src="assets\Icon\Actions_Hyper_Icon.png" class="icon">
             <span>Hyperlink Core</span>
         </button>
         <button mat-menu-item>
+            <img src="assets\Icon\Actions_Bonds_Icon.png" class="icon">
             <span>List of Bonds</span>
         </button>
     </mat-menu>
     <mat-menu #modifications="matMenu">
         <button mat-menu-item>
-            <mat-icon>add</mat-icon>
+            <img src="assets\Icon\Mods_Add_Icon.png" class="icon">
             <span>Add Rune</span>
         </button>
         <button mat-menu-item>
+            <img src="assets\Icon\Mods_List_Icon.png" class="icon">
             <span>List of Runes</span>
         </button>
     </mat-menu>
-    <mat-menu #design="matMenu">
 
-    </mat-menu>
+    <ng-template
+        cdkConnectedOverlay
+        [cdkConnectedOverlayOrigin]="trigger"
+        [cdkConnectedOverlayOpen]="designIsOpen"
+    >
+        <div class="designMenu">
+            <div fxLayout="row">
+
+                <mat-tab-group>
+                    <mat-tab>
+                      <ng-template mat-tab-label>
+                        <mat-icon class="example-tab-icon">thumb_up</mat-icon>
+                        First
+                      </ng-template>
+                      Content 1
+                    </mat-tab>
+                  
+                    <mat-tab>
+                      <ng-template mat-tab-label>
+                        <mat-icon class="example-tab-icon">thumb_up</mat-icon>
+                        Second
+                      </ng-template>
+                      Content 2
+                    </mat-tab>
+                  
+                    <mat-tab>
+                      <ng-template mat-tab-label>
+                        <mat-icon class="example-tab-icon">thumb_up</mat-icon>
+                        Third
+                      </ng-template>
+                  
+                      Content 3
+                    </mat-tab>
+                  </mat-tab-group>
+                <button mat-icon-button (click)="closeDesign()" class="closeButton">
+                    <mat-icon>close</mat-icon>
+                </button>
+            </div>
+        </div>
+    </ng-template>
+
 
     <!-- Shell -->
 

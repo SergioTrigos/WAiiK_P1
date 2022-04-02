@@ -89,7 +89,9 @@ export class CoreComponent implements OnInit {
   }
 
 
-
+  closeDesign() {
+    this.designIsOpen = false;
+  }
 
 
 

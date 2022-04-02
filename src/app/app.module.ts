@@ -15,6 +15,8 @@ import { CoreComponent } from './core/core.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatMenuModule } from '@angular/material/menu';
 import { StageComponent } from './stage/stage.component';
+import { OverlayModule } from '@angular/cdk/overlay';
+
 
 
 @NgModule({
@@ -36,6 +38,7 @@ import { StageComponent } from './stage/stage.component';
     FlexLayoutModule,
     DragDropModule,
     MatMenuModule,
+    OverlayModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
