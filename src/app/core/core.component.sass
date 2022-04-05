@@ -1,7 +1,7 @@
 :root 
-    --ShellWidth: 200px
-    --ShellHeight: 80px
-    --ShellPlusMenu: 220px
+  --ShellWidth: 200px
+  --ShellHeight: 80px
+  --ShellPlusMenu: 220px
 
 
 .coreHitBox
@@ -34,26 +34,27 @@
 
 
 .core-menu
-    margin-top: auto
-    margin-bottom: auto
-    margin-right: 4px
-    height: 34px
-    width: 23px
+  margin-top: auto
+  margin-bottom: auto
+  margin-right: 4px
+  height: 34px
+  width: 23px
   
 .core-menu-handle
   @extend .core-menu
   cursor: move
+
 .core-menu-button
   @extend .core-menu
   border: 1px solid #99afbf
   border-radius: 25%
 
 .dot
-    height: 4px
-    width: 4px
-    margin: auto
-    background-color: #a2a3a3
-    border-radius: 50%
+  height: 4px
+  width: 4px
+  margin: auto
+  background-color: #a2a3a3
+  border-radius: 50%
 
 .icon
   margin-right: 10px
@@ -68,19 +69,69 @@
   margin-top: 10px
   width: 6%
 
+.iconDesTab
+  margin-right: 20px
+  width: 12%
+
 .designMenu
-  width: 600px
-  height: 500px
+  height: 100%
+  width: 100%
   border: solid 1px #ccc
   border-radius: 5px
   background: #fff
-  text-align: center
   padding: 10px
   margin: 0
+  overflow: auto 
+  resize: both
+  min-width: 700px
+  min-height: 300px
+
+.desWin2
+  height: 100%
+  width: 100%
+
+::ng-deep .mat-tab-body-wrapper
+  height: 100%
+
+
+.desTools
+  width: 200px
+  height: 99%
+  border: solid 1px #ccc
+  min-width: 150px
+
+.toolRow
+  margin: 2px
+
+.iconT
+  height: 28px
+
+.desDivs
+  width: 85%
+  height: 99%
+  border: solid 1px #ccc
+
+.closeDragDiv
+  top: 0
+  right: 0
 
 .closeButton
-  margin-left: auto
+  width: 100px
 
-.example-tab-icon
-  margin-right: 8px
+.designDragHandle
+  top: -5px
+  height: 15px
+  width: 100%
+  radius: 50%
+  background-color:#f0f0f0
 
+.dot2
+  height: 4px
+  width: 4px
+  margin: auto
+  background-color: black
+  border-radius: 50%
+
+.desLineSVG
+  width: 100%
+  height: 100%

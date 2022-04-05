@@ -4,6 +4,11 @@
 [matMenuTriggerFor]="menu"
 ></div>
 
+<svg class="desLineSVG">
+    <line [attr.x1]=desLinePos.x1 [attr.y1]=desLinePos.y1 [attr.x2]=desLinePos.x2 [attr.y2]=desLinePos.y2 style="stroke:#DCDCDC;stroke-width:1" [attr.visibility]=designLineVis/>
+</svg>
+
+
 <div class="coreHitBox" cdkDragBoundary=".stageDisplay" fxLayout="row" cdkDrag (cdkDragEnded)="onDrop($event)"
     [ngStyle]="initialPos()"
 >                                                                                                                                                               
@@ -37,7 +42,7 @@
             <img src="assets\Icon\Modifications_Icon.png" class="icon">
             <span class="iconText">Modifications</span>
         </button>
-        <button mat-menu-item (click)="designIsOpen = !designIsOpen" cdkOverlayOrigin #trigger="cdkOverlayOrigin">
+        <button mat-menu-item (click)="DesignButtonDyn()" cdkOverlayOrigin #trigger="cdkOverlayOrigin">
             <img src="assets\Icon\Design_Icon.png" class="icon">
             <span class="iconText">Design</span>
         </button>
@@ -77,39 +82,84 @@
         [cdkConnectedOverlayOrigin]="trigger"
         [cdkConnectedOverlayOpen]="designIsOpen"
     >
-        <div class="designMenu">
-            <div fxLayout="row">
-
-                <mat-tab-group>
-                    <mat-tab>
-                      <ng-template mat-tab-label>
-                        <mat-icon class="example-tab-icon">thumb_up</mat-icon>
-                        First
-                      </ng-template>
-                      Content 1
-                    </mat-tab>
-                  
-                    <mat-tab>
-                      <ng-template mat-tab-label>
-                        <mat-icon class="example-tab-icon">thumb_up</mat-icon>
-                        Second
-                      </ng-template>
-                      Content 2
-                    </mat-tab>
-                  
-                    <mat-tab>
-                      <ng-template mat-tab-label>
-                        <mat-icon class="example-tab-icon">thumb_up</mat-icon>
-                        Third
-                      </ng-template>
-                  
-                      Content 3
-                    </mat-tab>
-                  </mat-tab-group>
-                <button mat-icon-button (click)="closeDesign()" class="closeButton">
-                    <mat-icon>close</mat-icon>
-                </button>
+        <div class="designMenu" cdkDrag (cdkDragEnded)="onDesignDrop($event)" fxLayout="column">
+            <div cdkDragHandle matRipple (mouseup)="getMousePos($event)" class="designDragHandle">
+                <span class="dot2"></span>
+                <span class="dot2"></span>
+                <span class="dot2"></span>
             </div>
+            <mat-tab-group   mat-align-tabs="start" fxFlex  (focusChange)="closeDesign($event)">
+                <mat-tab class="tabDes">
+                    <ng-template mat-tab-label>
+                        <img src="assets\Icon\Design_Frame.png" class="iconDesTab">
+                        Frame
+                    </ng-template>
+                    <div fxLayout="row" class="desWin2">
+                        <div class="desTools" fxLayout="column">
+                            <div class="toolRow" fxLayout="row">
+                                <button mat-stroked-button fxFlex> <img src="assets\Icon\Design_Frame_Transform.png" class="iconT"> </button>
+                                <button mat-stroked-button fxFlex> <img src="assets\Icon\Design_Frame_Select.png" class="iconT"> </button>
+                            </div>
+                            <div class="toolRow" fxLayout="row">
+                                <button mat-stroked-button fxFlex> <img src="assets\Icon\Design_Frame_Spline.png" class="iconT"> </button>
+                                <button mat-stroked-button fxFlex> <img src="assets\Icon\Design_Frame_Blob.png" class="iconT"> </button>
+                            </div>
+                            <div class="toolRow">
+                                <button mat-stroked-button fxFlex> <img src="assets\Icon\Design_Frame_Shapes.png" class="iconT"> </button>
+                            </div>
+                            <div class="toolRow" fxLayout="row">
+                                <button mat-stroked-button fxFlex> <img src="assets\Icon\Design_Frame_Transparency.png" class="iconT"> </button>
+                                <button mat-stroked-button fxFlex> <img src="assets\Icon\Design_Frame_Colour.png" class="iconT"> </button>
+                            </div>
+                            <div class="toolRow" fxLayout="row">
+                                <button mat-stroked-button fxFlex> <img src="assets\Icon\Design_Frame_Thickness.png" class="iconT"> </button>
+                                <button mat-stroked-button fxFlex> <img src="assets\Icon\Design_Frame_Emmitance.png" class="iconT"> </button>
+                            </div>
+                            <div class="toolRow">
+                                <button mat-stroked-button fxFlex> <img src="assets\Icon\Design_Frame_AddFrameInst.png" class="iconT"> </button>
+                            </div>
+                        </div>
+                        <div class="desDivs">
+                            frame display
+                        </div>
+                    </div>
+                </mat-tab>
+            
+                <mat-tab class="tabDes">
+                    <ng-template mat-tab-label>
+                        <img src="assets\Icon\Design_Glazing.png" class="iconDesTab">
+                        Glazing
+                    </ng-template>
+                    <div fxLayout="row" class="desWin2">
+                        <div class="desTools">
+                            Tools go Here
+                        </div>
+                        <div class="desDivs">
+                            frame display
+                        </div>
+                    </div>
+                </mat-tab>
+            
+                <mat-tab class="tabDes">
+                    <ng-template mat-tab-label>
+                        <img src="assets\Icon\Design_Datum.png" class="iconDesTab">
+                        Datum
+                    </ng-template>
+                    <div fxLayout="row" class="desWin2">
+                        <div class="desTools">
+                            Tools go Here
+                        </div>
+                        <div class="desDivs">
+                            frame display
+                        </div>
+                    </div>
+                </mat-tab>
+                <mat-tab >
+                    <ng-template mat-tab-label>
+                        <mat-icon>close</mat-icon>
+                    </ng-template>
+                </mat-tab>
+            </mat-tab-group>
         </div>
     </ng-template>
 
