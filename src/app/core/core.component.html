@@ -131,11 +131,32 @@
                         Glazing
                     </ng-template>
                     <div fxLayout="row" class="desWin2">
-                        <div class="desTools">
-                            Tools go Here
+                        <div class="desTools" fxLayout="column">
+                            <div class="menuText">Drawing Tools</div>
+                            <div class="toolRow" fxLayout="row">
+                                <button mat-stroked-button fxFlex> <img src="assets\Icon\Design_Glazing_Pencil.png" class="iconT"> </button>
+                                <button mat-stroked-button fxFlex> <img src="assets\Icon\Design_Frame_Spline.png" class="iconT"> </button>
+                            </div>
+                            <div class="toolRow" fxLayout="row">
+                                <button mat-stroked-button fxFlex> <img src="assets\Icon\Design_Frame_Thickness.png" class="iconT"> </button>
+                                <button mat-stroked-button fxFlex> <img src="assets\Icon\Design_Glazing_Eraser.png" class="iconT"> </button>
+                            </div>
+                            <div class="toolRow">
+                                <button mat-stroked-button fxFlex> <img src="assets\Icon\Design_Frame_Shapes.png" class="iconT"> </button>
+                            </div>
+                            <div class="toolRow" fxLayout="row">
+                                <button mat-stroked-button fxFlex> <img src="assets\Icon\Design_Frame_Transparency.png" class="iconT"> </button>
+                                <button mat-stroked-button fxFlex> <img src="assets\Icon\Design_Frame_Colour.png" class="iconT"> </button>
+                            </div>
+                            <mat-divider></mat-divider>
+                            <div class="menuText">Background</div> 
+                            <div class="toolRow" fxLayout="row">
+                                <button mat-stroked-button fxFlex> <img src="assets\Icon\Design_Frame_Transparency.png" class="iconT"> </button>
+                                <button mat-stroked-button fxFlex> <img src="assets\Icon\Design_Frame_Colour.png" class="iconT"> </button>
+                            </div>
                         </div>
                         <div class="desDivs">
-                            frame display
+                            Glazing display
                         </div>
                     </div>
                 </mat-tab>
@@ -146,11 +167,39 @@
                         Datum
                     </ng-template>
                     <div fxLayout="row" class="desWin2">
-                        <div class="desTools">
-                            Tools go Here
+                        <div class="desTools" fxLayout="column">
+                            <div class="toolRow">
+                                <button mat-stroked-button fxFlex>Verse</button>
+                            </div>
+                            <mat-divider></mat-divider>
+                            <div class="toolRow">
+                                <button mat-stroked-button fxFlex>Helvetica</button>
+                            </div>
+                            <div class="toolRow" fxLayout="row">
+                                <button mat-icon-button fxFlex> <img src="assets\Icon\Design_Datum_Bold.png" class="iconV"> </button>
+                                <button mat-icon-button fxFlex> <img src="assets\Icon\Design_Datum_Italics.png" class="iconV"> </button>
+                                <button mat-icon-button fxFlex> <img src="assets\Icon\Design_Datum_Underscore.png" class="iconV"> </button>
+                            </div>
+                            <div class="toolRow" fxLayout="row">
+                                <button mat-stroked-button fxFlex> 16 </button>
+                                <button mat-stroked-button fxFlex> <img src="assets\Icon\Design_Datum_FontColor.png" class="iconT"> </button>
+                            </div>
+                            <div class="toolRow" fxLayout="row">
+                                <button mat-stroked-button fxFlex> <img src="assets\Icon\Design_Datum_Justify.png" class="iconT"> </button>
+                                <button mat-stroked-button fxFlex> <img src="assets\Icon\Design_Datum_List.png" class="iconT"> </button>
+                            </div>
+                            <mat-divider></mat-divider>
+                            <div fxLayout="column" class="checkedDes2">
+                                <mat-checkbox class="checkedDes" fxFlex >Cast Datum</mat-checkbox>
+                                <mat-checkbox class="checkedDes" fxFlex >Show Name</mat-checkbox>
+                            </div>
+                            <mat-divider></mat-divider>
+                            <div class="toolRow">
+                                <button mat-stroked-button color="warn" fxFlex>Clear Datum</button>
+                            </div>
                         </div>
                         <div class="desDivs">
-                            frame display
+                            Datum display
                         </div>
                     </div>
                 </mat-tab>
