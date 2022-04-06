@@ -19,6 +19,8 @@ import { OverlayModule } from '@angular/cdk/overlay';
 import { MatRippleModule } from '@angular/material/core';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatSliderModule } from '@angular/material/slider';
 
 
 
@@ -45,6 +47,8 @@ import { MatDividerModule } from '@angular/material/divider';
     MatRippleModule,
     MatCheckboxModule,
     MatDividerModule,
+    MatTooltipModule,
+    MatSliderModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

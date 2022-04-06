@@ -13,11 +13,11 @@
     [ngStyle]="initialPos()"
 >                                                                                                                                                               
 
-    <!-- Core Menu BUTTON    [disabled]="willOpen === false"  -->
+    <!-- Core Menu BUTTON  -->
     <div  cdkDragHandle class="core-menu-handle"
     >   
-        <button fxLayout="column"  class="core-menu-button"
-            (mousedown)="onHoldStart()" (mouseup)="onHoldEnd($event)"
+        <button fxLayout="column"  class="core-menu-button" matTooltip="Open Core-Menu or Drag the Core" matTooltipShowDelay="1000"
+            (mousedown)="onHoldStart()" (mouseup)="onHoldEnd($event)" 
         >
             <span class="dot"></span>
             <span class="dot"></span>
@@ -25,16 +25,10 @@
         </button>
     </div>
 
-    <!-- Core Menu  
-    ::ng-deep .mat-menu-panel.hiddenMenu
-  visibility: hidden
-  oppasity: 0%
-
-  [ngClass]="{'hiddenMenu': true}"
-    -->
+    <!-- Core Menu  -->
 
     <mat-menu #menu="matMenu" >
-        <button mat-menu-item [matMenuTriggerFor]="actions" >
+        <button mat-menu-item [matMenuTriggerFor]="actions">
             <img src="assets\Icon\Actions_Icon.png" class="iconAct">
             <span class="iconText">Actions</span>
         </button>
@@ -42,14 +36,22 @@
             <img src="assets\Icon\Modifications_Icon.png" class="icon">
             <span class="iconText">Modifications</span>
         </button>
-        <button mat-menu-item (click)="DesignButtonDyn()" cdkOverlayOrigin #trigger="cdkOverlayOrigin">
+        <button mat-menu-item (click)="DesignButtonDyn()" cdkOverlayOrigin #trigger="cdkOverlayOrigin" matTooltip="Open Shell Design Window" matTooltipShowDelay="1000"> 
             <img src="assets\Icon\Design_Icon.png" class="icon">
             <span class="iconText">Design</span>
         </button>
+        <div class="gizmoCont">
+            <div class="verticalG"><mat-icon class="gizArrowV">arrow_drop_up</mat-icon></div>
+            <div class="horizontalG"><mat-icon  class="gizArrowH">arrow_left</mat-icon></div>
+            <div class="bothG" cdkDragHandle></div>
+            <img src="assets\QuarterCircle.png" class="circleSec">
+            <div class="rotCircle"></div>
+        </div>
     </mat-menu>
 
+
     <mat-menu #actions="matMenu">
-        <button mat-menu-item>
+        <button mat-menu-item >
             <img src="assets\Icon\Actions_Delete_Icon.png" class="iconAct">
             <span>Delete Core</span>
         </button>
@@ -82,8 +84,8 @@
         [cdkConnectedOverlayOrigin]="trigger"
         [cdkConnectedOverlayOpen]="designIsOpen"
     >
-        <div class="designMenu" cdkDrag (cdkDragEnded)="onDesignDrop($event)" fxLayout="column">
-            <div cdkDragHandle matRipple (mouseup)="getMousePos($event)" class="designDragHandle">
+        <div class="designMenu" cdkDrag (cdkDragEnded)="onDesignDrop($event)"  (cdkDragStarted)="onDesHold()"  fxLayout="column">
+            <div cdkDragHandle matRipple (mouseup)="getMousePos($event)" class="designDragHandle" matTooltip="Drag the Design Menu" matTooltipShowDelay="800" matTooltipPosition="before">
                 <span class="dot2"></span>
                 <span class="dot2"></span>
                 <span class="dot2"></span>
@@ -97,26 +99,31 @@
                     <div fxLayout="row" class="desWin2">
                         <div class="desTools" fxLayout="column">
                             <div class="toolRow" fxLayout="row">
-                                <button mat-stroked-button fxFlex> <img src="assets\Icon\Design_Frame_Transform.png" class="iconT"> </button>
-                                <button mat-stroked-button fxFlex> <img src="assets\Icon\Design_Frame_Select.png" class="iconT"> </button>
+                                <button mat-stroked-button fxFlex matTooltip="Transform" matTooltipShowDelay="500" matTooltipPosition="before"> <img src="assets\Icon\Design_Frame_Transform.png" class="iconT"> </button>
+                                <button mat-stroked-button fxFlex matTooltip="Select" matTooltipShowDelay="500" matTooltipPosition="after"> <img src="assets\Icon\Design_Frame_Select.png" class="iconT"> </button>
                             </div>
                             <div class="toolRow" fxLayout="row">
-                                <button mat-stroked-button fxFlex> <img src="assets\Icon\Design_Frame_Spline.png" class="iconT"> </button>
-                                <button mat-stroked-button fxFlex> <img src="assets\Icon\Design_Frame_Blob.png" class="iconT"> </button>
+                                <button mat-stroked-button fxFlex matTooltip="Spline" matTooltipShowDelay="500" matTooltipPosition="before"> <img src="assets\Icon\Design_Frame_Spline.png" class="iconT"> </button>
+                                <button mat-stroked-button fxFlex matTooltip="Blob" matTooltipShowDelay="500" matTooltipPosition="after"> <img src="assets\Icon\Design_Frame_Blob.png" class="iconT"> </button>
                             </div>
                             <div class="toolRow">
-                                <button mat-stroked-button fxFlex> <img src="assets\Icon\Design_Frame_Shapes.png" class="iconT"> </button>
+                                <button mat-stroked-button [matMenuTriggerFor]="shapes"
+                                fxFlex matTooltip="Shapes" matTooltipShowDelay="500" matTooltipPosition="before"> <img src="assets\Icon\Design_Frame_Shapes.png" class="iconT"> </button>
                             </div>
                             <div class="toolRow" fxLayout="row">
-                                <button mat-stroked-button fxFlex> <img src="assets\Icon\Design_Frame_Transparency.png" class="iconT"> </button>
-                                <button mat-stroked-button fxFlex> <img src="assets\Icon\Design_Frame_Colour.png" class="iconT"> </button>
+                                <button mat-stroked-button [matMenuTriggerFor]="transparency"
+                                fxFlex matTooltip="Transparency" matTooltipShowDelay="500" matTooltipPosition="before"> <img src="assets\Icon\Design_Frame_Transparency.png" class="iconT"> </button>
+                                <button mat-stroked-button [matMenuTriggerFor]="colour"
+                                fxFlex matTooltip="Colour" matTooltipShowDelay="500" matTooltipPosition="after"> <img src="assets\Icon\Design_Frame_Colour.png" class="iconT"> </button>
                             </div>
                             <div class="toolRow" fxLayout="row">
-                                <button mat-stroked-button fxFlex> <img src="assets\Icon\Design_Frame_Thickness.png" class="iconT"> </button>
-                                <button mat-stroked-button fxFlex> <img src="assets\Icon\Design_Frame_Emmitance.png" class="iconT"> </button>
+                                <button mat-stroked-button [matMenuTriggerFor]="thickness"
+                                fxFlex matTooltip="Line Thickness" matTooltipShowDelay="500" matTooltipPosition="before"> <img src="assets\Icon\Design_Frame_Thickness.png" class="iconT"> </button>
+                                <button mat-stroked-button [matMenuTriggerFor]="emmitance"
+                                fxFlex matTooltip="Frame Emmitance" matTooltipShowDelay="500" matTooltipPosition="after"> <img src="assets\Icon\Design_Frame_Emmitance.png" class="iconT"> </button>
                             </div>
                             <div class="toolRow">
-                                <button mat-stroked-button fxFlex> <img src="assets\Icon\Design_Frame_AddFrameInst.png" class="iconT"> </button>
+                                <button mat-stroked-button fxFlex matTooltip="Add Frame Instance" matTooltipShowDelay="500" matTooltipPosition="before"> <img src="assets\Icon\Design_Frame_AddFrameInst.png" class="iconT"> </button>
                             </div>
                         </div>
                         <div class="desDivs">
@@ -134,25 +141,31 @@
                         <div class="desTools" fxLayout="column">
                             <div class="menuText">Drawing Tools</div>
                             <div class="toolRow" fxLayout="row">
-                                <button mat-stroked-button fxFlex> <img src="assets\Icon\Design_Glazing_Pencil.png" class="iconT"> </button>
-                                <button mat-stroked-button fxFlex> <img src="assets\Icon\Design_Frame_Spline.png" class="iconT"> </button>
+                                <button mat-stroked-button fxFlex matTooltip="Pencil" matTooltipShowDelay="500" matTooltipPosition="before"> <img src="assets\Icon\Design_Glazing_Pencil.png" class="iconT"> </button>
+                                <button mat-stroked-button fxFlex matTooltip="Spline" matTooltipShowDelay="500" matTooltipPosition="after"> <img src="assets\Icon\Design_Frame_Spline.png" class="iconT"> </button>
                             </div>
                             <div class="toolRow" fxLayout="row">
-                                <button mat-stroked-button fxFlex> <img src="assets\Icon\Design_Frame_Thickness.png" class="iconT"> </button>
-                                <button mat-stroked-button fxFlex> <img src="assets\Icon\Design_Glazing_Eraser.png" class="iconT"> </button>
+                                <button mat-stroked-button [matMenuTriggerFor]="thickness"
+                                fxFlex matTooltip="Line Thickness" matTooltipShowDelay="500" matTooltipPosition="before"> <img src="assets\Icon\Design_Frame_Thickness.png" class="iconT"> </button>
+                                <button mat-stroked-button fxFlex matTooltip="Eraser" matTooltipShowDelay="500" matTooltipPosition="after"> <img src="assets\Icon\Design_Glazing_Eraser.png" class="iconT"> </button>
                             </div>
                             <div class="toolRow">
-                                <button mat-stroked-button fxFlex> <img src="assets\Icon\Design_Frame_Shapes.png" class="iconT"> </button>
+                                <button mat-stroked-button [matMenuTriggerFor]="shapes"
+                                fxFlex matTooltip="Shapes" matTooltipShowDelay="500" matTooltipPosition="before"> <img src="assets\Icon\Design_Frame_Shapes.png" class="iconT"> </button>
                             </div>
                             <div class="toolRow" fxLayout="row">
-                                <button mat-stroked-button fxFlex> <img src="assets\Icon\Design_Frame_Transparency.png" class="iconT"> </button>
-                                <button mat-stroked-button fxFlex> <img src="assets\Icon\Design_Frame_Colour.png" class="iconT"> </button>
+                                <button mat-stroked-button [matMenuTriggerFor]="transparency"
+                                fxFlex matTooltip="Drawing Transparency" matTooltipShowDelay="500" matTooltipPosition="before">  <img src="assets\Icon\Design_Frame_Transparency.png" class="iconT"> </button>
+                                <button mat-stroked-button [matMenuTriggerFor]="colour"
+                                fxFlex matTooltip="Drawing Colour" matTooltipShowDelay="500" matTooltipPosition="after"> <img src="assets\Icon\Design_Frame_Colour.png" class="iconT"> </button>
                             </div>
                             <mat-divider></mat-divider>
                             <div class="menuText">Background</div> 
                             <div class="toolRow" fxLayout="row">
-                                <button mat-stroked-button fxFlex> <img src="assets\Icon\Design_Frame_Transparency.png" class="iconT"> </button>
-                                <button mat-stroked-button fxFlex> <img src="assets\Icon\Design_Frame_Colour.png" class="iconT"> </button>
+                                <button mat-stroked-button [matMenuTriggerFor]="transparency"
+                                fxFlex matTooltip="Background Transparency" matTooltipShowDelay="500" matTooltipPosition="before"> <img src="assets\Icon\Design_Frame_Transparency.png" class="iconT"> </button>
+                                <button mat-stroked-button [matMenuTriggerFor]="colour"
+                                fxFlex matTooltip="Background Colour" matTooltipShowDelay="500" matTooltipPosition="after"> <img src="assets\Icon\Design_Frame_Colour.png" class="iconT"> </button>
                             </div>
                         </div>
                         <div class="desDivs">
@@ -169,29 +182,30 @@
                     <div fxLayout="row" class="desWin2">
                         <div class="desTools" fxLayout="column">
                             <div class="toolRow">
-                                <button mat-stroked-button fxFlex>Verse</button>
+                                <button mat-stroked-button fxFlex matTooltip="Datum Type">Verse</button>
                             </div>
                             <mat-divider></mat-divider>
                             <div class="toolRow">
-                                <button mat-stroked-button fxFlex>Helvetica</button>
+                                <button mat-stroked-button fxFlex matTooltip="Font">Helvetica</button>
                             </div>
                             <div class="toolRow" fxLayout="row">
-                                <button mat-icon-button fxFlex> <img src="assets\Icon\Design_Datum_Bold.png" class="iconV"> </button>
-                                <button mat-icon-button fxFlex> <img src="assets\Icon\Design_Datum_Italics.png" class="iconV"> </button>
-                                <button mat-icon-button fxFlex> <img src="assets\Icon\Design_Datum_Underscore.png" class="iconV"> </button>
+                                <button mat-icon-button fxFlex matTooltip="Bold" matTooltipShowDelay="500" matTooltipPosition="before"> <img src="assets\Icon\Design_Datum_Bold.png" class="iconV"> </button>
+                                <button mat-icon-button fxFlex matTooltip="Italics" matTooltipShowDelay="800"> <img src="assets\Icon\Design_Datum_Italics.png" class="iconV"> </button>
+                                <button mat-icon-button fxFlex matTooltip="Underscore" matTooltipShowDelay="500" matTooltipPosition="after"> <img src="assets\Icon\Design_Datum_Underscore.png" class="iconV"> </button>
                             </div>
                             <div class="toolRow" fxLayout="row">
-                                <button mat-stroked-button fxFlex> 16 </button>
-                                <button mat-stroked-button fxFlex> <img src="assets\Icon\Design_Datum_FontColor.png" class="iconT"> </button>
+                                <button mat-stroked-button fxFlex matTooltip="Font Size" matTooltipShowDelay="500" matTooltipPosition="before"> 16 </button>
+                                <button mat-stroked-button [matMenuTriggerFor]="colour"
+                                fxFlex matTooltip="Colour" matTooltipShowDelay="500" matTooltipPosition="after"> <img src="assets\Icon\Design_Datum_FontColor.png" class="iconT"> </button>
                             </div>
                             <div class="toolRow" fxLayout="row">
-                                <button mat-stroked-button fxFlex> <img src="assets\Icon\Design_Datum_Justify.png" class="iconT"> </button>
-                                <button mat-stroked-button fxFlex> <img src="assets\Icon\Design_Datum_List.png" class="iconT"> </button>
+                                <button mat-stroked-button fxFlex matTooltip="Justification" matTooltipShowDelay="500" matTooltipPosition="before"> <img src="assets\Icon\Design_Datum_Justify.png" class="iconT"> </button>
+                                <button mat-stroked-button fxFlex matTooltip="List" matTooltipShowDelay="500" matTooltipPosition="after"> <img src="assets\Icon\Design_Datum_List.png" class="iconT"> </button>
                             </div>
                             <mat-divider></mat-divider>
                             <div fxLayout="column" class="checkedDes2">
-                                <mat-checkbox class="checkedDes" fxFlex >Cast Datum</mat-checkbox>
-                                <mat-checkbox class="checkedDes" fxFlex >Show Name</mat-checkbox>
+                                <mat-checkbox class="checkedDes" fxFlex matTooltip="Share Datum with other Cores" matTooltipShowDelay="500" matTooltipPosition="before">Cast Datum</mat-checkbox>
+                                <mat-checkbox class="checkedDes" fxFlex matTooltip="Display Core's Name in Shell" matTooltipShowDelay="500" matTooltipPosition="after"> Show Name</mat-checkbox>
                             </div>
                             <mat-divider></mat-divider>
                             <div class="toolRow">
@@ -205,12 +219,23 @@
                 </mat-tab>
                 <mat-tab >
                     <ng-template mat-tab-label>
-                        <mat-icon>close</mat-icon>
+                        <mat-icon matTooltip="Close Design Window">close</mat-icon>
                     </ng-template>
                 </mat-tab>
             </mat-tab-group>
         </div>
     </ng-template>
+
+    <!-- Core Menu sub-menues -->
+    <mat-menu #shapes="matMenu"></mat-menu>
+    <mat-menu #transparency="matMenu">
+        <mat-slider invert="true" ></mat-slider>
+    </mat-menu>
+    <mat-menu #colour="matMenu"></mat-menu>
+    <mat-menu #emmitance="matMenu">
+        <mat-slider></mat-slider>
+    </mat-menu>
+    <mat-menu #thickness="matMenu"></mat-menu>
 
 
     <!-- Shell -->

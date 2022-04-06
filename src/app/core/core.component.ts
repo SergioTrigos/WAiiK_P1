@@ -80,6 +80,7 @@ export class CoreComponent implements OnInit {
 
   onHoldStart() {
     this.isHeld = true;
+    
 
     this.activeHoldTimeoutId = setTimeout(() => { 
       if (this.isHeld) {
@@ -88,6 +89,7 @@ export class CoreComponent implements OnInit {
       }
     }, 500);
   }
+
 
   onHoldEnd(event: MouseEvent) {
     event.preventDefault();
@@ -113,6 +115,7 @@ export class CoreComponent implements OnInit {
     }
   }
 
+
   DesignButtonDyn() {
     this.designIsOpen = !this.designIsOpen;
     if (this.designIsOpen === false) {
@@ -120,16 +123,23 @@ export class CoreComponent implements OnInit {
     }
   }
 
+
   getMousePos(event: MouseEvent) {
     this.desLinePos.x2 = event.clientX;
     this.desLinePos.y2 = event.clientY;
   }
+
+
   onDesignDrop(event: CdkDragEnd): void {
     const dropPoint = event.source.getFreeDragPosition()
     this.desLinePos.x2 = event.dropPoint.x
     this.desLinePos.y2 = event.dropPoint.y
     this.designLineVis = 'visible';
     console.log("the positions changed to: " + dropPoint.x + " and " + dropPoint.y);
+  }
+
+  onDesHold() {
+    this.designLineVis = 'hidden';
   }
 
  
