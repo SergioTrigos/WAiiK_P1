@@ -1,5 +1,6 @@
 <div class="stageDisplay">
 
-    <app-core [coreData]="Cores" (coreMoved)="newPosition($event)" ></app-core>  
+    <app-core [coreData]="Cores[0]" (coreMoved)="newPosition($event)" ></app-core>
+    <app-core [coreData]="Cores[1]" (coreMoved)="newPosition($event)" ></app-core>
     
 </div>

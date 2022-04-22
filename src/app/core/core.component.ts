@@ -19,7 +19,7 @@ export class CoreComponent implements OnInit {
   shouldOpen!: boolean;
   menuPosition = { x: '0', y: '0' };
   pos = { x: 0, y: 0 };
-  
+  shellShape = 'circle';
 
   @ViewChild(MatMenuTrigger)
   trigger!: MatMenuTrigger;
@@ -48,6 +48,7 @@ export class CoreComponent implements OnInit {
     this.desLineRef.x2 = this.pos.x;
     this.desLineRef.y2 = this.pos.y;
     this.shouldOpen = true;
+    this.shellShape = this.coreData.frameFile;
   }
 
   //Position Dynamcs
@@ -142,7 +143,7 @@ export class CoreComponent implements OnInit {
     this.designLineVis = 'hidden';
   }
 
- 
+  
 
 
 }

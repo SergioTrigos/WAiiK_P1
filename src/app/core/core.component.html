@@ -240,8 +240,18 @@
 
     <!-- Shell -->
 
-    <div class="shell" >
-        {{coreData.datumText}}
+    <div>
+        <svg class="svgShell">
+            //shell shape options
+            <rect *ngIf="shellShape == 'rectangle'"
+             x="5" y="5" rx="20" ry="20" class="rect" />
+
+            <circle *ngIf="shellShape == 'circle'" class="circle"
+             cx="50" cy="50" r="30" stroke="black" stroke-width="3" fill="red"/>
+
+            //datum display
+            <text x="35" y="50" fill="red" >{{coreData.datumText}}</text> 
+        </svg>
     </div>
   
 </div>

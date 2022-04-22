@@ -11,7 +11,7 @@ let CoresData: Core[] = [
     datumType: "text",
     datumText: "Dog!!",
     shellDimension: 2,
-    frameFile: "square",
+    frameFile: "circle",
     frameColor: "#8c6700",
     frameTransparency: 75,
     frameThickness: 2,
@@ -26,7 +26,7 @@ let CoresData: Core[] = [
     datumType: "text",
     datumText: "Cat!!",
     shellDimension: 2,
-    frameFile: "square",
+    frameFile: 'rectangle',
     frameColor: "#8c6700",
     frameTransparency: 75,
     frameThickness: 2,
@@ -41,7 +41,7 @@ let CoresData: Core[] = [
     datumType: "text",
     datumText: "Elk biting a freeking arrow",
     shellDimension: 2,
-    frameFile: "square",
+    frameFile: "rectangle",
     frameColor: "#8c6700",
     frameTransparency: 75,
     frameThickness: 2,
@@ -61,7 +61,7 @@ let counter = 0;
 })
 export class StageComponent implements OnInit {
 
-  Cores: Core = CoresData[1];
+  Cores: Core[] = CoresData;
   
 
   constructor() { }
