@@ -1,6 +1,5 @@
 <div class="stageDisplay">
 
-    <app-core [coreData]="Cores[0]" (coreMoved)="newPosition($event)" ></app-core>
-    <app-core [coreData]="Cores[1]" (coreMoved)="newPosition($event)" ></app-core>
-    
+    <app-core *ngFor="let CoreX of Cores; index as i" [coreData]="CoreX" (coreMoved)="newPosition($event, i)" ></app-core>
+
 </div>

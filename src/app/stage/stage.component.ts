@@ -6,7 +6,7 @@ let CoresData: Core[] = [
   {
     creator: "bob",
     parentStage: 1000000001,
-    position: [54,104],
+    position: [54,650],
     scale: 1,
     datumType: "text",
     datumText: "Dog!!",
@@ -36,7 +36,7 @@ let CoresData: Core[] = [
   {
     creator: "bob",
     parentStage: 1000000001,
-    position: [210,104],
+    position: [210,704],
     scale: 1,
     datumType: "text",
     datumText: "Elk biting a freeking arrow",
@@ -70,8 +70,8 @@ export class StageComponent implements OnInit {
 
   }
 
-  newPosition(pos: number[]) {
-    CoresData[1].position = pos
+  newPosition(pos: number[], index: number) {
+    CoresData[index].position = pos
     console.log("the positions changed to: " + pos[0] + " and " + pos[1]);
   }
 

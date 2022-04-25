@@ -3,14 +3,17 @@ import { CdkDragEnd } from '@angular/cdk/drag-drop';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 
-let positionX: string;
-let positionY: string; 
+//let positionX: string;
+//let positionY: string; 
 @Component({
   selector: 'app-core',
   templateUrl: './core.component.html',
   styleUrls: ['./core.component.sass'],
 })
 export class CoreComponent implements OnInit {
+
+  positionX!: string;
+  positionY!: string; 
 
   designIsOpen = false;
   desLinePos = { x1: 0, y1: 0, x2: 0, y2: 0 }
@@ -37,9 +40,8 @@ export class CoreComponent implements OnInit {
   ngOnInit(): void {
     this.pos.x = this.coreData.position[0];
     this.pos.y = this.coreData.position[1];
-    positionX = this.coreData.position[0] + "px";
-    positionY = this.coreData.position[1] + "px";
-    this.menuPosition.x = this.coreData.position[0] + "px";
+    this.positionX = this.coreData.position[0] + "px";
+    this.positionY = this.coreData.position[1] + "px";
     this.menuPosition.y = (this.coreData.position[1] - 170) + "px";
     this.desLinePos.x1 = this.pos.x;
     this.desLinePos.y1 = this.pos.y - 50;
@@ -54,8 +56,8 @@ export class CoreComponent implements OnInit {
   //Position Dynamcs
   initialPos() { 
     return {
-      'top': positionY,
-      'left': positionX
+      'top': this.positionY,
+      'left': this.positionX
     }
   }
 
@@ -82,7 +84,6 @@ export class CoreComponent implements OnInit {
   onHoldStart() {
     this.isHeld = true;
     
-
     this.activeHoldTimeoutId = setTimeout(() => { 
       if (this.isHeld) {
         this.shouldOpen = false;
@@ -100,6 +101,7 @@ export class CoreComponent implements OnInit {
       console.log("it should have opened");
     } else {
       console.log("it should not have opened");
+      this.shouldOpen = true;
     }
 
     
@@ -143,7 +145,6 @@ export class CoreComponent implements OnInit {
     this.designLineVis = 'hidden';
   }
 
-  
 
 
 }
