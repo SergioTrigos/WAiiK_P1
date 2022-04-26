@@ -22,7 +22,10 @@ export class CoreComponent implements OnInit {
   shouldOpen!: boolean;
   menuPosition = { x: '0', y: '0' };
   pos = { x: 0, y: 0 };
-  shellShape = 'circle';
+  shellShape!: string;
+  shellSize!: [number, number];
+  textX!: number;
+  textY!: number;
 
   @ViewChild(MatMenuTrigger)
   trigger!: MatMenuTrigger;
@@ -51,6 +54,8 @@ export class CoreComponent implements OnInit {
     this.desLineRef.y2 = this.pos.y;
     this.shouldOpen = true;
     this.shellShape = this.coreData.frameFile;
+    this.shellSize = this.coreData.size;
+    this.textXdef();
   }
 
   //Position Dynamcs
@@ -58,6 +63,19 @@ export class CoreComponent implements OnInit {
     return {
       'top': this.positionY,
       'left': this.positionX
+    }
+  }
+
+  textXdef() {
+    if (this.shellShape === 'rectangle') {
+      this.textX = this.coreData.size[0] / 4;
+      this.textY = this.coreData.size[1] / 2;
+    } else if (this.shellShape === 'circle') {
+      this.textX = this.coreData.size[0] / 4;
+      this.textY = this.coreData.size[1] / 2;
+    } else if (this.shellShape === 'polygon') {
+      this.textX = this.coreData.size[0]/4;
+      this.textY = this.coreData.size[1]/2;
     }
   }
 

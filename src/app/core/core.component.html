@@ -9,16 +9,14 @@
 </svg>
 
 
-<div class="coreHitBox" cdkDragBoundary=".stageDisplay" fxLayout="row" cdkDrag (cdkDragEnded)="onDrop($event)"
+<div class="coreHitBox" cdkDragBoundary=".stageDisplay" fxLayout="row" cdkDrag (cdkDragEnded)="onDrop($event)" [attr.width]="shellSize[0] + 25" [attr.height]="shellSize[1]"
     [ngStyle]="initialPos()"
 >                                                                                                                                                               
 
     <!-- Core Menu BUTTON  -->
-    <div  cdkDragHandle class="core-menu-handle"
-    >   
+    <div  cdkDragHandle class="core-menu-handle" >   
         <button fxLayout="column"  class="core-menu-button" matTooltip="Open Core-Menu or Drag the Core" matTooltipShowDelay="1000"
-            (mousedown)="onHoldStart()" (mouseup)="onHoldEnd($event)" 
-        >
+            (mousedown)="onHoldStart()" (mouseup)="onHoldEnd($event)" >
             <span class="dot"></span>
             <span class="dot"></span>
             <span class="dot"></span>
@@ -241,16 +239,27 @@
     <!-- Shell -->
 
     <div>
-        <svg class="svgShell">
-            //shell shape options
-            <rect *ngIf="shellShape == 'rectangle'"
-             x="5" y="5" rx="20" ry="20" class="rect" />
+        <svg class="svgShell"  [attr.width]="shellSize[0]" [attr.height]="shellSize[1]">
 
-            <circle *ngIf="shellShape == 'circle'" class="circle"
-             cx="50" cy="50"/>
+            <!-- shell shape options -->
+            <rect *ngIf="shellShape === 'rectangle'"
+             x="5" y="5" rx="10" ry="10" [attr.width]="shellSize[0] - 10" [attr.height]="shellSize[1] - 10"  
+             [attr.stroke-width]="coreData.frameThickness" [attr.stroke]="coreData.frameColor" [attr.stroke-opacity]="coreData.frameTransparency" 
+             [attr.fill]="coreData.glazingColor" [attr.fill-opacity]="coreData.glazingTransparency" />
 
-            //datum display
-            <text x="35" y="50" fill="red" >{{coreData.datumText}}</text> 
+            <circle *ngIf="shellShape === 'circle'" 
+             [attr.r]="coreData.size[0]/2 - 5"  [attr.cx]="coreData.size[0]/2"  [attr.cy]="coreData.size[0]/2"
+             [attr.stroke-width]="coreData.frameThickness" [attr.stroke]="coreData.frameColor" [attr.stroke-opacity]="coreData.frameTransparency" 
+             [attr.fill]="coreData.glazingColor" [attr.fill-opacity]="coreData.glazingTransparency" />
+
+            <polygon *ngIf="shellShape === 'polygon'"
+             points="0,100 50,25 50,75 100,0"
+             [attr.stroke-width]="coreData.frameThickness" [attr.stroke]="coreData.frameColor" [attr.stroke-opacity]="coreData.frameTransparency" 
+             [attr.fill]="coreData.glazingColor" [attr.fill-opacity]="coreData.glazingTransparency" />
+
+            <!-- datum display -->
+            <text [attr.x]="textX" [attr.y]="textY" fill="red" > {{coreData.datumText}} </text>
+
         </svg>
     </div>
   
