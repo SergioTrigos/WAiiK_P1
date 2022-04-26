@@ -242,24 +242,50 @@
         <svg class="svgShell"  [attr.width]="shellSize[0]" [attr.height]="shellSize[1]">
 
             <!-- shell shape options -->
-            <rect *ngIf="shellShape === 'rectangle'"
-             x="5" y="5" rx="10" ry="10" [attr.width]="shellSize[0] - 10" [attr.height]="shellSize[1] - 10"  
-             [attr.stroke-width]="coreData.frameThickness" [attr.stroke]="coreData.frameColor" [attr.stroke-opacity]="coreData.frameTransparency" 
-             [attr.fill]="coreData.glazingColor" [attr.fill-opacity]="coreData.glazingTransparency" />
+            <div [ngSwitch]="coreData.frameFile">
+
+                <clipPath id="shellCircle" *ngSwitchCase="'circle'" >
+
+                    <circle  fill="#ffffff" 
+                        [attr.r]="'100%'"  [attr.cx]="coreData.size[0]+25"  [attr.cy]="coreData.size[0]+25" ></circle>
+
+                </clipPath>
+                <clipPath id="shellPolygon" *ngSwitchCase="'polygon'"  >
+
+                    <polygon fill="#ffffff"  points="0,100 50,25 50,75 100,0" ></polygon>
+
+                </clipPath>
+                <clipPath id="shellRectangle" *ngSwitchDefault >
+
+                    <rect fill="#ffffff"  *ngSwitchDefault x="5" y="5" rx="10" ry="10"
+                         [attr.width]="shellSize[0] - 10" [attr.height]="shellSize[1] - 10" ></rect>  
+
+                </clipPath>   
+
+            </div>
+            
+  
+            
+            <rect *ngIf="shellShape === 'rectangle'" 
+                x="5" y="5" rx="10" ry="10" [attr.width]="shellSize[0] - 10" [attr.height]="shellSize[1] - 10"  
+                [attr.stroke-width]="coreData.frameThickness" [attr.stroke]="coreData.frameColor" [attr.stroke-opacity]="coreData.frameTransparency" 
+                [attr.fill]="coreData.glazingColor" [attr.fill-opacity]="coreData.glazingTransparency" />
 
             <circle *ngIf="shellShape === 'circle'" 
-             [attr.r]="coreData.size[0]/2 - 5"  [attr.cx]="coreData.size[0]/2"  [attr.cy]="coreData.size[0]/2"
-             [attr.stroke-width]="coreData.frameThickness" [attr.stroke]="coreData.frameColor" [attr.stroke-opacity]="coreData.frameTransparency" 
-             [attr.fill]="coreData.glazingColor" [attr.fill-opacity]="coreData.glazingTransparency" />
+                [attr.r]="coreData.size[0]/2 - 5"  [attr.cx]="coreData.size[0]/2"  [attr.cy]="coreData.size[0]/2"
+                [attr.stroke-width]="coreData.frameThickness" [attr.stroke]="coreData.frameColor" [attr.stroke-opacity]="coreData.frameTransparency" 
+                [attr.fill]="coreData.glazingColor" [attr.fill-opacity]="coreData.glazingTransparency" />
 
             <polygon *ngIf="shellShape === 'polygon'"
-             points="0,100 50,25 50,75 100,0"
-             [attr.stroke-width]="coreData.frameThickness" [attr.stroke]="coreData.frameColor" [attr.stroke-opacity]="coreData.frameTransparency" 
-             [attr.fill]="coreData.glazingColor" [attr.fill-opacity]="coreData.glazingTransparency" />
+                points="0,100 50,25 50,75 100,0"
+                [attr.stroke-width]="coreData.frameThickness" [attr.stroke]="coreData.frameColor" [attr.stroke-opacity]="coreData.frameTransparency" 
+                [attr.fill]="coreData.glazingColor" [attr.fill-opacity]="coreData.glazingTransparency" />
+            
 
             <!-- datum display -->
-            <text [attr.x]="textX" [attr.y]="textY" fill="red" > {{coreData.datumText}} </text>
-
+            <text *ngIf="datumType === 'text'"  [attr.clip-path]="maskX"  [attr.x]="textX" [attr.y]="textY" fill="black" > {{coreData.datumText}} </text>
+            <image *ngIf="datumType === 'image'" [attr.clip-path]="maskX" [attr.href]="coreData.datumText"    [attr.width]="shellSize[0]" [attr.height]="shellSize[1]" />
+            
         </svg>
     </div>
   

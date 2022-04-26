@@ -24,8 +24,10 @@ export class CoreComponent implements OnInit {
   pos = { x: 0, y: 0 };
   shellShape!: string;
   shellSize!: [number, number];
+  datumType!: string;
   textX!: number;
   textY!: number;
+  maskX!: string;
 
   @ViewChild(MatMenuTrigger)
   trigger!: MatMenuTrigger;
@@ -55,6 +57,9 @@ export class CoreComponent implements OnInit {
     this.shouldOpen = true;
     this.shellShape = this.coreData.frameFile;
     this.shellSize = this.coreData.size;
+    this.datumType = this.coreData.datumType;
+    this.maskDef(); 
+    console.log(this.maskX);
     this.textXdef();
   }
 
@@ -76,6 +81,16 @@ export class CoreComponent implements OnInit {
     } else if (this.shellShape === 'polygon') {
       this.textX = this.coreData.size[0]/4;
       this.textY = this.coreData.size[1]/2;
+    }
+  }
+
+  maskDef() {
+    if (this.coreData.frameFile === 'rectangle') {
+      this.maskX = "url(#shellRectangle)";
+    } else if (this.coreData.frameFile === 'circle') {
+      this.maskX = "url(#shellCircle)";
+    }else if (this.coreData.frameFile === 'polygon') {
+      this.maskX = "url(#shellPolygon)";
     }
   }
 
@@ -122,7 +137,6 @@ export class CoreComponent implements OnInit {
       this.shouldOpen = true;
     }
 
-    
     this.isHeld = false;
     this.shouldOpen = true;
     clearTimeout(this.activeHoldTimeoutId);
