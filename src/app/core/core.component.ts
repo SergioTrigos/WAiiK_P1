@@ -27,7 +27,6 @@ export class CoreComponent implements OnInit {
   datumType!: string;
   textX!: number;
   textY!: number;
-  maskX!: string;
 
   @ViewChild(MatMenuTrigger)
   trigger!: MatMenuTrigger;
@@ -58,8 +57,6 @@ export class CoreComponent implements OnInit {
     this.shellShape = this.coreData.frameFile;
     this.shellSize = this.coreData.size;
     this.datumType = this.coreData.datumType;
-    this.maskDef(); 
-    console.log(this.maskX);
     this.textXdef();
   }
 
@@ -86,13 +83,15 @@ export class CoreComponent implements OnInit {
 
   maskDef() {
     if (this.coreData.frameFile === 'rectangle') {
-      this.maskX = "url(#shellRectangle)";
+      return { 'clip-path' : 'url(#shellRectangle)' };
     } else if (this.coreData.frameFile === 'circle') {
-      this.maskX = "url(#shellCircle)";
-    }else if (this.coreData.frameFile === 'polygon') {
-      this.maskX = "url(#shellPolygon)";
+      return { 'clip-path' : 'url(#shellCircle)' };
+    }else {
+      return { 'clip-path' : 'url(#shellPolygon)' };
     }
   }
+
+
 
 
   public onDrop(event: CdkDragEnd): void {
