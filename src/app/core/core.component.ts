@@ -131,9 +131,11 @@ export class CoreComponent implements OnInit {
     if (this.shouldOpen === true) { 
       this.trigger.openMenu();
       console.log("it should have opened");
+      clearTimeout(this.activeHoldTimeoutId);
     } else {
       console.log("it should not have opened");
       this.shouldOpen = true;
+      clearTimeout(this.activeHoldTimeoutId);
     }
 
     this.isHeld = false;

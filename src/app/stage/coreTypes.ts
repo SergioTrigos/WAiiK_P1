@@ -6,6 +6,7 @@ export interface Core {
   scale: number;
   datumType: string;
   datumText: string;
+  datumSize: number[];
   shellDimension: number;
   frameFile: string;
   frameColor: string;

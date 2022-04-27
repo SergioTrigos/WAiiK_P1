@@ -240,22 +240,22 @@
 
     <div [ngSwitch]="coreData.frameFile">
 
+        <!-- CIRCLE SHELL -->
         <svg *ngSwitchCase="'circle'" class="svgShell"  [attr.width]="shellSize[0]" [attr.height]="shellSize[1]">
             <circle *ngIf="shellShape === 'circle'"
-                [attr.r]="coreData.size[0]/2 - 5"  [attr.cx]="coreData.size[0]/2"  [attr.cy]="coreData.size[0]/2"
+                [attr.r]="coreData.size[0]/2 - 5"  [attr.cx]="coreData.size[0]/2"  [attr.cy]="coreData.size[1]/2"
                 [attr.stroke-width]="coreData.frameThickness" [attr.stroke]="coreData.frameColor" [attr.stroke-opacity]="coreData.frameTransparency" 
                 [attr.fill]="coreData.glazingColor" [attr.fill-opacity]="coreData.glazingTransparency" />
                 
             <clipPath id="shellCircle"  >
-
-                <circle  fill="#ffffff"  [attr.r]="'100%'"  [attr.cx]="coreData.size[0]+25" [attr.cy]="coreData.size[0]+25" ></circle>
-
+                <circle  fill="#ffffff"  [attr.r]="coreData.size[0]/2 - 5"  [attr.cx]="coreData.size[0]/2"  [attr.cy]="coreData.size[1]/2" position="relative" />
             </clipPath>
 
             <text *ngIf="datumType === 'text'"  clip-path=url(#shellCircle)  [attr.x]="textX" [attr.y]="textY" fill="black" > {{coreData.datumText}} </text>
             <image *ngIf="datumType === 'image'"  clip-path=url(#shellCircle)  [attr.href]="coreData.datumText" [attr.width]="shellSize[0]" [attr.height]="shellSize[1]" /> 
         </svg>
 
+        <!-- POLYGON SHELL -->
         <svg *ngSwitchCase="'polygon'" class="svgShell"  [attr.width]="shellSize[0]" [attr.height]="shellSize[1]">
             <polygon *ngIf="shellShape === 'polygon'"
                 points="0,100 50,25 50,75 100,0"
@@ -263,29 +263,34 @@
                 [attr.fill]="coreData.glazingColor" [attr.fill-opacity]="coreData.glazingTransparency" />
                 
             <clipPath id="shellPolygon" >
-
                 <polygon fill="#ffffff"  points="0,100 50,25 50,75 100,0" ></polygon>
-
             </clipPath>
                 
             <text *ngIf="datumType === 'text'"  clip-path=url(#shellPolygon)  [attr.x]="textX" [attr.y]="textY" fill="black" > {{coreData.datumText}} </text>
             <image *ngIf="datumType === 'image'"  clip-path=url(#shellPolygon)  [attr.href]="coreData.datumText" [attr.width]="shellSize[0]" [attr.height]="shellSize[1]" /> 
         </svg>
 
-        <svg *ngSwitchCase="'rectangle'" class="svgShell"  [attr.width]="shellSize[0]" [attr.height]="shellSize[1]">
+        <!-- RECTANGLE SHELL -->
+        <svg *ngSwitchCase="'rectangle'" class="svgShell"  [attr.width]="shellSize[0]" [attr.height]="shellSize[1]"  rx="10" ry="10" >
+
+            <text *ngIf="datumType === 'text'"  [ngStyle]="{'clip-path':'polygon(20 (shellSize[1]/2 -5), (shellSize[0] - 10) (shellSize[1]/2 -5), (shellSize[0] - 10) (shellSize[1]/2 -5), 10 (shellSize[1]/2 -5))'}"  
+                [attr.x]="textX" [attr.y]="textY" fill="black" > {{coreData.datumText}} </text>
+            <image *ngIf="datumType === 'image'"  [ngStyle]="{'clip-path':'polygon(20 (shellSize[1]/2 -5), (shellSize[0] - 10) (shellSize[1]/2 -5), (shellSize[0] - 10) (shellSize[1]/2 -5), 10 (shellSize[1]/2 -5))'}"
+                [attr.href]="coreData.datumText" [attr.width]="coreData.datumSize"/>             
+            
+            
             <rect *ngIf="shellShape === 'rectangle'"
-                x="5" y="5" rx="10" ry="10" [attr.width]="shellSize[0] - 10" [attr.height]="shellSize[1] - 10"  
+                [attr.x]="coreData.frameThickness/2"  [attr.y]="coreData.frameThickness/2"  [attr.width]="shellSize[0] - (coreData.frameThickness)" [attr.height]="shellSize[1] - (coreData.frameThickness)"  
                 [attr.stroke-width]="coreData.frameThickness" [attr.stroke]="coreData.frameColor" [attr.stroke-opacity]="coreData.frameTransparency" 
                 [attr.fill]="coreData.glazingColor" [attr.fill-opacity]="coreData.glazingTransparency" />
-                
-            <clipPath id="shellRectangle" >
 
-                <rect fill="#ffffff"  x="5" y="5" rx="10" ry="10"  [attr.width]="shellSize[0] - 10" [attr.height]="shellSize[1] - 10" ></rect>  
-
-            </clipPath> 
-
-            <text *ngIf="datumType === 'text'"  clip-path=url(#shellRectangle)  [attr.x]="textX" [attr.y]="textY" fill="black" > {{coreData.datumText}} </text>
-            <image *ngIf="datumType === 'image'"  clip-path=url(#shellRectangle)  [attr.href]="coreData.datumText" [attr.width]="shellSize[0]" [attr.height]="shellSize[1]" /> 
         </svg>
+
+
     </div>
 </div>
+
+
+<!-- <clipPath id="shellRectangle" >
+                <rect fill="#ffffff"  x="5" y="5" rx="10" ry="10"  [attr.width]="shellSize[0] - 10" [attr.height]="shellSize[1] - 10" ></rect>  
+            </clipPath>  -->
