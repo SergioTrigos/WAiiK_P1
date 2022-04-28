@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output, EventEmitter, ViewChild} from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter, ViewChild, ElementRef, HostListener} from '@angular/core';
 import { CdkDragEnd } from '@angular/cdk/drag-drop';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { MatTabChangeEvent } from '@angular/material/tabs';
@@ -27,17 +27,25 @@ export class CoreComponent implements OnInit {
   datumType!: string;
   textX!: number;
   textY!: number;
-  componentPolygonPointsData = [0,100, 50,25, 50,75, 100,0];
+  componentPolygonPointsData = [0,100, 50,25, 200,100, 200,0];
   pointsP!: number[];
-  pointsPX = [0];
-  pointsPtext!: string;
+  pointsPX!: number[];
   pointsPXtext!: string;
+  browserZoomLevel = window.devicePixelRatio;
+
+  //polygon Dynamicss
+  @ViewChild('svgPolyFrame')
+  svgPolyFrame!: ElementRef;
+
+  @ViewChild('svgPoly')
+  svgPoly!: ElementRef;
+
+  svgPolyPoint!: SVGPoint;
+
+  //
 
   @ViewChild(MatMenuTrigger)
   trigger!: MatMenuTrigger;
-
-  constructor() {
-  }
 
   //Core Data
   @Input()
@@ -45,26 +53,29 @@ export class CoreComponent implements OnInit {
 
   @Output()
   coreMoved = new EventEmitter();
-
-  polygonDefOne() {
-    for (let index of this.pointsP.keys()) {
-      this.pointsPX[index] = (this.pointsP[index] / 1.25);
-    };
+  
+  constructor() {
   }
 
-  polygonDefTwo() {
-    for (let i = 0; i <= this.pointsPX.length; i = i + 2) { 
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    this.browserZoomLevel = window.devicePixelRatio;
+    console.log("the window was zoomed");
+    this.polygonDefOne();
+  }
+
+  //'polygon(0px 80px, 40px 20px, 40px 60px, 80px 0px)'
+  polygonDefOne() {
+    console.log(this.browserZoomLevel);
+    for (let i = 0; i < this.pointsPX.length; i = i + 2) {
       if (i == 0) {
-        this.pointsPtext = this.pointsP[i].toString() + ',' + this.pointsP[i + 1].toString() + ' ';
+        this.pointsPXtext = ' ' + this.pointsPX[i] / this.browserZoomLevel + 'px ' + this.pointsPX[i + 1] / this.browserZoomLevel + 'px';
       } else {
-        this.pointsPtext = this.pointsPtext + this.pointsP[i].toString() + ',' + this.pointsP[i + 1].toString() + ' ';
+        this.pointsPXtext = this.pointsPXtext + ', ' + this.pointsPX[i] / this.browserZoomLevel + 'px ' + this.pointsPX[i + 1] / this.browserZoomLevel + 'px';
       }
     };
   }
 
-  polygonDefThree() {
-    return { 'points' : this.pointsPtext }
-  }
 
   ngOnInit(): void {
     this.pos.x = this.coreData.position[0];
@@ -82,10 +93,26 @@ export class CoreComponent implements OnInit {
     this.shellShape = this.coreData.frameFile;
     this.shellSize = this.coreData.size;
     this.datumType = this.coreData.datumType;
-    this.pointsP = this.componentPolygonPointsData;
-    
-    this.polygonDefTwo();
+    this.pointsP = [0, 0].concat(this.componentPolygonPointsData);
+    this.pointsPX = this.componentPolygonPointsData;
+    this.polygonDefOne()
     this.textXdef();
+  }
+
+
+  polygonDefTwo() {
+    this.svgPolyPoint = this.svgPolyFrame.nativeElement.createSVGPoint();
+    for (let i = 0; i < this.pointsP.length; i = i + 2) {
+      this.svgPolyPoint.x = this.pointsP[i];
+      this.svgPolyPoint.y = this.pointsP[i + 1];
+      this.svgPoly.nativeElement.points.appendItem(this.svgPolyPoint);
+    };
+  }
+
+  ngAfterViewInit(): void {
+    if (this.shellShape === 'polygon') {
+      this.polygonDefTwo();
+    }
   }
 
   //Position Dynamcs
@@ -142,7 +169,6 @@ export class CoreComponent implements OnInit {
 
   onHoldStart() {
     this.isHeld = true;
-    
     this.activeHoldTimeoutId = setTimeout(() => { 
       if (this.isHeld) {
         this.shouldOpen = false;

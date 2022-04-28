@@ -35,7 +35,7 @@ let CoresData: Core[] = [
     frameFile: "polygon",
     frameColor: "#8c6700",
     frameTransparency: 0.75,
-    frameThickness: 2,
+    frameThickness: 4,
     glazingColor: "#ccfffe",
     glazingTransparency: 0.2,
     castDatum: false,

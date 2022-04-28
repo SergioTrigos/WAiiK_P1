@@ -243,10 +243,10 @@
         <!-- CIRCLE SHELL -->
         <svg *ngSwitchCase="'circle'" class="svgShell"  [attr.width]="shellSize[0]" [attr.height]="shellSize[1]">
 
-            <text *ngIf="datumType === 'text'"  [ngStyle]="{'clip-path': 'circle('+ shellSize[0]/2.5 + 'px at ' + (shellSize[0]/2.5) + 'px ' + (shellSize[0]/2.5) + 'px )'}"
+            <text *ngIf="datumType === 'text'"  [ngStyle]="{'clip-path': 'circle('+ shellSize[0]/(2*browserZoomLevel)  + 'px at ' + (shellSize[0]/(2*browserZoomLevel) ) + 'px ' + (shellSize[0]/(2*browserZoomLevel) ) + 'px )'}"
                 [attr.x]="textX" [attr.y]="textY" fill="black" > {{coreData.datumText}} </text>
 
-            <image *ngIf="datumType === 'image'" [ngStyle]="{'clip-path': 'circle('+ shellSize[0]/2.5 + 'px at ' + (shellSize[0]/2.5) + 'px ' + (shellSize[0]/2.5) + 'px )'}"
+            <image *ngIf="datumType === 'image'" [ngStyle]="{'clip-path': 'circle('+ shellSize[0]/(2*browserZoomLevel)  + 'px at ' + (shellSize[0]/(2*browserZoomLevel) ) + 'px ' + (shellSize[0]/(2*browserZoomLevel) ) + 'px )'}"
                 [attr.href]="coreData.datumText" [attr.width]="coreData.datumSize" /> 
 
             <circle *ngIf="shellShape === 'circle'"
@@ -257,16 +257,16 @@
         </svg>
 
         <!-- POLYGON SHELL -->
-        <svg *ngSwitchCase="'polygon'" class="svgShell"  [attr.width]="shellSize[0]" [attr.height]="shellSize[1]">
+        <svg *ngSwitchCase="'polygon'" xmlns="http://www.w3.org/2000/svg" id="SVGpolygonFrame" #svgPolyFrame class="svgShell"  [attr.width]="shellSize[0]" [attr.height]="shellSize[1]">
             
             <text *ngIf="datumType === 'text'"  [attr.x]="textX" [attr.y]="textY" fill="black" 
-                [ngStyle]="{'clip-path':'polygon(0px 80px, 40px 20px, 40px 60px, 80px 0px)'}" > {{coreData.datumText}} </text>
+                [ngStyle]="{'clip-path':'polygon(' + pointsPXtext + ')'}" > {{coreData.datumText}} </text>
 
             <image *ngIf="datumType === 'image'"  [attr.href]="coreData.datumText" [attr.width]="coreData.datumSize"
-                [ngStyle]="{'clip-path':'polygon(0px 80px, 40px 20px, 40px 60px, 80px 0px)'}" /> 
+                [ngStyle]="{'clip-path':'polygon(' + pointsPXtext + ')'}" /> 
             
             <polygon
-                [ngStyle]="polygonDefThree()"
+                id="polygonFrame" #svgPoly points=""
                 [attr.stroke-width]="coreData.frameThickness" [attr.stroke]="coreData.frameColor" [attr.stroke-opacity]="coreData.frameTransparency" 
                 [attr.fill]="coreData.glazingColor" [attr.fill-opacity]="coreData.glazingTransparency" />
                 
