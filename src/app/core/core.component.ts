@@ -27,6 +27,11 @@ export class CoreComponent implements OnInit {
   datumType!: string;
   textX!: number;
   textY!: number;
+  componentPolygonPointsData = [0,100, 50,25, 50,75, 100,0];
+  pointsP!: number[];
+  pointsPX = [0];
+  pointsPtext!: string;
+  pointsPXtext!: string;
 
   @ViewChild(MatMenuTrigger)
   trigger!: MatMenuTrigger;
@@ -40,6 +45,26 @@ export class CoreComponent implements OnInit {
 
   @Output()
   coreMoved = new EventEmitter();
+
+  polygonDefOne() {
+    for (let index of this.pointsP.keys()) {
+      this.pointsPX[index] = (this.pointsP[index] / 1.25);
+    };
+  }
+
+  polygonDefTwo() {
+    for (let i = 0; i <= this.pointsPX.length; i = i + 2) { 
+      if (i == 0) {
+        this.pointsPtext = this.pointsP[i].toString() + ',' + this.pointsP[i + 1].toString() + ' ';
+      } else {
+        this.pointsPtext = this.pointsPtext + this.pointsP[i].toString() + ',' + this.pointsP[i + 1].toString() + ' ';
+      }
+    };
+  }
+
+  polygonDefThree() {
+    return { 'points' : this.pointsPtext }
+  }
 
   ngOnInit(): void {
     this.pos.x = this.coreData.position[0];
@@ -57,6 +82,9 @@ export class CoreComponent implements OnInit {
     this.shellShape = this.coreData.frameFile;
     this.shellSize = this.coreData.size;
     this.datumType = this.coreData.datumType;
+    this.pointsP = this.componentPolygonPointsData;
+    
+    this.polygonDefTwo();
     this.textXdef();
   }
 
@@ -90,7 +118,6 @@ export class CoreComponent implements OnInit {
       return { 'clip-path' : 'url(#shellPolygon)' };
     }
   }
-
 
 
 
