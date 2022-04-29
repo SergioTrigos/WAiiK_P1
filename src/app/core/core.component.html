@@ -240,17 +240,19 @@
 
     <div [ngSwitch]="coreData.frameFile">
 
-        <!-- CIRCLE SHELL -->
-        <svg *ngSwitchCase="'circle'" class="svgShell"  [attr.width]="shellSize[0]" [attr.height]="shellSize[1]">
+        <!-- CIRCLE/ELLIPSE SHELL -->
+        <svg *ngSwitchCase="'ellipse'" class="svgShell"  [attr.width]="shellSize[0] + coreData.frameThickness" [attr.height]="shellSize[1] + coreData.frameThickness">
 
-            <text *ngIf="datumType === 'text'"  [ngStyle]="{'clip-path': 'circle('+ shellSize[0]/(2*browserZoomLevel)  + 'px at ' + (shellSize[0]/(2*browserZoomLevel) ) + 'px ' + (shellSize[0]/(2*browserZoomLevel) ) + 'px )'}"
+            <text *ngIf="datumType === 'text'"  [attr.y]="coreData.frameThickness/2" [attr.x]="coreData.frameThickness/2"
+                [ngStyle]="{'clip-path': 'ellipse('+ shellSize[0]/(2*browserZoomLevel)  + 'px ' + shellSize[1]/(2*browserZoomLevel) + 'px at ' + (shellSize[0]/(2*browserZoomLevel) ) + 'px ' + (shellSize[1]/(2*browserZoomLevel) ) + 'px )'}"
                 [attr.x]="textX" [attr.y]="textY" fill="black" > {{coreData.datumText}} </text>
 
-            <image *ngIf="datumType === 'image'" [ngStyle]="{'clip-path': 'circle('+ shellSize[0]/(2*browserZoomLevel)  + 'px at ' + (shellSize[0]/(2*browserZoomLevel) ) + 'px ' + (shellSize[0]/(2*browserZoomLevel) ) + 'px )'}"
+            <image *ngIf="datumType === 'image'"  [attr.y]="coreData.frameThickness/2" [attr.x]="coreData.frameThickness/2"
+                [ngStyle]="{'clip-path': 'ellipse('+ shellSize[0]/(2*browserZoomLevel)  + 'px ' + shellSize[1]/(2*browserZoomLevel) + 'px at ' + (shellSize[0]/(2*browserZoomLevel) ) + 'px ' + (shellSize[1]/(2*browserZoomLevel) ) + 'px )'}"
                 [attr.href]="coreData.datumText" [attr.width]="coreData.datumSize" /> 
 
-            <circle *ngIf="shellShape === 'circle'"
-                [attr.r]="coreData.size[0]/2"  [attr.cx]="coreData.size[0]/2"  [attr.cy]="coreData.size[0]/2"
+            <ellipse *ngIf="shellShape === 'ellipse'"
+                [attr.rx]="coreData.size[0]/2" [attr.ry]="coreData.size[1]/2" [attr.cx]="coreData.size[0]/2 + coreData.frameThickness/2"  [attr.cy]="coreData.size[1]/2  + coreData.frameThickness/2"
                 [attr.stroke-width]="coreData.frameThickness" [attr.stroke]="coreData.frameColor" [attr.stroke-opacity]="coreData.frameTransparency" 
                 [attr.fill]="coreData.glazingColor" [attr.fill-opacity]="coreData.glazingTransparency" />
             
@@ -266,14 +268,14 @@
                 [ngStyle]="{'clip-path':'polygon(' + pointsPXtext + ')'}" /> 
             
             <polygon
-                id="polygonFrame" #svgPoly points=""
+                id="polygonFrame" #svgPoly points="" class="shellX" 
                 [attr.stroke-width]="coreData.frameThickness" [attr.stroke]="coreData.frameColor" [attr.stroke-opacity]="coreData.frameTransparency" 
                 [attr.fill]="coreData.glazingColor" [attr.fill-opacity]="coreData.glazingTransparency" />
                 
         </svg>
 
         <!-- RECTANGLE SHELL -->
-        <svg *ngSwitchCase="'rectangle'" [ngStyle]="{'border-radius':'12px'}" class="svgShell"  [attr.width]="shellSize[0]" [attr.height]="shellSize[1]" >
+        <svg *ngSwitchCase="'rectangle'" [ngStyle]="{'border-radius': (rectBorderRadius + (coreData.frameThickness/2)) +'px'}" class="svgShell"  [attr.width]="shellSize[0]" [attr.height]="shellSize[1]" >
 
             <text *ngIf="datumType === 'text'"  
                 [attr.x]="textX" [attr.y]="textY" fill="black" > {{coreData.datumText}} </text>
@@ -282,7 +284,7 @@
                 [attr.href]="coreData.datumText" [attr.width]="coreData.datumSize"/>             
             
             
-            <rect rx="10px" ry="10px" class="shellX"
+            <rect [attr.rx]="rectBorderRadius +'px'" ry="10px" class="shellX"
                 [attr.x]="coreData.frameThickness/2"  [attr.y]="coreData.frameThickness/2"  [attr.width]="shellSize[0] - (coreData.frameThickness)" [attr.height]="shellSize[1] - (coreData.frameThickness)"  
                 [attr.stroke-width]="coreData.frameThickness" [attr.stroke]="coreData.frameColor" [attr.stroke-opacity]="coreData.frameTransparency" 
                 [attr.fill]="coreData.glazingColor" [attr.fill-opacity]="coreData.glazingTransparency" />

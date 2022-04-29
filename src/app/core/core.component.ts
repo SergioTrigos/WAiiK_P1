@@ -32,6 +32,7 @@ export class CoreComponent implements OnInit {
   pointsPX!: number[];
   pointsPXtext!: string;
   browserZoomLevel = window.devicePixelRatio;
+  rectBorderRadius = 10;
 
   //polygon Dynamicss
   @ViewChild('svgPolyFrame')
@@ -69,9 +70,9 @@ export class CoreComponent implements OnInit {
     console.log(this.browserZoomLevel);
     for (let i = 0; i < this.pointsPX.length; i = i + 2) {
       if (i == 0) {
-        this.pointsPXtext = ' ' + this.pointsPX[i] / this.browserZoomLevel + 'px ' + this.pointsPX[i + 1] / this.browserZoomLevel + 'px';
+        this.pointsPXtext = ' ' + (this.pointsPX[i] + this.coreData.frameThickness/2) / this.browserZoomLevel + 'px ' + (this.pointsPX[i + 1] + this.coreData.frameThickness/2) / this.browserZoomLevel + 'px';
       } else {
-        this.pointsPXtext = this.pointsPXtext + ', ' + this.pointsPX[i] / this.browserZoomLevel + 'px ' + this.pointsPX[i + 1] / this.browserZoomLevel + 'px';
+        this.pointsPXtext = this.pointsPXtext + ', ' + (this.pointsPX[i] + this.coreData.frameThickness/2) / this.browserZoomLevel + 'px ' + (this.pointsPX[i + 1] + this.coreData.frameThickness/2) / this.browserZoomLevel + 'px';
       }
     };
   }
@@ -103,8 +104,8 @@ export class CoreComponent implements OnInit {
   polygonDefTwo() {
     this.svgPolyPoint = this.svgPolyFrame.nativeElement.createSVGPoint();
     for (let i = 0; i < this.pointsP.length; i = i + 2) {
-      this.svgPolyPoint.x = this.pointsP[i];
-      this.svgPolyPoint.y = this.pointsP[i + 1];
+      this.svgPolyPoint.x = this.pointsP[i] + this.coreData.frameThickness/2;
+      this.svgPolyPoint.y = this.pointsP[i + 1] + this.coreData.frameThickness/2;
       this.svgPoly.nativeElement.points.appendItem(this.svgPolyPoint);
     };
   }
