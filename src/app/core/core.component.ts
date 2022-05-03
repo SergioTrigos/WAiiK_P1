@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output, EventEmitter, ViewChild, ElementRef, HostListener} from '@angular/core';
+import { Component, Input, OnInit, AfterViewInit, Output, EventEmitter, ViewChild, ElementRef, HostListener} from '@angular/core';
 import { CdkDragEnd } from '@angular/cdk/drag-drop';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { MatTabChangeEvent } from '@angular/material/tabs';
@@ -10,7 +10,7 @@ import { MatTabChangeEvent } from '@angular/material/tabs';
   templateUrl: './core.component.html',
   styleUrls: ['./core.component.sass'],
 })
-export class CoreComponent implements OnInit {
+export class CoreComponent implements OnInit, AfterViewInit {
 
   positionX!: string;
   positionY!: string; 
@@ -43,10 +43,42 @@ export class CoreComponent implements OnInit {
 
   svgPolyPoint!: SVGPoint;
 
+  //Design Frame Polygon Dynamics
+
+  @ViewChild('svgPolyF')
+  svgPolyF!: ElementRef
+
+  svgPolyPointF!: SVGPoint;
+
+  //Design Glazing Polygon Dynamics
+
+  @ViewChild('svgPolyG')
+  svgPolyG!: ElementRef
+
+  svgPolyPointG!: SVGPoint;
+
+  //Design Datum Polygon Dynamics
+  
+  @ViewChild('svgPolyD')
+  svgPolyD!: ElementRef
+
+  svgPolyPointD!: SVGPoint;
+
+  //Rectangle dynamics
+  @ViewChild('rectImage')
+  rectPoly!: ElementRef;
+  myRectImg = new Image();
+  
+  imageHeight!: number;
+  imageWidth!: number;
+
   //
 
   @ViewChild(MatMenuTrigger)
   trigger!: MatMenuTrigger;
+
+
+  //this.trigger.menuOpened.caller(this.polygonDefThree());
 
   //Core Data
   @Input()
@@ -77,6 +109,13 @@ export class CoreComponent implements OnInit {
     };
   }
 
+  rectImageOne() {
+    if (this.coreData.datumType == "image") { 
+      this.myRectImg.src = this.coreData.datumText;
+      this.imageWidth = this.myRectImg.width;
+      this.imageHeight = this.myRectImg.height;
+    }
+  }
 
   ngOnInit(): void {
     this.pos.x = this.coreData.position[0];
@@ -98,15 +137,39 @@ export class CoreComponent implements OnInit {
     this.pointsPX = this.componentPolygonPointsData;
     this.polygonDefOne()
     this.textXdef();
+
+    //Rectangle image stuff
+    this.rectImageOne();
   }
 
 
   polygonDefTwo() {
     this.svgPolyPoint = this.svgPolyFrame.nativeElement.createSVGPoint();
     for (let i = 0; i < this.pointsP.length; i = i + 2) {
-      this.svgPolyPoint.x = this.pointsP[i] + this.coreData.frameThickness/2;
-      this.svgPolyPoint.y = this.pointsP[i + 1] + this.coreData.frameThickness/2;
+      this.svgPolyPoint.x = this.pointsP[i] + this.coreData.frameThickness / 2;
+      this.svgPolyPoint.y = this.pointsP[i + 1] + this.coreData.frameThickness / 2;
       this.svgPoly.nativeElement.points.appendItem(this.svgPolyPoint);
+    }
+  }
+
+  polygonDefThree() {
+    this.svgPolyPointF = this.svgPolyFrame.nativeElement.createSVGPoint();
+    for (let i = 0; i < this.pointsP.length; i = i + 2) {
+      this.svgPolyPointF.x = this.pointsP[i] + this.coreData.frameThickness/2;
+      this.svgPolyPointF.y = this.pointsP[i + 1] + this.coreData.frameThickness / 2;
+      this.svgPolyF.nativeElement.points.appendItem(this.svgPolyPointF);
+    };
+    this.svgPolyPointG = this.svgPolyFrame.nativeElement.createSVGPoint();
+    for (let i = 0; i < this.pointsP.length; i = i + 2) {
+      this.svgPolyPointG.x = this.pointsP[i] + this.coreData.frameThickness/2;
+      this.svgPolyPointG.y = this.pointsP[i + 1] + this.coreData.frameThickness/2;
+      this.svgPolyG.nativeElement.points.appendItem(this.svgPolyPointG);
+    };
+    this.svgPolyPointD = this.svgPolyFrame.nativeElement.createSVGPoint();
+    for (let i = 0; i < this.pointsP.length; i = i + 2) {
+      this.svgPolyPointD.x = this.pointsP[i] + this.coreData.frameThickness/2;
+      this.svgPolyPointD.y = this.pointsP[i + 1] + this.coreData.frameThickness/2;
+      this.svgPolyD.nativeElement.points.appendItem(this.svgPolyPointD);
     };
   }
 
@@ -210,7 +273,7 @@ export class CoreComponent implements OnInit {
     this.designIsOpen = !this.designIsOpen;
     if (this.designIsOpen === false) {
       this.designLineVis = 'hidden';
-    }
+    };
   }
 
 
@@ -232,6 +295,14 @@ export class CoreComponent implements OnInit {
     this.designLineVis = 'hidden';
   }
 
+  private DesignPolygonTimeoutId: any;
+  loadPolly() {
+    this.activeHoldTimeoutId = setTimeout(() => { 
+      if (this.shellShape === 'polygon') {
+        this.polygonDefThree();
+      }
+    }, 300);
+  }
 
 
 }
