@@ -21,7 +21,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSliderModule } from '@angular/material/slider';
-
+import { ColorPickerModule } from 'ngx-color-picker';
+import { MatSelectModule } from '@angular/material/select';
 
 
 @NgModule({
@@ -49,6 +50,8 @@ import { MatSliderModule } from '@angular/material/slider';
     MatDividerModule,
     MatTooltipModule,
     MatSliderModule,
+    ColorPickerModule,
+    MatSelectModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

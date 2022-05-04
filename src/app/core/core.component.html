@@ -66,6 +66,7 @@
             <span>List of Bonds</span>
         </button>
     </mat-menu>
+
     <mat-menu #modifications="matMenu">
         <button mat-menu-item>
             <img src="assets\Icon\Mods_Add_Icon.png" class="icon">
@@ -112,14 +113,23 @@
                                 <button mat-stroked-button fxFlex matTooltip="Blob" matTooltipShowDelay="500" matTooltipPosition="after"> <img src="assets\Icon\Design_Frame_Blob.png" class="iconT"> </button>
                             </div>
                             <div class="toolRow">
-                                <button mat-stroked-button [matMenuTriggerFor]="shapes"
-                                fxFlex matTooltip="Shapes" matTooltipShowDelay="500" matTooltipPosition="before"> <img src="assets\Icon\Design_Frame_Shapes.png" class="iconT"> </button>
+                                <mat-form-field appearance="fill" class="shapesForm" matTooltip="Select Frame Shape" matTooltipShowDelay="500" matTooltipPosition="before">
+                                    <mat-select [(value)]="selectedShapeFrame" class="shapesFormSel">
+                                        <mat-option value="rectangle">Rectangle</mat-option>
+                                        <mat-option value="elypse">Circle</mat-option>
+                                        <mat-option value="polygon">Polygon</mat-option>
+                                        <mat-option value="Regular Polygon">Regular Polygon</mat-option>
+                                    </mat-select>
+                                    <img src="assets\Icon\Design_Frame_Shapes.png" class="shapesIcon">
+                                </mat-form-field>
                             </div>
                             <div class="toolRow" fxLayout="row">
-                                <button mat-stroked-button [matMenuTriggerFor]="transparency"
+                                <button mat-stroked-button [matMenuTriggerFor]="transparencyFrame"
                                 fxFlex matTooltip="Transparency" matTooltipShowDelay="500" matTooltipPosition="before"> <img src="assets\Icon\Design_Frame_Transparency.png" class="iconT"> </button>
-                                <button mat-stroked-button [matMenuTriggerFor]="colour"
-                                fxFlex matTooltip="Colour" matTooltipShowDelay="500" matTooltipPosition="after"> <img src="assets\Icon\Design_Frame_Colour.png" class="iconT"> </button>
+                                <button mat-stroked-button [matMenuTriggerFor]="colourFrame" [style.background]="colorFrame"
+                                    fxFlex matTooltip="Colour" matTooltipShowDelay="500" matTooltipPosition="after"> 
+                                    <img src="assets\Icon\Design_Frame_Colour.png" class="iconT"> 
+                                </button>
                             </div>
                             <div class="toolRow" fxLayout="row">
                                 <button mat-stroked-button [matMenuTriggerFor]="thickness"
@@ -234,21 +244,26 @@
                                 <button mat-stroked-button fxFlex matTooltip="Eraser" matTooltipShowDelay="500" matTooltipPosition="after"> <img src="assets\Icon\Design_Glazing_Eraser.png" class="iconT"> </button>
                             </div>
                             <div class="toolRow">
-                                <button mat-stroked-button [matMenuTriggerFor]="shapes"
-                                fxFlex matTooltip="Shapes" matTooltipShowDelay="500" matTooltipPosition="before"> <img src="assets\Icon\Design_Frame_Shapes.png" class="iconT"> </button>
+                                <mat-form-field appearance="fill" class="shapesForm" matTooltip="Select Frame Shape" matTooltipShowDelay="500" matTooltipPosition="before">
+                                    <mat-select [(value)]="selectedShapeDrawing" class="shapesFormSel">
+                                        <mat-option value="circle">Circle</mat-option>
+                                        <mat-option value="polygon">Polygon</mat-option>
+                                    </mat-select>
+                                    <img src="assets\Icon\Design_Frame_Shapes.png" class="shapesIcon">
+                                </mat-form-field>
                             </div>
                             <div class="toolRow" fxLayout="row">
-                                <button mat-stroked-button [matMenuTriggerFor]="transparency"
+                                <button mat-stroked-button [matMenuTriggerFor]="transparencyDrawing"
                                 fxFlex matTooltip="Drawing Transparency" matTooltipShowDelay="500" matTooltipPosition="before">  <img src="assets\Icon\Design_Frame_Transparency.png" class="iconT"> </button>
-                                <button mat-stroked-button [matMenuTriggerFor]="colour"
+                                <button mat-stroked-button [matMenuTriggerFor]="colourGlazingDrawing" [style.background]="colorDrawing"
                                 fxFlex matTooltip="Drawing Colour" matTooltipShowDelay="500" matTooltipPosition="after"> <img src="assets\Icon\Design_Frame_Colour.png" class="iconT"> </button>
                             </div>
                             <mat-divider></mat-divider>
                             <div class="menuText">Background</div> 
                             <div class="toolRow" fxLayout="row">
-                                <button mat-stroked-button [matMenuTriggerFor]="transparency"
+                                <button mat-stroked-button [matMenuTriggerFor]="transparencyGlazing"
                                 fxFlex matTooltip="Background Transparency" matTooltipShowDelay="500" matTooltipPosition="before"> <img src="assets\Icon\Design_Frame_Transparency.png" class="iconT"> </button>
-                                <button mat-stroked-button [matMenuTriggerFor]="colour"
+                                <button mat-stroked-button [matMenuTriggerFor]="colourGlazingBackground" [style.background]="colorBackground"
                                 fxFlex matTooltip="Background Colour" matTooltipShowDelay="500" matTooltipPosition="after"> <img src="assets\Icon\Design_Frame_Colour.png" class="iconT"> </button>
                             </div>
                         </div>
@@ -270,7 +285,7 @@
                                     <ellipse *ngIf="shellShape === 'ellipse'"
                                         [attr.rx]="coreData.size[0]/2" [attr.ry]="coreData.size[1]/2" [attr.cx]="coreData.size[0]/2 + coreData.frameThickness/2"  [attr.cy]="coreData.size[1]/2  + coreData.frameThickness/2"
                                         [attr.stroke-width]="coreData.frameThickness" [attr.stroke]="coreData.frameColor" [attr.stroke-opacity]="coreData.frameTransparency" 
-                                        [attr.fill]="coreData.glazingColor" [attr.fill-opacity]="coreData.glazingTransparency" />
+                                        [attr.fill]="coreData.glazingColor" [attr.fill-opacity]="glazingTransparency" />
                                     
                                 </svg>
                         
@@ -284,7 +299,7 @@
                                     <polygon 
                                         id="polygonFrameG" #svgPolyG points="" class="shellX" 
                                         [attr.stroke-width]="coreData.frameThickness" [attr.stroke]="coreData.frameColor" stroke-opacity="0.5" 
-                                        [attr.fill]="coreData.glazingColor" [attr.fill-opacity]="coreData.glazingTransparency" />
+                                        [attr.fill]="coreData.glazingColor" [attr.fill-opacity]="glazingTransparency" />
                                         
                                 </svg>
                         
@@ -301,7 +316,7 @@
                                     <rect [attr.rx]="rectBorderRadius +'px'" ry="10px" class="shellX"
                                         [attr.x]="coreData.frameThickness/2"  [attr.y]="coreData.frameThickness/2"  [attr.width]="shellSize[0] - (coreData.frameThickness)" [attr.height]="shellSize[1] - (coreData.frameThickness)"  
                                         [attr.stroke-width]="coreData.frameThickness" [attr.stroke]="coreData.frameColor" [attr.stroke-opacity]="coreData.frameTransparency" 
-                                        [attr.fill]="coreData.glazingColor" [attr.fill-opacity]="coreData.glazingTransparency" />
+                                        [attr.fill]="coreData.glazingColor" [attr.fill-opacity]="glazingTransparency" />
                         
                                 </svg>
                             </div>
@@ -334,8 +349,15 @@
                             </div>
                             <div class="toolRow" fxLayout="row">
                                 <button mat-stroked-button fxFlex matTooltip="Font Size" matTooltipShowDelay="500" matTooltipPosition="before"> 16 </button>
-                                <button mat-stroked-button [matMenuTriggerFor]="colour"
-                                fxFlex matTooltip="Colour" matTooltipShowDelay="500" matTooltipPosition="after"> <img src="assets\Icon\Design_Datum_FontColor.png" class="iconT"> </button>
+                                <button mat-stroked-button [matMenuTriggerFor]="colourDatum"
+                                        fxFlex matTooltip="Colour" matTooltipShowDelay="500" matTooltipPosition="after"> 
+                                    <svg width="30" height="25" margin="0">
+                                        <text x="8" y="15" fill="black" font-size="20">A</text>
+                                        <svg y="20" width="30" height="8" margin="0">
+                                            <rect width="30" height="8" [style.fill]="colorText" />
+                                        </svg>
+                                    </svg>
+                                </button>
                             </div>
                             <div class="toolRow" fxLayout="row">
                                 <button mat-stroked-button fxFlex matTooltip="Justification" matTooltipShowDelay="500" matTooltipPosition="before"> <img src="assets\Icon\Design_Datum_Justify.png" class="iconT"> </button>
@@ -353,6 +375,7 @@
                         </div>
 
                         <!-- Datum Tab DISPLAY -->
+                        
                         <div class="desDivs">
                             <div [ngSwitch]="coreData.frameFile" class="svgDesign">
 
@@ -415,15 +438,87 @@
     </ng-template>
 
     <!-- Core Menu sub-menues -->
-    <mat-menu #shapes="matMenu"></mat-menu>
-    <mat-menu #transparency="matMenu">
-        <mat-slider invert="true" ></mat-slider>
+
+        <!-- FRAME TAB -->
+
+    <mat-menu #transparencyFrame="matMenu">
+        <div class="TranspCont">
+            <mat-slider invert="true"  class="TransparencyS"
+                [value]="frameTransparency"
+                thumbLabel
+                [displayWith]="formatLabel"
+                tickInterval="1"
+                step="1"
+                min="0"
+                max="100"
+            ></mat-slider>
+        </div>
     </mat-menu>
-    <mat-menu #colour="matMenu"></mat-menu>
+
+    <mat-menu #colourFrame="matMenu"  >
+        
+        <span [style.background]="colorFrame" [cpToggle]="true" [cpDialogDisplay]="'inline'"
+                [cpCancelButton]="true" [(colorPicker)]="colorFrame"></span>
+
+    </mat-menu>
+
     <mat-menu #emmitance="matMenu">
         <mat-slider></mat-slider>
     </mat-menu>
-    <mat-menu #thickness="matMenu"></mat-menu>
+
+    <mat-menu #thickness="matMenu">
+
+    </mat-menu>
+
+        <!-- GLAZING TAB -->
+    <mat-menu #colourGlazingBackground="matMenu"  >
+        
+        <span [style.background]="colorBackground" [cpToggle]="true" [cpDialogDisplay]="'inline'"
+            [cpCancelButton]="true" [(colorPicker)]="colorBackground"></span>
+    
+    </mat-menu>
+    <mat-menu #colourGlazingDrawing="matMenu"  >
+        
+        <span [style.background]="colorDrawing" [cpToggle]="true" [cpDialogDisplay]="'inline'"
+            [cpCancelButton]="true" [(colorPicker)]="colorDrawing"></span>
+    
+    </mat-menu>
+
+    <mat-menu #transparencyDrawing="matMenu" >
+        <div class="TranspCont">
+            <mat-slider invert="true"  class="TransparencyS"
+                [value]="drawingTransparency"
+                thumbLabel
+                [displayWith]="formatLabel"
+                tickInterval="1"
+                step="1"
+                min="0"
+                max="100"
+            ></mat-slider>
+        </div>
+    </mat-menu>
+
+    <mat-menu #transparencyGlazing="matMenu">
+        <div class="TranspCont">
+            <mat-slider invert="true"  class="TransparencyS"
+                [value]="glazingTransparency"
+                thumbLabel
+                [displayWith]="formatLabel"
+                tickInterval="1"
+                step="1"
+                min="0"
+                max="100"
+            ></mat-slider>
+        </div>
+    </mat-menu>
+
+        <!-- DATUM TAB -->
+    <mat-menu #colourDatum="matMenu"  >
+        
+        <span [style.background]="colorText" [cpToggle]="true" [cpDialogDisplay]="'inline'"
+            [cpCancelButton]="true" [(colorPicker)]="colorText"></span>
+        
+    </mat-menu>
 
 
     <!-- Shell -->
@@ -444,7 +539,7 @@
             <ellipse *ngIf="shellShape === 'ellipse'"
                 [attr.rx]="coreData.size[0]/2" [attr.ry]="coreData.size[1]/2" [attr.cx]="coreData.size[0]/2 + coreData.frameThickness/2"  [attr.cy]="coreData.size[1]/2  + coreData.frameThickness/2"
                 [attr.stroke-width]="coreData.frameThickness" [attr.stroke]="coreData.frameColor" [attr.stroke-opacity]="coreData.frameTransparency" 
-                [attr.fill]="coreData.glazingColor" [attr.fill-opacity]="coreData.glazingTransparency" />
+                [attr.fill]="coreData.glazingColor" [attr.fill-opacity]="glazingTransparency" />
             
         </svg>
 
@@ -460,7 +555,7 @@
             <polygon
                 id="polygonFrame" #svgPoly points="" class="shellX" 
                 [attr.stroke-width]="coreData.frameThickness" [attr.stroke]="coreData.frameColor" [attr.stroke-opacity]="coreData.frameTransparency" 
-                [attr.fill]="coreData.glazingColor" [attr.fill-opacity]="coreData.glazingTransparency" />
+                [attr.fill]="coreData.glazingColor" [attr.fill-opacity]="glazingTransparency" />
                 
         </svg>
 
@@ -480,7 +575,8 @@
             <rect [attr.rx]="rectBorderRadius +'px'" ry="10px" class="shellX"
                 [attr.x]="coreData.frameThickness/2"  [attr.y]="coreData.frameThickness/2"  [attr.width]="shellSize[0] - (coreData.frameThickness)" [attr.height]="shellSize[1] - (coreData.frameThickness)"  
                 [attr.stroke-width]="coreData.frameThickness" [attr.stroke]="coreData.frameColor" [attr.stroke-opacity]="coreData.frameTransparency"     
-                [attr.fill]="coreData.glazingColor" [attr.fill-opacity]="coreData.glazingTransparency" />
+                [attr.fill]="coreData.glazingColor" [attr.fill-opacity]="glazingTransparency" />
+            
 
         </svg>
     </div>

@@ -27,12 +27,23 @@ export class CoreComponent implements OnInit, AfterViewInit {
   datumType!: string;
   textX!: number;
   textY!: number;
-  componentPolygonPointsData = [0,100, 50,25, 200,100, 200,0];
+  componentPolygonPointsData = [150, 0, 0, 260, 300, 260];
+  //Star: [100,10, 40,198, 190,78, 10,78, 160,198]
   pointsP!: number[];
   pointsPX!: number[];
   pointsPXtext!: string;
   browserZoomLevel = window.devicePixelRatio;
   rectBorderRadius = 10;
+
+  //Color dynamics
+  colorFrame: string = '#2889e9';
+  colorBackground: string = '#2889e9';
+  colorDrawing: string = '#2889e9';
+  colorText: string = '#2889e9';
+
+  //Shape dynamics
+  selectedShapeFrame!: string;
+  selectedShapeDrawing = 'elipse';
 
   //polygon Dynamicss
   @ViewChild('svgPolyFrame')
@@ -49,6 +60,19 @@ export class CoreComponent implements OnInit, AfterViewInit {
   svgPolyF!: ElementRef
 
   svgPolyPointF!: SVGPoint;
+
+  //tRANSPARENCY DYNAMICS
+  formatLabel(value: number) {
+    if (value >= 1) {
+      return value + '%';
+    }
+    return value;
+  }
+
+  drawingTransparency!: number;
+  glazingTransparency!: number;
+  frameTransparency!: number;
+
 
   //Design Glazing Polygon Dynamics
 
@@ -137,6 +161,13 @@ export class CoreComponent implements OnInit, AfterViewInit {
     this.pointsPX = this.componentPolygonPointsData;
     this.polygonDefOne()
     this.textXdef();
+    //shapes
+    this.selectedShapeFrame = this.coreData.frameFile;
+
+    //transparency
+    this.drawingTransparency = 100;
+    this.glazingTransparency = this.coreData.glazingTransparency; 
+    this.frameTransparency = this.coreData.frameTransparency;
 
     //Rectangle image stuff
     this.rectImageOne();

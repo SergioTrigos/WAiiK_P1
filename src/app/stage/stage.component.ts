@@ -26,7 +26,7 @@ let CoresData: Core[] = [
     creator: "bob",
     parentStage: 1000000001,
     position: [200, 500],
-    size: [250, 150],
+    size: [310, 270],
     scale: 1,
     datumType: "image",
     datumText: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Palenque_temple_2.jpg/1200px-Palenque_temple_2.jpg",
