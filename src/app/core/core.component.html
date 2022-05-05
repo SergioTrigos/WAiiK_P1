@@ -9,12 +9,12 @@
 </svg>
 
 
-<div class="coreHitBox" cdkDragBoundary=".stageDisplay" fxLayout="row" cdkDrag (cdkDragEnded)="onDrop($event)" [attr.width]="shellSize[0] + 25" [attr.height]="shellSize[1]"
+<div class="coreHitBox" (mouseover)="mouseOverCore()" (mouseout)="mouseOutCore()" cdkDragBoundary=".stageDisplay" fxLayout="row" cdkDrag (cdkDragEnded)="onDrop($event)" [attr.width]="shellSize[0] + 25" [attr.height]="shellSize[1]"
     [ngStyle]="initialPos()"
 >                                                                                                                                                               
 
     <!-- Core Menu BUTTON  -->
-    <div  cdkDragHandle class="core-menu-handle" >   
+    <div  cdkDragHandle class="core-menu-handle"  [ngClass]="{'hiddenMenu' : !coreMenuIsVis}" >   
         <button fxLayout="column"  class="core-menu-button" matTooltip="Open Core-Menu or Drag the Core" matTooltipShowDelay="1000"
             (mousedown)="onHoldStart()" (mouseup)="onHoldEnd($event)" >
             <span class="dot"></span>
@@ -104,42 +104,95 @@
 
                         <!-- Frame Tab TOOLS -->
                         <div class="desTools" fxLayout="column">
+
+                            <mat-button-toggle-group #desFrameOne="matButtonToggleGroup" fxLayout="row" class="desFrameSelOne">
+
+                                <mat-button-toggle value="Transform" matTooltip="Transform" matTooltipShowDelay="500" matTooltipPosition="before">
+                                    <img src="assets\Icon\Design_Frame_Transform.png" class="iconC">
+                                </mat-button-toggle>
+
+                                <mat-button-toggle value="Select" matTooltip="Select" matTooltipShowDelay="500" matTooltipPosition="after">
+                                    <img src="assets\Icon\Design_Frame_Select.png" class="iconC">
+                                </mat-button-toggle>
+
+                                <mat-button-toggle value="Spline" matTooltip="Spline" matTooltipShowDelay="500" matTooltipPosition="before">
+                                    <img src="assets\Icon\Design_Frame_Spline.png" class="iconC">
+                                </mat-button-toggle>
+
+                                <mat-button-toggle value="Blob" matTooltip="Blob" matTooltipShowDelay="500" matTooltipPosition="after">
+                                    <img src="assets\Icon\Design_Frame_Blob.png" class="iconC">
+                                </mat-button-toggle>
+
+                                <mat-button-toggle value="Polyline" matTooltip="Polyline" matTooltipShowDelay="500" matTooltipPosition="before">
+                                    <img src="assets\Icon\Design_Frame_Polyline.png" class="iconD">
+                                </mat-button-toggle>
+
+                                <mat-button-toggle value="Shapes" matTooltip="Shapes" matTooltipShowDelay="500" matTooltipPosition="after">
+                                    <img src="assets\Icon\Design_Frame_Shapes.png" class="iconV">
+                                </mat-button-toggle>
+
+                            </mat-button-toggle-group>
+
                             <div class="toolRow" fxLayout="row">
-                                <button mat-stroked-button fxFlex matTooltip="Transform" matTooltipShowDelay="500" matTooltipPosition="before"> <img src="assets\Icon\Design_Frame_Transform.png" class="iconT"> </button>
-                                <button mat-stroked-button fxFlex matTooltip="Select" matTooltipShowDelay="500" matTooltipPosition="after"> <img src="assets\Icon\Design_Frame_Select.png" class="iconT"> </button>
+
+                                <mat-button-toggle *ngIf="desFrameOne.value === 'Shapes'"   fxFlex 
+                                    value="Regular" matTooltip="Regular" matTooltipShowDelay="500" matTooltipPosition="after">
+                                    <img src="assets\Icon\Design_Frame_AspectRatio.png" class="iconC">
+                                </mat-button-toggle>
+
+                                <button  *ngIf="selectedShapeFrame === 'Polygon' && desFrameOne.value === 'Shapes'" 
+                                    [matMenuTriggerFor]="numberSides"  class="ToolButtonX"
+                                    matTooltip="Number of Sides" matTooltipShowDelay="500" matTooltipPosition="before">
+                                    {{numOfSides}} 
+                                </button>
+
                             </div>
-                            <div class="toolRow" fxLayout="row">
-                                <button mat-stroked-button fxFlex matTooltip="Spline" matTooltipShowDelay="500" matTooltipPosition="before"> <img src="assets\Icon\Design_Frame_Spline.png" class="iconT"> </button>
-                                <button mat-stroked-button fxFlex matTooltip="Blob" matTooltipShowDelay="500" matTooltipPosition="after"> <img src="assets\Icon\Design_Frame_Blob.png" class="iconT"> </button>
-                            </div>
-                            <div class="toolRow">
+
+                            <div class="toolRow" *ngIf="desFrameOne.value === 'Shapes'"  >
                                 <mat-form-field appearance="fill" class="shapesForm" matTooltip="Select Frame Shape" matTooltipShowDelay="500" matTooltipPosition="before">
-                                    <mat-select [(value)]="selectedShapeFrame" class="shapesFormSel">
-                                        <mat-option value="rectangle">Rectangle</mat-option>
+                                    <mat-select [(value)]="selectedShapeFrame" class="shapesFormSel"> 
                                         <mat-option value="elypse">Circle</mat-option>
-                                        <mat-option value="polygon">Polygon</mat-option>
-                                        <mat-option value="Regular Polygon">Regular Polygon</mat-option>
+                                        <mat-option value="Polygon">Polygon</mat-option>
                                     </mat-select>
-                                    <img src="assets\Icon\Design_Frame_Shapes.png" class="shapesIcon">
                                 </mat-form-field>
                             </div>
+
+
                             <div class="toolRow" fxLayout="row">
-                                <button mat-stroked-button [matMenuTriggerFor]="transparencyFrame"
-                                fxFlex matTooltip="Transparency" matTooltipShowDelay="500" matTooltipPosition="before"> <img src="assets\Icon\Design_Frame_Transparency.png" class="iconT"> </button>
-                                <button mat-stroked-button [matMenuTriggerFor]="colourFrame" [style.background]="colorFrame"
+
+                                <button  [matMenuTriggerFor]="transparencyFrame"  class="ToolButtonOne"
+                                    fxFlex matTooltip="Transparency" matTooltipShowDelay="500" matTooltipPosition="before">
+                                    <img src="assets\Icon\Design_Frame_Transparency.png" class="iconT"> 
+                                </button>
+
+                                <button  [matMenuTriggerFor]="colourFrame" class="ToolButtonOne" [style.background]="colorFrame"
                                     fxFlex matTooltip="Colour" matTooltipShowDelay="500" matTooltipPosition="after"> 
                                     <img src="assets\Icon\Design_Frame_Colour.png" class="iconT"> 
                                 </button>
+
                             </div>
+
                             <div class="toolRow" fxLayout="row">
-                                <button mat-stroked-button [matMenuTriggerFor]="thickness"
-                                fxFlex matTooltip="Line Thickness" matTooltipShowDelay="500" matTooltipPosition="before"> <img src="assets\Icon\Design_Frame_Thickness.png" class="iconT"> </button>
-                                <button mat-stroked-button [matMenuTriggerFor]="emmitance"
-                                fxFlex matTooltip="Frame Emmitance" matTooltipShowDelay="500" matTooltipPosition="after"> <img src="assets\Icon\Design_Frame_Emmitance.png" class="iconT"> </button>
+
+                                <button  [matMenuTriggerFor]="thickness" class="ToolButtonOne"
+                                    fxFlex matTooltip="Line Thickness" matTooltipShowDelay="500" matTooltipPosition="before"> 
+                                    <img src="assets\Icon\Design_Frame_Thickness.png" class="iconT"> 
+                                </button>
+
+                                <button  [matMenuTriggerFor]="emmitance" class="ToolButtonOne"
+                                    fxFlex matTooltip="Frame Emmitance" matTooltipShowDelay="500" matTooltipPosition="after"> 
+                                    <img src="assets\Icon\Design_Frame_Emmitance.png" class="iconT"> 
+                                </button>
+
                             </div>
+
                             <div class="toolRow">
-                                <button mat-stroked-button fxFlex matTooltip="Add Frame Instance" matTooltipShowDelay="500" matTooltipPosition="before"> <img src="assets\Icon\Design_Frame_AddFrameInst.png" class="iconT"> </button>
+                                <button  fxFlex  class="ToolButtonOne"
+                                    matTooltip="Add Frame Instance" matTooltipShowDelay="500" matTooltipPosition="before"> 
+                                    <img src="assets\Icon\Design_Frame_AddFrameInst.png" class="iconT"> 
+                                </button>
                             </div>
+
                         </div>
 
                         <!-- Frame Tab DISPLAY -->
@@ -170,9 +223,10 @@
                                         fill="white" fill-opacity="0" />
                                     
                                 </svg>
+                                
                         
-                                <!-- POLYGON Frame  -->
-                                <svg *ngSwitchCase="'polygon'" xmlns="http://www.w3.org/2000/svg" id="SVGpolygonFrameF" #svgPolyFrameF  class="svgDesign" >
+                                <!-- POLYLINE Frame  -->
+                                <svg *ngSwitchCase="'polyline'" xmlns="http://www.w3.org/2000/svg" id="SVGpolygonFrameF" #svgPolyFrameF  class="svgDesign" >
                                     
                                     <text *ngIf="datumType === 'text'"  [attr.x]="textX" [attr.y]="textY" fill="black" > {{coreData.datumText}} </text>
                         
@@ -234,38 +288,91 @@
                         <!-- Glazing Tab TOOLS -->
                         <div class="desTools" fxLayout="column">
                             <div class="menuText">Drawing Tools</div>
+
+                            <mat-button-toggle-group #desFrameTwo="matButtonToggleGroup" fxLayout="row" class="desFrameSelOne">
+
+                                <mat-button-toggle value="Pencil" matTooltip="Pencil" matTooltipShowDelay="500" matTooltipPosition="before">
+                                    <img src="assets\Icon\Design_Glazing_Pencil.png" class="iconE">
+                                </mat-button-toggle>
+
+                                <mat-button-toggle value="Spline" matTooltip="Spline" matTooltipShowDelay="500" matTooltipPosition="after">
+                                    <img src="assets\Icon\Design_Frame_Spline.png" class="iconE">
+                                </mat-button-toggle>
+
+                                <mat-button-toggle value="Thickness" matTooltip="Thickness" matTooltipShowDelay="500" matTooltipPosition="before"
+                                    [matMenuTriggerFor]="thickness">
+                                    <img src="assets\Icon\Design_Frame_Thickness.png" class="iconF">
+                                </mat-button-toggle>
+
+                                <mat-button-toggle value="Eraser"matTooltip="Eraser" matTooltipShowDelay="500" matTooltipPosition="after">
+                                    <img src="assets\Icon\Design_Glazing_Eraser.png" class="iconF">
+                                </mat-button-toggle>
+
+                                <mat-button-toggle value="Blob" matTooltip="Blob" matTooltipShowDelay="500" matTooltipPosition="before">
+                                    <img src="assets\Icon\Design_Frame_Blob.png" class="iconG">
+                                </mat-button-toggle>
+
+                                <mat-button-toggle value="Shapes" matTooltip="Shapes" matTooltipShowDelay="500" matTooltipPosition="after">
+                                    <img src="assets\Icon\Design_Frame_Shapes.png" class="iconD">
+                                </mat-button-toggle>
+
+                            </mat-button-toggle-group>
+
                             <div class="toolRow" fxLayout="row">
-                                <button mat-stroked-button fxFlex matTooltip="Pencil" matTooltipShowDelay="500" matTooltipPosition="before"> <img src="assets\Icon\Design_Glazing_Pencil.png" class="iconT"> </button>
-                                <button mat-stroked-button fxFlex matTooltip="Spline" matTooltipShowDelay="500" matTooltipPosition="after"> <img src="assets\Icon\Design_Frame_Spline.png" class="iconT"> </button>
+
+                                <mat-button-toggle *ngIf="desFrameTwo.value === 'Shapes'"   fxFlex 
+                                    value="Regular" matTooltip="Regular" matTooltipShowDelay="500" matTooltipPosition="before">
+                                    <img src="assets\Icon\Design_Frame_AspectRatio.png" class="iconC">
+                                </mat-button-toggle>
+
+                                <button  *ngIf="selectedShapeDrawing === 'Polygon' && desFrameTwo.value === 'Shapes'" 
+                                    [matMenuTriggerFor]="numberSides"  class="ToolButtonX"
+                                    matTooltip="Number of Sides" matTooltipShowDelay="500" matTooltipPosition="after">
+                                    {{numOfSides}} 
+                                </button>
+
                             </div>
-                            <div class="toolRow" fxLayout="row">
-                                <button mat-stroked-button [matMenuTriggerFor]="thickness"
-                                fxFlex matTooltip="Line Thickness" matTooltipShowDelay="500" matTooltipPosition="before"> <img src="assets\Icon\Design_Frame_Thickness.png" class="iconT"> </button>
-                                <button mat-stroked-button fxFlex matTooltip="Eraser" matTooltipShowDelay="500" matTooltipPosition="after"> <img src="assets\Icon\Design_Glazing_Eraser.png" class="iconT"> </button>
-                            </div>
-                            <div class="toolRow">
+
+                            <div class="toolRow" *ngIf="desFrameTwo.value === 'Shapes'"  >
                                 <mat-form-field appearance="fill" class="shapesForm" matTooltip="Select Frame Shape" matTooltipShowDelay="500" matTooltipPosition="before">
-                                    <mat-select [(value)]="selectedShapeDrawing" class="shapesFormSel">
-                                        <mat-option value="circle">Circle</mat-option>
-                                        <mat-option value="polygon">Polygon</mat-option>
+                                    <mat-select [(value)]="selectedShapeDrawing" class="shapesFormSel"> 
+                                        <mat-option value="elypse">Circle</mat-option>
+                                        <mat-option value="Polygon">Polygon</mat-option>
                                     </mat-select>
-                                    <img src="assets\Icon\Design_Frame_Shapes.png" class="shapesIcon">
                                 </mat-form-field>
                             </div>
+
                             <div class="toolRow" fxLayout="row">
-                                <button mat-stroked-button [matMenuTriggerFor]="transparencyDrawing"
-                                fxFlex matTooltip="Drawing Transparency" matTooltipShowDelay="500" matTooltipPosition="before">  <img src="assets\Icon\Design_Frame_Transparency.png" class="iconT"> </button>
-                                <button mat-stroked-button [matMenuTriggerFor]="colourGlazingDrawing" [style.background]="colorDrawing"
-                                fxFlex matTooltip="Drawing Colour" matTooltipShowDelay="500" matTooltipPosition="after"> <img src="assets\Icon\Design_Frame_Colour.png" class="iconT"> </button>
+
+                                <button  [matMenuTriggerFor]="transparencyDrawing"  class="ToolButtonOne"
+                                    fxFlex matTooltip="Drawing Transparency" matTooltipShowDelay="500" matTooltipPosition="before">
+                                    <img src="assets\Icon\Design_Frame_Transparency.png" class="iconT"> 
+                                </button>
+
+                                <button  [matMenuTriggerFor]="colourGlazingDrawing" class="ToolButtonOne" [style.background]="colorDrawing"
+                                    fxFlex matTooltip="Drawing Colour" matTooltipShowDelay="500" matTooltipPosition="after"> 
+                                    <img src="assets\Icon\Design_Frame_Colour.png" class="iconT"> 
+                                </button>
+
                             </div>
+
                             <mat-divider></mat-divider>
                             <div class="menuText">Background</div> 
+
                             <div class="toolRow" fxLayout="row">
-                                <button mat-stroked-button [matMenuTriggerFor]="transparencyGlazing"
-                                fxFlex matTooltip="Background Transparency" matTooltipShowDelay="500" matTooltipPosition="before"> <img src="assets\Icon\Design_Frame_Transparency.png" class="iconT"> </button>
-                                <button mat-stroked-button [matMenuTriggerFor]="colourGlazingBackground" [style.background]="colorBackground"
-                                fxFlex matTooltip="Background Colour" matTooltipShowDelay="500" matTooltipPosition="after"> <img src="assets\Icon\Design_Frame_Colour.png" class="iconT"> </button>
+
+                                <button  [matMenuTriggerFor]="transparencyGlazing"  class="ToolButtonOne"
+                                    fxFlex matTooltip="Background Transparency" matTooltipShowDelay="500" matTooltipPosition="before">
+                                    <img src="assets\Icon\Design_Frame_Transparency.png" class="iconT"> 
+                                </button>
+
+                                <button  [matMenuTriggerFor]="colourGlazingBackground" class="ToolButtonOne" [style.background]="colorBackground"
+                                    fxFlex matTooltip="Background Colour" matTooltipShowDelay="500" matTooltipPosition="after"> 
+                                    <img src="assets\Icon\Design_Frame_Colour.png" class="iconT"> 
+                                </button>
+
                             </div>
+
                         </div>
 
                         <!-- Glazing Tab DISPLAY -->
@@ -289,8 +396,8 @@
                                     
                                 </svg>
                         
-                                <!-- POLYGON Glazing -->
-                                <svg *ngSwitchCase="'polygon'" xmlns="http://www.w3.org/2000/svg" id="SVGpolygonFrameG" #svgPolyFrameG  class="svgDesign"  >
+                                <!-- POLYLINE Glazing -->
+                                <svg *ngSwitchCase="'polyline'" xmlns="http://www.w3.org/2000/svg" id="SVGpolygonFrameG" #svgPolyFrameG  class="svgDesign"  >
                                     
                                     <text *ngIf="datumType === 'text'"  [attr.x]="textX" [attr.y]="textY" fill="black" > {{coreData.datumText}} </text>
                         
@@ -394,14 +501,14 @@
                                     
                                 </svg>
                         
-                                <!-- POLYGON Datum -->
-                                <svg *ngSwitchCase="'polygon'" xmlns="http://www.w3.org/2000/svg" id="SVGpolygonFrameD" #svgPolyFrameD class="svgDesign"  >
+                                <!-- POLYLINE Datum -->
+                                <svg *ngSwitchCase="'polyline'" xmlns="http://www.w3.org/2000/svg" id="SVGpolygonFrameD" #svgPolyFrameD class="svgDesign"  >
                                     
                                     <text *ngIf="datumType === 'text'"  [attr.x]="textX" [attr.y]="textY" fill="black" > {{coreData.datumText}} </text>
                         
                                     <image *ngIf="datumType === 'image'"  [attr.href]="coreData.datumText" [attr.width]="coreData.datumSize[0]" /> 
                                     
-                                    <polygon *ngIf="shellShape === 'polygon'"
+                                    <polygon *ngIf="shellShape === 'polyline'"
                                         id="polygonFrameD" #svgPolyD points="" class="shellX" 
                                         [attr.stroke-width]="coreData.frameThickness" stroke="white" stroke-opacity="0.5" fill="white" fill-opacity="0.1"  />
                                         
@@ -459,6 +566,10 @@
         
         <span [style.background]="colorFrame" [cpToggle]="true" [cpDialogDisplay]="'inline'"
                 [cpCancelButton]="true" [(colorPicker)]="colorFrame"></span>
+
+    </mat-menu>
+
+    <mat-menu #numberSides="matMenu">
 
     </mat-menu>
 
@@ -543,8 +654,8 @@
             
         </svg>
 
-        <!-- POLYGON SHELL -->
-        <svg *ngSwitchCase="'polygon'" xmlns="http://www.w3.org/2000/svg" id="SVGpolygonFrame" #svgPolyFrame class="svgShell"  [attr.width]="shellSize[0]" [attr.height]="shellSize[1]">
+        <!-- POLYLINE SHELL -->
+        <svg *ngSwitchCase="'polyline'" xmlns="http://www.w3.org/2000/svg" id="SVGpolygonFrame" #svgPolyFrame class="svgShell"  [attr.width]="shellSize[0]" [attr.height]="shellSize[1]">
             
             <text *ngIf="datumType === 'text'"  [attr.x]="textX" [attr.y]="textY" fill="black" 
                 [ngStyle]="{'clip-path':'polygon(' + pointsPXtext + ')'}" > {{coreData.datumText}} </text>

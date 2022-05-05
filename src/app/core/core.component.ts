@@ -27,7 +27,7 @@ export class CoreComponent implements OnInit, AfterViewInit {
   datumType!: string;
   textX!: number;
   textY!: number;
-  componentPolygonPointsData = [150, 0, 0, 260, 300, 260];
+  componentPolyLinePointsData = [150, 0, 0, 260, 300, 260];
   //Star: [100,10, 40,198, 190,78, 10,78, 160,198]
   pointsP!: number[];
   pointsPX!: number[];
@@ -44,8 +44,9 @@ export class CoreComponent implements OnInit, AfterViewInit {
   //Shape dynamics
   selectedShapeFrame!: string;
   selectedShapeDrawing = 'elipse';
+  numOfSides = 4;
 
-  //polygon Dynamicss
+  //polyLine Dynamicss 
   @ViewChild('svgPolyFrame')
   svgPolyFrame!: ElementRef;
 
@@ -54,7 +55,7 @@ export class CoreComponent implements OnInit, AfterViewInit {
 
   svgPolyPoint!: SVGPoint;
 
-  //Design Frame Polygon Dynamics
+  //Design Frame PolyLine Dynamics
 
   @ViewChild('svgPolyF')
   svgPolyF!: ElementRef
@@ -74,14 +75,14 @@ export class CoreComponent implements OnInit, AfterViewInit {
   frameTransparency!: number;
 
 
-  //Design Glazing Polygon Dynamics
+  //Design Glazing PolyLine Dynamics
 
   @ViewChild('svgPolyG')
   svgPolyG!: ElementRef
 
   svgPolyPointG!: SVGPoint;
 
-  //Design Datum Polygon Dynamics
+  //Design Datum PolyLine Dynamics
   
   @ViewChild('svgPolyD')
   svgPolyD!: ElementRef
@@ -102,8 +103,6 @@ export class CoreComponent implements OnInit, AfterViewInit {
   trigger!: MatMenuTrigger;
 
 
-  //this.trigger.menuOpened.caller(this.polygonDefThree());
-
   //Core Data
   @Input()
   coreData: any = {}; 
@@ -113,16 +112,29 @@ export class CoreComponent implements OnInit, AfterViewInit {
   
   constructor() {
   }
+  //Core Visibility dynamics
+  coreMenuIsVis!: boolean;
+
+  mouseOverCore() {
+    this.coreMenuIsVis = true;
+    console.log("CoreMenu is VISIBLE");
+  };
+
+
+  mouseOutCore() {
+    this.coreMenuIsVis = false;
+    console.log("CoreMenu is NOT visible");
+  };
+
 
   @HostListener('window:resize', ['$event'])
   onResize() {
     this.browserZoomLevel = window.devicePixelRatio;
     console.log("the window was zoomed");
-    this.polygonDefOne();
+    this.polyLineDefOne();
   }
 
-  //'polygon(0px 80px, 40px 20px, 40px 60px, 80px 0px)'
-  polygonDefOne() {
+  polyLineDefOne() {
     console.log(this.browserZoomLevel);
     for (let i = 0; i < this.pointsPX.length; i = i + 2) {
       if (i == 0) {
@@ -146,6 +158,7 @@ export class CoreComponent implements OnInit, AfterViewInit {
     this.pos.y = this.coreData.position[1];
     this.positionX = this.coreData.position[0] + "px";
     this.positionY = this.coreData.position[1] + "px";
+    this.menuPosition.x = (this.coreData.position[0]) + "px";
     this.menuPosition.y = (this.coreData.position[1] - 170) + "px";
     this.desLinePos.x1 = this.pos.x;
     this.desLinePos.y1 = this.pos.y - 50;
@@ -157,9 +170,9 @@ export class CoreComponent implements OnInit, AfterViewInit {
     this.shellShape = this.coreData.frameFile;
     this.shellSize = this.coreData.size;
     this.datumType = this.coreData.datumType;
-    this.pointsP = [0, 0].concat(this.componentPolygonPointsData);
-    this.pointsPX = this.componentPolygonPointsData;
-    this.polygonDefOne()
+    this.pointsP = [0, 0].concat(this.componentPolyLinePointsData);
+    this.pointsPX = this.componentPolyLinePointsData;
+    this.polyLineDefOne()
     this.textXdef();
     //shapes
     this.selectedShapeFrame = this.coreData.frameFile;
@@ -169,12 +182,15 @@ export class CoreComponent implements OnInit, AfterViewInit {
     this.glazingTransparency = this.coreData.glazingTransparency; 
     this.frameTransparency = this.coreData.frameTransparency;
 
+    //Core Visibility
+    this.coreMenuIsVis = false;
+
     //Rectangle image stuff
     this.rectImageOne();
   }
 
 
-  polygonDefTwo() {
+  polyLineDefTwo() {
     this.svgPolyPoint = this.svgPolyFrame.nativeElement.createSVGPoint();
     for (let i = 0; i < this.pointsP.length; i = i + 2) {
       this.svgPolyPoint.x = this.pointsP[i] + this.coreData.frameThickness / 2;
@@ -183,7 +199,7 @@ export class CoreComponent implements OnInit, AfterViewInit {
     }
   }
 
-  polygonDefThree() {
+  polyLineDefThree() {
     this.svgPolyPointF = this.svgPolyFrame.nativeElement.createSVGPoint();
     for (let i = 0; i < this.pointsP.length; i = i + 2) {
       this.svgPolyPointF.x = this.pointsP[i] + this.coreData.frameThickness/2;
@@ -205,8 +221,8 @@ export class CoreComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    if (this.shellShape === 'polygon') {
-      this.polygonDefTwo();
+    if (this.shellShape === 'polyline') {
+      this.polyLineDefTwo();
     }
   }
 
@@ -225,19 +241,9 @@ export class CoreComponent implements OnInit, AfterViewInit {
     } else if (this.shellShape === 'circle') {
       this.textX = this.coreData.size[0] / 4;
       this.textY = this.coreData.size[1] / 2;
-    } else if (this.shellShape === 'polygon') {
+    } else if (this.shellShape === 'polyline') {
       this.textX = this.coreData.size[0]/4;
       this.textY = this.coreData.size[1]/2;
-    }
-  }
-
-  maskDef() {
-    if (this.coreData.frameFile === 'rectangle') {
-      return { 'clip-path' : 'url(#shellRectangle)' };
-    } else if (this.coreData.frameFile === 'circle') {
-      return { 'clip-path' : 'url(#shellCircle)' };
-    }else {
-      return { 'clip-path' : 'url(#shellPolygon)' };
     }
   }
 
@@ -326,11 +332,11 @@ export class CoreComponent implements OnInit, AfterViewInit {
     this.designLineVis = 'hidden';
   }
 
-  private DesignPolygonTimeoutId: any;
+  private DesignPolyLineTimeoutId: any;
   loadPolly() {
-    this.activeHoldTimeoutId = setTimeout(() => { 
-      if (this.shellShape === 'polygon') {
-        this.polygonDefThree();
+    this.DesignPolyLineTimeoutId = setTimeout(() => { 
+      if (this.shellShape === 'polyline') {
+        this.polyLineDefThree();
       }
     }, 300);
   }

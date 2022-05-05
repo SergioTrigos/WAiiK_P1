@@ -32,7 +32,7 @@ let CoresData: Core[] = [
     datumText: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Palenque_temple_2.jpg/1200px-Palenque_temple_2.jpg",
     datumSize: [400],
     shellDimension: 4,
-    frameFile: "polygon",
+    frameFile: "polyline",
     frameColor: "#8c6700",
     frameTransparency: 0.75,
     frameThickness: 4,
