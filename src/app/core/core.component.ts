@@ -2,6 +2,7 @@ import { Component, Input, OnInit, AfterViewInit, Output, EventEmitter, ViewChil
 import { CdkDragEnd } from '@angular/cdk/drag-drop';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { MatTabChangeEvent } from '@angular/material/tabs';
+import { FontPickerDirective } from 'ngx-font-picker';
 
 //let positionX: string;
 //let positionY: string; 
@@ -109,6 +110,15 @@ export class CoreComponent implements OnInit, AfterViewInit {
 
   @Output()
   coreMoved = new EventEmitter();
+
+
+  //Datum Dynamics
+  selectedDatumType = "verse";
+
+  @ViewChild('fontPickerElement', { static: true })
+  fontPicker!: FontPickerDirective;  //this is currently not being used
+
+  fontX = {family: "helvetica", style: "normal", size: "12"};
   
   constructor() {
   }
@@ -261,6 +271,7 @@ export class CoreComponent implements OnInit, AfterViewInit {
     this.desLinePos.y2 = (dropPoint.y + this.pos.y);
     this.desLineRef.x2 = (dropPoint.x + this.pos.x);
     this.desLineRef.y2 = (dropPoint.y + this.pos.y);
+    this.coreMenuIsVis = true;
     console.log("the positions changed to: " + dropPoint.x + " and " + dropPoint.y);
   }
 

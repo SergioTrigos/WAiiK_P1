@@ -287,6 +287,24 @@
 
                         <!-- Glazing Tab TOOLS -->
                         <div class="desTools" fxLayout="column">
+                            <div class="menuText">Background</div> 
+
+                            <div class="toolRow" fxLayout="row">
+
+                                <button  [matMenuTriggerFor]="transparencyGlazing"  class="ToolButtonOne"
+                                    fxFlex matTooltip="Background Transparency" matTooltipShowDelay="500" matTooltipPosition="before">
+                                    <img src="assets\Icon\Design_Frame_Transparency.png" class="iconT"> 
+                                </button>
+
+                                <button  [matMenuTriggerFor]="colourGlazingBackground" class="ToolButtonOne" [style.background]="colorBackground"
+                                    fxFlex matTooltip="Background Colour" matTooltipShowDelay="500" matTooltipPosition="after"> 
+                                    <img src="assets\Icon\Design_Frame_Colour.png" class="iconT"> 
+                                </button>
+
+                            </div>
+
+                            <mat-divider></mat-divider>
+                            
                             <div class="menuText">Drawing Tools</div>
 
                             <mat-button-toggle-group #desFrameTwo="matButtonToggleGroup" fxLayout="row" class="desFrameSelOne">
@@ -351,23 +369,6 @@
 
                                 <button  [matMenuTriggerFor]="colourGlazingDrawing" class="ToolButtonOne" [style.background]="colorDrawing"
                                     fxFlex matTooltip="Drawing Colour" matTooltipShowDelay="500" matTooltipPosition="after"> 
-                                    <img src="assets\Icon\Design_Frame_Colour.png" class="iconT"> 
-                                </button>
-
-                            </div>
-
-                            <mat-divider></mat-divider>
-                            <div class="menuText">Background</div> 
-
-                            <div class="toolRow" fxLayout="row">
-
-                                <button  [matMenuTriggerFor]="transparencyGlazing"  class="ToolButtonOne"
-                                    fxFlex matTooltip="Background Transparency" matTooltipShowDelay="500" matTooltipPosition="before">
-                                    <img src="assets\Icon\Design_Frame_Transparency.png" class="iconT"> 
-                                </button>
-
-                                <button  [matMenuTriggerFor]="colourGlazingBackground" class="ToolButtonOne" [style.background]="colorBackground"
-                                    fxFlex matTooltip="Background Colour" matTooltipShowDelay="500" matTooltipPosition="after"> 
                                     <img src="assets\Icon\Design_Frame_Colour.png" class="iconT"> 
                                 </button>
 
@@ -442,43 +443,76 @@
 
                         <!-- Datum Tab TOOLS -->
                         <div class="desTools" fxLayout="column">
-                            <div class="toolRow">
-                                <button mat-stroked-button fxFlex matTooltip="Datum Type">Verse</button>
+
+                            <mat-form-field appearance="fill" matTooltip="Datum Type" matTooltipShowDelay="500" matTooltipPosition="before" class="checkedDes4">
+                                <mat-label>Datum Type</mat-label>
+                                <mat-select [(value)]="selectedDatumType">
+                                  <mat-option value="verse">Verse</mat-option>
+                                  <mat-option value="image">Image</mat-option>
+                                  <mat-option value="file">File</mat-option>
+                                  <mat-option value="link">link</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+                            <div *ngIf="selectedDatumType === 'verse'" class="toolTitle1">Verse Tools</div>
+
+                            <div #fontPickerElement=ngxFontPicker [(fontPicker)]="fontX" [fpWidth]="'320px'" [fpPosition]="'bottom'" class="desButtonX" [fpStyleSelect]=false [fpSizeSelect]=false
+                                *ngIf="selectedDatumType === 'verse'">
+                                <button  fxFlex  class="desButtonX"
+                                    matTooltip="Change Datum's Font" matTooltipShowDelay="500" matTooltipPosition="before"> 
+                                    {{fontX.family}} 
+                                </button>
                             </div>
-                            <mat-divider></mat-divider>
-                            <div class="toolRow">
-                                <button mat-stroked-button fxFlex matTooltip="Font">Helvetica</button>
+
+                            <div class="toolRow" fxLayout="row" *ngIf="selectedDatumType === 'verse'">
+
+                                <mat-button-toggle fxFlex matTooltip="Bold" matTooltipShowDelay="500" matTooltipPosition="before" class="buttonH"> 
+                                    <img fxFlex src="assets\Icon\Design_Datum_Bold.png" class="iconHtwo"> 
+                                </mat-button-toggle>
+
+                                <mat-button-toggle fxFlex matTooltip="Italics" matTooltipShowDelay="500" class="buttonH">
+                                    <img fxFlex src="assets\Icon\Design_Datum_Italics.png" class="iconHtwo">
+                                </mat-button-toggle>
+
+                                <mat-button-toggle fxFlex matTooltip="Underscore" matTooltipShowDelay="500" matTooltipPosition="after" class="buttonH">
+                                    <img fxFlex src="assets\Icon\Design_Datum_Underscore.png" class="iconH">
+                                </mat-button-toggle>
+
                             </div>
-                            <div class="toolRow" fxLayout="row">
-                                <button mat-icon-button fxFlex matTooltip="Bold" matTooltipShowDelay="500" matTooltipPosition="before"> <img src="assets\Icon\Design_Datum_Bold.png" class="iconV"> </button>
-                                <button mat-icon-button fxFlex matTooltip="Italics" matTooltipShowDelay="800"> <img src="assets\Icon\Design_Datum_Italics.png" class="iconV"> </button>
-                                <button mat-icon-button fxFlex matTooltip="Underscore" matTooltipShowDelay="500" matTooltipPosition="after"> <img src="assets\Icon\Design_Datum_Underscore.png" class="iconV"> </button>
-                            </div>
-                            <div class="toolRow" fxLayout="row">
-                                <button mat-stroked-button fxFlex matTooltip="Font Size" matTooltipShowDelay="500" matTooltipPosition="before"> 16 </button>
-                                <button mat-stroked-button [matMenuTriggerFor]="colourDatum"
+
+                            <div class="toolRow" fxLayout="row" *ngIf="selectedDatumType === 'verse'">
+                                <button fxFlex matTooltip="Font Size" matTooltipShowDelay="500" matTooltipPosition="before"> 16 </button>
+                                <button [matMenuTriggerFor]="colourDatum"
                                         fxFlex matTooltip="Colour" matTooltipShowDelay="500" matTooltipPosition="after"> 
                                     <svg width="30" height="25" margin="0">
-                                        <text x="8" y="15" fill="black" font-size="20">A</text>
+                                        <text x="8" y="18" fill="black" font-size="20">A</text>
                                         <svg y="20" width="30" height="8" margin="0">
                                             <rect width="30" height="8" [style.fill]="colorText" />
                                         </svg>
                                     </svg>
                                 </button>
                             </div>
-                            <div class="toolRow" fxLayout="row">
-                                <button mat-stroked-button fxFlex matTooltip="Justification" matTooltipShowDelay="500" matTooltipPosition="before"> <img src="assets\Icon\Design_Datum_Justify.png" class="iconT"> </button>
-                                <button mat-stroked-button fxFlex matTooltip="List" matTooltipShowDelay="500" matTooltipPosition="after"> <img src="assets\Icon\Design_Datum_List.png" class="iconT"> </button>
+
+                            <div class="toolRow" fxLayout="row" *ngIf="selectedDatumType === 'verse'">
+                                <button fxFlex matTooltip="Justification" matTooltipShowDelay="500" matTooltipPosition="before" class="datumBut2"> <img src="assets\Icon\Design_Datum_Justify.png" class="iconT"> </button>
+                                <button fxFlex matTooltip="List" matTooltipShowDelay="500" matTooltipPosition="after" class="datumBut2"> <img src="assets\Icon\Design_Datum_List.png" class="iconF"> </button>
                             </div>
+
                             <mat-divider></mat-divider>
-                            <div fxLayout="column" class="checkedDes2">
-                                <mat-checkbox class="checkedDes" fxFlex matTooltip="Share Datum with other Cores" matTooltipShowDelay="500" matTooltipPosition="before">Cast Datum</mat-checkbox>
-                                <mat-checkbox class="checkedDes" fxFlex matTooltip="Display Core's Name in Shell" matTooltipShowDelay="500" matTooltipPosition="after"> Show Name</mat-checkbox>
+                            <div class="datumBut2"></div>
+                            <mat-divider></mat-divider>
+
+                            <div fxLayout="column" class="checkedDes3">
+                                <mat-checkbox class="checkedDes" fxFlex matTooltip="Share Datum with other Cores" matTooltipShowDelay="500" matTooltipPosition="before"><div class="checkedDes3">cast datum</div></mat-checkbox>
+                                <mat-checkbox class="checkedDes" fxFlex matTooltip="Display Core's Name in Shell" matTooltipShowDelay="500" matTooltipPosition="after"><div class="checkedDes3">show name</div></mat-checkbox>
                             </div>
+
                             <mat-divider></mat-divider>
+
                             <div class="toolRow">
-                                <button mat-stroked-button color="warn" fxFlex>Clear Datum</button>
+                                <button fxFlex color="warn" fxFlex>Clear Datum</button>
                             </div>
+
                         </div>
 
                         <!-- Datum Tab DISPLAY -->

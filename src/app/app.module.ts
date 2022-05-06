@@ -24,6 +24,14 @@ import { MatSliderModule } from '@angular/material/slider';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { FontPickerModule } from 'ngx-font-picker';
+import { FONT_PICKER_CONFIG } from 'ngx-font-picker';
+import { FontPickerConfigInterface } from 'ngx-font-picker';
+
+const DEFAULT_FONT_PICKER_CONFIG: FontPickerConfigInterface = {
+  // Change this to your Google API key
+  apiKey: 'AIzaSyC-CFpkbL2VN80F62gZltr1uUVa4fEK_cs'
+};
 
 
 @NgModule({
@@ -54,8 +62,14 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
     ColorPickerModule,
     MatSelectModule,
     MatButtonToggleModule,
+    FontPickerModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: FONT_PICKER_CONFIG,
+      useValue: DEFAULT_FONT_PICKER_CONFIG
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
