@@ -23,18 +23,29 @@ export class CoreComponent implements OnInit, AfterViewInit {
   shouldOpen!: boolean;
   menuPosition = { x: '0', y: '0' };
   pos = { x: 0, y: 0 };
+  browserZoomLevel = window.devicePixelRatio;
+
+
+  //Frame Data
   shellShape!: string;
   shellSize!: [number, number];
-  datumType!: string;
-  textX!: number;
-  textY!: number;
+  frameThickness!: number;
+
+  rectBorderRadius = 10;  //This is the Recatngl Corner's Filet radius
+
   componentPolyLinePointsData = [150, 0, 0, 260, 300, 260];
-  //Star: [100,10, 40,198, 190,78, 10,78, 160,198]
+    //Star: [100,10, 40,198, 190,78, 10,78, 160,198]
   pointsP!: number[];
   pointsPX!: number[];
   pointsPXtext!: string;
-  browserZoomLevel = window.devicePixelRatio;
-  rectBorderRadius = 10;
+
+  //Glazing Data
+  drawingThickness!: number;
+
+  //Datum Data
+  datumType!: string;
+  textX!: number;
+  textY!: number;
 
   //Color dynamics
   colorFrame: string = '#2889e9';
@@ -55,6 +66,7 @@ export class CoreComponent implements OnInit, AfterViewInit {
   svgPoly!: ElementRef;
 
   svgPolyPoint!: SVGPoint;
+  svgPolyPointTh!: SVGPoint;
 
   //Design Frame PolyLine Dynamics
 
@@ -62,6 +74,7 @@ export class CoreComponent implements OnInit, AfterViewInit {
   svgPolyF!: ElementRef
 
   svgPolyPointF!: SVGPoint;
+  svgPolyPointFTh!: SVGPoint;
 
   //tRANSPARENCY DYNAMICS
   formatLabel(value: number) {
@@ -82,6 +95,7 @@ export class CoreComponent implements OnInit, AfterViewInit {
   svgPolyG!: ElementRef
 
   svgPolyPointG!: SVGPoint;
+  svgPolyPointGTh!: SVGPoint;
 
   //Design Datum PolyLine Dynamics
   
@@ -89,6 +103,7 @@ export class CoreComponent implements OnInit, AfterViewInit {
   svgPolyD!: ElementRef
 
   svgPolyPointD!: SVGPoint;
+  svgPolyPointDTh!: SVGPoint;
 
   //Rectangle dynamics
   @ViewChild('rectImage')
@@ -148,9 +163,9 @@ export class CoreComponent implements OnInit, AfterViewInit {
     console.log(this.browserZoomLevel);
     for (let i = 0; i < this.pointsPX.length; i = i + 2) {
       if (i == 0) {
-        this.pointsPXtext = ' ' + (this.pointsPX[i] + this.coreData.frameThickness/2) / this.browserZoomLevel + 'px ' + (this.pointsPX[i + 1] + this.coreData.frameThickness/2) / this.browserZoomLevel + 'px';
+        this.pointsPXtext = ' ' + (this.pointsPX[i] + this.frameThickness/2) / this.browserZoomLevel + 'px ' + (this.pointsPX[i + 1] + this.frameThickness/2) / this.browserZoomLevel + 'px';
       } else {
-        this.pointsPXtext = this.pointsPXtext + ', ' + (this.pointsPX[i] + this.coreData.frameThickness/2) / this.browserZoomLevel + 'px ' + (this.pointsPX[i + 1] + this.coreData.frameThickness/2) / this.browserZoomLevel + 'px';
+        this.pointsPXtext = this.pointsPXtext + ', ' + (this.pointsPX[i] + this.frameThickness/2) / this.browserZoomLevel + 'px ' + (this.pointsPX[i + 1] + this.frameThickness/2) / this.browserZoomLevel + 'px';
       }
     };
   }
@@ -176,6 +191,12 @@ export class CoreComponent implements OnInit, AfterViewInit {
     this.desLinePos.y2 = this.pos.y;
     this.desLineRef.x2 = this.pos.x;
     this.desLineRef.y2 = this.pos.y;
+    //Frame Data Init
+    this.frameThickness = this.coreData.frameThickness;
+    //Glazing Data Init
+    this.drawingThickness = 4;
+
+    //Datum Data Init
     this.shouldOpen = true;
     this.shellShape = this.coreData.frameFile;
     this.shellSize = this.coreData.size;
@@ -203,8 +224,8 @@ export class CoreComponent implements OnInit, AfterViewInit {
   polyLineDefTwo() {
     this.svgPolyPoint = this.svgPolyFrame.nativeElement.createSVGPoint();
     for (let i = 0; i < this.pointsP.length; i = i + 2) {
-      this.svgPolyPoint.x = this.pointsP[i] + this.coreData.frameThickness / 2;
-      this.svgPolyPoint.y = this.pointsP[i + 1] + this.coreData.frameThickness / 2;
+      this.svgPolyPoint.x = this.pointsP[i] + this.frameThickness / 2;
+      this.svgPolyPoint.y = this.pointsP[i + 1] + this.frameThickness / 2;
       this.svgPoly.nativeElement.points.appendItem(this.svgPolyPoint);
     }
   }
@@ -212,20 +233,20 @@ export class CoreComponent implements OnInit, AfterViewInit {
   polyLineDefThree() {
     this.svgPolyPointF = this.svgPolyFrame.nativeElement.createSVGPoint();
     for (let i = 0; i < this.pointsP.length; i = i + 2) {
-      this.svgPolyPointF.x = this.pointsP[i] + this.coreData.frameThickness/2;
-      this.svgPolyPointF.y = this.pointsP[i + 1] + this.coreData.frameThickness / 2;
+      this.svgPolyPointF.x = this.pointsP[i] + this.frameThickness/2;
+      this.svgPolyPointF.y = this.pointsP[i + 1] + this.frameThickness / 2;
       this.svgPolyF.nativeElement.points.appendItem(this.svgPolyPointF);
     };
     this.svgPolyPointG = this.svgPolyFrame.nativeElement.createSVGPoint();
     for (let i = 0; i < this.pointsP.length; i = i + 2) {
-      this.svgPolyPointG.x = this.pointsP[i] + this.coreData.frameThickness/2;
-      this.svgPolyPointG.y = this.pointsP[i + 1] + this.coreData.frameThickness/2;
+      this.svgPolyPointG.x = this.pointsP[i] + this.frameThickness/2;
+      this.svgPolyPointG.y = this.pointsP[i + 1] + this.frameThickness/2;
       this.svgPolyG.nativeElement.points.appendItem(this.svgPolyPointG);
     };
     this.svgPolyPointD = this.svgPolyFrame.nativeElement.createSVGPoint();
     for (let i = 0; i < this.pointsP.length; i = i + 2) {
-      this.svgPolyPointD.x = this.pointsP[i] + this.coreData.frameThickness/2;
-      this.svgPolyPointD.y = this.pointsP[i + 1] + this.coreData.frameThickness/2;
+      this.svgPolyPointD.x = this.pointsP[i] + this.frameThickness/2;
+      this.svgPolyPointD.y = this.pointsP[i + 1] + this.frameThickness/2;
       this.svgPolyD.nativeElement.points.appendItem(this.svgPolyPointD);
     };
   }
@@ -352,5 +373,69 @@ export class CoreComponent implements OnInit, AfterViewInit {
     }, 300);
   }
 
+  //Frame Dynamics  [150, 0, 0, 260, 300, 260];
+
+  polyLineDefThick() {
+    this.svgPoly.nativeElement.points.clear();
+    this.svgPolyPointTh = this.svgPolyFrame.nativeElement.createSVGPoint();
+    for (let i = 0; i < this.pointsP.length; i = i + 2) {
+      this.svgPolyPointTh.x = this.pointsP[i] + this.frameThickness / 2;
+      this.svgPolyPointTh.y = this.pointsP[i + 1] + this.frameThickness / 2;
+      this.svgPoly.nativeElement.points.appendItem(this.svgPolyPointTh);
+    }
+    this.svgPolyF.nativeElement.points.clear();
+    this.svgPolyPointFTh = this.svgPolyFrame.nativeElement.createSVGPoint();
+    for (let i = 0; i < this.pointsP.length; i = i + 2) {
+      this.svgPolyPointFTh.x = this.pointsP[i] + this.frameThickness / 2;
+      this.svgPolyPointFTh.y = this.pointsP[i + 1] + this.frameThickness / 2;
+      this.svgPolyF.nativeElement.points.appendItem(this.svgPolyPointFTh);
+    };
+    this.svgPolyG.nativeElement.points.clear();
+    this.svgPolyPointGTh = this.svgPolyFrame.nativeElement.createSVGPoint();
+    for (let i = 0; i < this.pointsP.length; i = i + 2) {
+      this.svgPolyPointGTh.x = this.pointsP[i] + this.frameThickness / 2;
+      this.svgPolyPointGTh.y = this.pointsP[i + 1] + this.frameThickness / 2;
+      this.svgPolyG.nativeElement.points.appendItem(this.svgPolyPointGTh);
+    };
+    this.svgPolyD.nativeElement.points.clear();
+    this.svgPolyPointDTh = this.svgPolyFrame.nativeElement.createSVGPoint();
+    for (let i = 0; i < this.pointsP.length; i = i + 2) {
+      this.svgPolyPointDTh.x = this.pointsP[i] + this.frameThickness / 2;
+      this.svgPolyPointDTh.y = this.pointsP[i + 1] + this.frameThickness / 2;
+      this.svgPolyD.nativeElement.points.appendItem(this.svgPolyPointDTh);
+    };
+  }
+
+
+  frameThickUp() { 
+    if (this.frameThickness < 100) {
+      ++this.frameThickness;
+      if (this.shellShape === 'polyline') {
+        this.polyLineDefOne();
+        this.polyLineDefThick();
+      }
+    }
+  };
+
+  frameThickDown() { 
+    if (this.frameThickness > 1) {
+      --this.frameThickness;
+      if (this.shellShape === 'polyline') {
+        this.polyLineDefOne();
+        this.polyLineDefThick();
+      }
+    }
+  };
+
+  //Glazing Dynamics
+  drawingThickUp() {
+    ++this.drawingThickness;
+  };
+
+  drawingThickDown() { 
+    --this.drawingThickness;
+  };
+  
+  //Datum Dynamics
 
 }
