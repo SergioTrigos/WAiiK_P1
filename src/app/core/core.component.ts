@@ -14,7 +14,7 @@ import { FontPickerDirective } from 'ngx-font-picker';
 export class CoreComponent implements OnInit, AfterViewInit {
 
   positionX!: string;
-  positionY!: string; 
+  positionY!: string; //value
 
   designIsOpen = false;
   desLinePos = { x1: 0, y1: 0, x2: 0, y2: 0 }
@@ -30,7 +30,7 @@ export class CoreComponent implements OnInit, AfterViewInit {
   shellShape!: string;
   shellSize!: [number, number];
   frameThickness!: number;
-
+  colorFrame!: string;
   rectBorderRadius = 10;  //This is the Recatngl Corner's Filet radius
 
   componentPolyLinePointsData = [150, 0, 0, 260, 300, 260];
@@ -41,17 +41,16 @@ export class CoreComponent implements OnInit, AfterViewInit {
 
   //Glazing Data
   drawingThickness!: number;
+  colorBackground!: string;
+  
+  colorDrawing!: string;
 
   //Datum Data
   datumType!: string;
   textX!: number;
   textY!: number;
-
-  //Color dynamics
-  colorFrame: string = '#2889e9';
-  colorBackground: string = '#2889e9';
-  colorDrawing: string = '#2889e9';
   colorText: string = '#2889e9';
+  
 
   //Shape dynamics
   selectedShapeFrame!: string;
@@ -77,16 +76,15 @@ export class CoreComponent implements OnInit, AfterViewInit {
   svgPolyPointFTh!: SVGPoint;
 
   //tRANSPARENCY DYNAMICS
-  formatLabel(value: number) {
-    if (value >= 1) {
-      return value + '%';
-    }
-    return value;
-  }
-
   drawingTransparency!: number;
   glazingTransparency!: number;
   frameTransparency!: number;
+
+  formatLabel(value: number) {
+    return value + '%';
+  }
+
+
 
 
   //Design Glazing PolyLine Dynamics
@@ -191,10 +189,16 @@ export class CoreComponent implements OnInit, AfterViewInit {
     this.desLinePos.y2 = this.pos.y;
     this.desLineRef.x2 = this.pos.x;
     this.desLineRef.y2 = this.pos.y;
+
     //Frame Data Init
     this.frameThickness = this.coreData.frameThickness;
-    //Glazing Data Init
+    this.colorFrame = this.coreData.frameColor;
+
+    //Glazing Data Init  
+    this.colorBackground = this.coreData.glazingColor;
+    
     this.drawingThickness = 4;
+    this.colorDrawing = "black";
 
     //Datum Data Init
     this.shouldOpen = true;
@@ -205,6 +209,7 @@ export class CoreComponent implements OnInit, AfterViewInit {
     this.pointsPX = this.componentPolyLinePointsData;
     this.polyLineDefOne()
     this.textXdef();
+
     //shapes
     this.selectedShapeFrame = this.coreData.frameFile;
 
