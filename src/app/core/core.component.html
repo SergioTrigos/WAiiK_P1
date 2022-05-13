@@ -209,14 +209,13 @@
                                         [attr.href]="coreData.datumText" [attr.width]="coreData.datumSize[0]" opacity="0.5" /> 
 
                                     <text *ngIf="datumType === 'text'"  [attr.y]="frameThickness/2" [attr.x]="frameThickness/2"
-                                        [ngStyle]="{'clip-path': 'ellipse('+ shellSize[0]/(2*browserZoomLevel)  + 'px ' + shellSize[1]/(2*browserZoomLevel) + 'px at ' + (shellSize[0]/(2*browserZoomLevel) ) + 'px ' + (shellSize[1]/(2*browserZoomLevel) ) + 'px )'}"
+                                        [ngStyle]="{'clip-path': 'ellipse('+ (shellSize[0]/(2*browserZoomLevel) - frameThickness/(2*browserZoomLevel))  + 'px ' + (shellSize[1]/(2*browserZoomLevel) - frameThickness/(2*browserZoomLevel)) + 'px at ' + (shellSize[0]/(2*browserZoomLevel) ) + 'px ' + (shellSize[1]/(2*browserZoomLevel) ) + 'px )'}"
                                         [attr.x]="textX" [attr.y]="textY" fill="black" > {{coreData.datumText}} </text>
                         
                                     <image *ngIf="datumType === 'image'"  [attr.y]="frameThickness/2" [attr.x]="frameThickness/2"
-                                        [ngStyle]="{'clip-path': 'ellipse('+ shellSize[0]/(2*browserZoomLevel)  + 'px ' + shellSize[1]/(2*browserZoomLevel) + 'px at ' + (shellSize[0]/(2*browserZoomLevel) ) + 'px ' + (shellSize[1]/(2*browserZoomLevel) ) + 'px )'}"
+                                        [ngStyle]="{'clip-path': 'ellipse('+ (shellSize[0]/(2*browserZoomLevel) - frameThickness/(2*browserZoomLevel))  + 'px ' + (shellSize[1]/(2*browserZoomLevel) - frameThickness/(2*browserZoomLevel)) + 'px at ' + (shellSize[0]/(2*browserZoomLevel) ) + 'px ' + (shellSize[1]/(2*browserZoomLevel) ) + 'px )'}"
                                         [attr.href]="coreData.datumText" [attr.width]="coreData.datumSize[0]" /> 
-                        
-                        
+
                                     <ellipse *ngIf="shellShape === 'ellipse'"
                                         [attr.rx]="coreData.size[0]/2" [attr.ry]="coreData.size[1]/2" [attr.cx]="coreData.size[0]/2 + frameThickness/2"  [attr.cy]="coreData.size[1]/2  + frameThickness/2"
                                         [attr.stroke-width]="frameThickness" [attr.stroke]="colorFrame" [attr.stroke-opacity]="frameTransparency/100" 
@@ -389,11 +388,13 @@
                                     <image *ngIf="datumType === 'image'"  [attr.y]="frameThickness/2" [attr.x]="frameThickness/2"
                                         [attr.href]="coreData.datumText" [attr.width]="coreData.datumSize[0]" /> 
 
+                                    <ellipse *ngIf="shellShape === 'ellipse'"
+                                        [attr.rx]="shellSize[0]/2 - frameThickness/2" [attr.ry]="shellSize[1]/2  - frameThickness/2" [attr.cx]="shellSize[0]/2 + frameThickness/2"  [attr.cy]="shellSize[1]/2  + frameThickness/2"
+                                        [attr.fill]="colorBackground" [attr.fill-opacity]="glazingTransparency/100" />
                         
                                     <ellipse *ngIf="shellShape === 'ellipse'"
-                                        [attr.rx]="coreData.size[0]/2" [attr.ry]="coreData.size[1]/2" [attr.cx]="coreData.size[0]/2 + frameThickness/2"  [attr.cy]="coreData.size[1]/2  + frameThickness/2"
-                                        [attr.stroke-width]="frameThickness" [attr.stroke]="colorFrame" [attr.stroke-opacity]="frameTransparency/100" 
-                                        [attr.fill]="colorBackground" [attr.fill-opacity]="glazingTransparency/100" />
+                                        [attr.rx]="shellSize[0]/2" [attr.ry]="shellSize[1]/2" [attr.cx]="shellSize[0]/2 + frameThickness/2"  [attr.cy]="shellSize[1]/2  + frameThickness/2"
+                                        [attr.stroke-width]="frameThickness" [attr.stroke]="colorFrame" [attr.stroke-opacity]="frameTransparency/100" fill-opacity=0 />
                                     
                                 </svg>
                         
@@ -531,7 +532,7 @@
                         
                                     <ellipse *ngIf="shellShape === 'ellipse'"
                                         [attr.rx]="coreData.size[0]/2" [attr.ry]="coreData.size[1]/2" [attr.cx]="coreData.size[0]/2 + frameThickness/2"  [attr.cy]="coreData.size[1]/2  + frameThickness/2"
-                                        [attr.stroke-width]="frameThickness" stroke="white" stroke-opacity="0.5" fill="white" fill-opacity="0.1" />
+                                        [attr.stroke-width]="frameThickness" stroke="white" stroke-opacity="0.5" fill="white" fill-opacity="0" />
                                     
                                 </svg>
                         
@@ -718,20 +719,23 @@
     <div [ngSwitch]="coreData.frameFile">
 
         <!-- CIRCLE/ELLIPSE SHELL -->
-        <svg *ngSwitchCase="'ellipse'" class="svgShell"  [attr.width]="shellSize[0] + frameThickness" [attr.height]="shellSize[1] + frameThickness">
+        <svg *ngSwitchCase="'ellipse'" class="svgShell"  [attr.width]="shellSize[0] + 2*frameThickness" [attr.height]="shellSize[1] + 2*frameThickness">
 
             <text *ngIf="datumType === 'text'"  [attr.y]="frameThickness/2" [attr.x]="frameThickness/2"
-                [ngStyle]="{'clip-path': 'ellipse('+ shellSize[0]/(2*browserZoomLevel)  + 'px ' + shellSize[1]/(2*browserZoomLevel) + 'px at ' + (shellSize[0]/(2*browserZoomLevel) ) + 'px ' + (shellSize[1]/(2*browserZoomLevel) ) + 'px )'}"
+                [ngStyle]="{'clip-path': 'ellipse('+ (shellSize[0]/(2*browserZoomLevel) - frameThickness/(2*browserZoomLevel))  + 'px ' + (shellSize[1]/(2*browserZoomLevel) - frameThickness/(2*browserZoomLevel)) + 'px at ' + (shellSize[0]/(2*browserZoomLevel) ) + 'px ' + (shellSize[1]/(2*browserZoomLevel) ) + 'px )'}"
                 [attr.x]="textX" [attr.y]="textY" fill="black" > {{coreData.datumText}} </text>
 
             <image *ngIf="datumType === 'image'"  [attr.y]="frameThickness/2" [attr.x]="frameThickness/2"
-                [ngStyle]="{'clip-path': 'ellipse('+ shellSize[0]/(2*browserZoomLevel)  + 'px ' + shellSize[1]/(2*browserZoomLevel) + 'px at ' + (shellSize[0]/(2*browserZoomLevel) ) + 'px ' + (shellSize[1]/(2*browserZoomLevel) ) + 'px )'}"
+                [ngStyle]="{'clip-path': 'ellipse('+ (shellSize[0]/(2*browserZoomLevel) - frameThickness/(2*browserZoomLevel))  + 'px ' + (shellSize[1]/(2*browserZoomLevel) - frameThickness/(2*browserZoomLevel)) + 'px at ' + (shellSize[0]/(2*browserZoomLevel) ) + 'px ' + (shellSize[1]/(2*browserZoomLevel) ) + 'px )'}"
                 [attr.href]="coreData.datumText" [attr.width]="coreData.datumSize[0]" /> 
 
             <ellipse *ngIf="shellShape === 'ellipse'"
-                [attr.rx]="coreData.size[0]/2" [attr.ry]="coreData.size[1]/2" [attr.cx]="coreData.size[0]/2 + frameThickness/2"  [attr.cy]="coreData.size[1]/2  + frameThickness/2"
-                [attr.stroke-width]="frameThickness" [attr.stroke]="colorFrame" [attr.stroke-opacity]="frameTransparency/100" 
+                [attr.rx]="shellSize[0]/2 - frameThickness/2" [attr.ry]="shellSize[1]/2  - frameThickness/2" [attr.cx]="shellSize[0]/2 + frameThickness/2"  [attr.cy]="shellSize[1]/2  + frameThickness/2"
                 [attr.fill]="colorBackground" [attr.fill-opacity]="glazingTransparency/100" />
+
+            <ellipse *ngIf="shellShape === 'ellipse'"
+                [attr.rx]="shellSize[0]/2" [attr.ry]="shellSize[1]/2" [attr.cx]="shellSize[0]/2 + frameThickness/2"  [attr.cy]="shellSize[1]/2  + frameThickness/2"
+                [attr.stroke-width]="frameThickness" [attr.stroke]="colorFrame" [attr.stroke-opacity]="frameTransparency/100" fill-opacity=0 />
             
         </svg>
 
@@ -752,7 +756,7 @@
         </svg>
 
         <!-- RECTANGLE SHELL -->
-        <svg *ngSwitchCase="'rectangle'"  class="svgShell" [attr.width]="shellSize[0]" [attr.height]="shellSize[1]" >
+        <svg *ngSwitchCase="'rectangle'"  class="svgShell" [attr.width]="shellSize[0] + 2*frameThickness" [attr.height]="shellSize[1] + 2*frameThickness" >
 
             <text *ngIf="datumType === 'text'"  
                 [attr.x]="textX" [attr.y]="textY" fill="black" 
