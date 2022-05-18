@@ -239,9 +239,15 @@
                                     
                                     <polygon
                                         id="polygonFrameF" #svgPolyF points="" class="shellX"
-                                        [attr.stroke-width]="frameThickness" [attr.stroke]="colorFrame" [attr.stroke-opacity]="frameTransparency/100"
-                                        fill="white" fill-opacity="0" />
-                                        
+                                        [attr.stroke-width]="frameThickness*2" [attr.stroke]="colorFrame" [attr.stroke-opacity]="frameTransparency/100"
+                                        fill-opacity="0"
+                                        [ngStyle]="{'clip-path':'polygon( '+ (-frameThickness) +'px '+ (shellSize[1] + frameThickness)/browserZoomLevel +'px, '
+                                                                            + (-frameThickness) +'px '+ (-frameThickness/2) +'px,'
+                                                                            + pointsPYtext + ', '
+                                                                            + (shellSize[0] + frameThickness)/browserZoomLevel +'px  '+ (-frameThickness) +'px, '
+                                                                            + (shellSize[0] + frameThickness)/browserZoomLevel +'px '+ (shellSize[1] + frameThickness)/browserZoomLevel +'px )'}"
+                                    />
+
                                 </svg>
                         
                                 <!-- RECTANGLE Frame -->
@@ -403,10 +409,20 @@
                                     <image *ngIf="datumType === 'image'"  [attr.href]="coreData.datumText" [attr.width]="coreData.datumSize[0]" /> 
                                     
                                     <polygon 
-                                        id="polygonFrameG" #svgPolyG points="" class="shellX" 
-                                        [attr.stroke-width]="frameThickness" [attr.stroke]="colorFrame" [attr.stroke-opacity]="frameTransparency/400" 
+                                        id="polygonFrameG" #svgPolyG points="" class="shellX"  
                                         [attr.fill]="colorBackground" [attr.fill-opacity]="glazingTransparency/100" />
-                                        
+                                    
+                                    <polygon *ngIf="shellShape === 'polyline'"
+                                        id="polygonFrameG2" #svgPolyG2 points="" class="shellX" 
+                                        [attr.stroke-width]="frameThickness*2" [attr.stroke]="colorFrame" [attr.stroke-opacity]="frameTransparency/400" 
+                                        fill-opacity="0" 
+                                        [ngStyle]="{'clip-path':'polygon( '+ (-frameThickness) +'px '+ (shellSize[1] + frameThickness)/browserZoomLevel +'px, '
+                                                                            + (-frameThickness) +'px '+ (-frameThickness/2) +'px,'
+                                                                            + pointsPYtext + ', '
+                                                                            + (shellSize[0] + frameThickness)/browserZoomLevel +'px  '+ (-frameThickness) +'px, '
+                                                                            + (shellSize[0] + frameThickness)/browserZoomLevel +'px '+ (shellSize[1] + frameThickness)/browserZoomLevel +'px )'}"
+                                    />
+
                                 </svg>
                         
                                 <!-- RECTANGLE Glazing -->
@@ -547,8 +563,14 @@
                                     
                                     <polygon *ngIf="shellShape === 'polyline'"
                                         id="polygonFrameD" #svgPolyD points="" class="shellX" 
-                                        [attr.stroke-width]="frameThickness" [attr.stroke]="colorFrame" [attr.stroke-opacity]="frameTransparency/400" 
-                                        fill-opacity="0" />
+                                        [attr.stroke-width]="frameThickness*2" [attr.stroke]="colorFrame" [attr.stroke-opacity]="frameTransparency/400" 
+                                        fill-opacity="0" 
+                                        [ngStyle]="{'clip-path':'polygon( '+ (-frameThickness) +'px '+ (shellSize[1] + frameThickness)/browserZoomLevel +'px, '
+                                                                            + (-frameThickness) +'px '+ (-frameThickness/2) +'px,'
+                                                                            + pointsPYtext + ', '
+                                                                            + (shellSize[0] + frameThickness)/browserZoomLevel +'px  '+ (-frameThickness) +'px, '
+                                                                            + (shellSize[0] + frameThickness)/browserZoomLevel +'px '+ (shellSize[1] + frameThickness)/browserZoomLevel +'px )'}"
+                                    />
                                         
                                 </svg>
                         
@@ -758,12 +780,12 @@
                  />
             <polygon
                 id="polygonFrame" #svgPoly points="" class="shellX" 
-                [attr.stroke-width]="frameThickness" [attr.stroke]="colorFrame" [attr.stroke-opacity]="frameTransparency/100" 
-                [attr.fill-opacity]="0"
-                [ngStyle]="{'clip-path':'polygon( '+ (-frameThickness/2) +'px '+ (shellSize[1] + frameThickness)/browserZoomLevel +'px, '
-                                                   + (-frameThickness/2) +'px '+ (-frameThickness/2) +'px,'
+                [attr.stroke-width]="frameThickness*2" [attr.stroke]="colorFrame" [attr.stroke-opacity]="frameTransparency/100" 
+                fill-opacity="0"
+                [ngStyle]="{'clip-path':'polygon( '+ (-frameThickness) +'px '+ (shellSize[1] + frameThickness)/browserZoomLevel +'px, '
+                                                   + (-frameThickness) +'px '+ (-frameThickness/2) +'px,'
                                                    + pointsPYtext + ', '
-                                                   + (shellSize[0] + frameThickness)/browserZoomLevel +'px  '+ (-frameThickness/2) +'px, '
+                                                   + (shellSize[0] + frameThickness)/browserZoomLevel +'px  '+ (-frameThickness) +'px, '
                                                    + (shellSize[0] + frameThickness)/browserZoomLevel +'px '+ (shellSize[1] + frameThickness)/browserZoomLevel +'px )'}"
                  />
 
