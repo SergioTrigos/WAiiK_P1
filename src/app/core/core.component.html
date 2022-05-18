@@ -251,23 +251,20 @@
                                         [attr.x]="textX" [attr.y]="textY" fill="black" opacity="0.5"> {{coreData.datumText}} </text>
                         
                                     <image *ngIf="datumType === 'image'"
+                                        [attr.x]="frameThickness/2"  [attr.y]="frameThickness/2"
                                         [attr.href]="coreData.datumText" [attr.width]="coreData.datumSize[0]" opacity="0.5" />
 
-
-                                    <text *ngIf="datumType === 'text'"  
-                                        [attr.x]="textX" [attr.y]="textY" fill="black" 
-                                        [ngStyle]="{'clip-path':'inset( 0px ' + (coreData.datumSize[0] - shellSize[0])/browserZoomLevel + 'px ' + ((coreData.datumSize[0]*(imageHeight/imageWidth)) - shellSize[1])/(browserZoomLevel) + 'px 0px round ' + (rectBorderRadius + (coreData.frameThickness/2))/(browserZoomLevel) +'px )'}" 
-                                        > {{coreData.datumText}} </text>
                         
                                     <image *ngIf="datumType === 'image'" id="rectImage"
-                                        [ngStyle]="{'clip-path':'inset( 0px ' + (coreData.datumSize[0] - shellSize[0])/browserZoomLevel + 'px ' + ((coreData.datumSize[0]*(imageHeight/imageWidth)) - shellSize[1])/(browserZoomLevel) + 'px 0px round ' + (rectBorderRadius + (coreData.frameThickness/2))/(browserZoomLevel) +'px )'}"
-                                        [attr.href]="coreData.datumText" [attr.width]="coreData.datumSize[0]" />   
-            
-                                    
-                                    <rect [attr.rx]="rectBorderRadius +'px'" [attr.rx]="rectBorderRadius +'px'" class="shellX"
-                                        [attr.x]="frameThickness/2"  [attr.y]="frameThickness/2"  [attr.width]="shellSize[0] - (frameThickness)" [attr.height]="shellSize[1] - (frameThickness)"  
-                                        [attr.stroke-width]="frameThickness" [attr.stroke]="colorFrame" [attr.stroke-opacity]="frameTransparency/100" 
-                                        fill="white" fill-opacity="0" />
+                                        [attr.x]="frameThickness/2"  [attr.y]="frameThickness/2"
+                                        [ngStyle]="{'clip-path':'inset( ' + frameThickness/(2*browserZoomLevel) + 'px ' + (coreData.datumSize[0] - shellSize[0] - (frameThickness/2))/browserZoomLevel + 'px ' + ((coreData.datumSize[0]*(imageHeight/imageWidth)) - shellSize[1] - (frameThickness/2))/(browserZoomLevel) + 'px ' + frameThickness/(2*browserZoomLevel) + 'px round ' + (rectBorderRadius)/(browserZoomLevel) +'px )'}"
+                                        [attr.href]="coreData.datumText" [attr.width]="coreData.datumSize[0]" />    
+                        
+                                        
+                                    <rect [attr.rx]="(rectBorderRadius + (frameThickness/2)) +'px'" class="shellX"
+                                        [attr.x]="frameThickness/2"  [attr.y]="frameThickness/2"  [attr.width]="shellSize[0] + (frameThickness)" [attr.height]="shellSize[1] + (frameThickness)"  
+                                        [attr.stroke-width]="frameThickness" [attr.stroke]="colorFrame" [attr.stroke-opacity]="frameTransparency/100"     
+                                        fill-opacity=0 />
                         
                                 </svg>
                             </div>
@@ -394,7 +391,7 @@
                         
                                     <ellipse *ngIf="shellShape === 'ellipse'"
                                         [attr.rx]="shellSize[0]/2" [attr.ry]="shellSize[1]/2" [attr.cx]="shellSize[0]/2 + frameThickness/2"  [attr.cy]="shellSize[1]/2  + frameThickness/2"
-                                        [attr.stroke-width]="frameThickness" [attr.stroke]="colorFrame" [attr.stroke-opacity]="frameTransparency/100" fill-opacity=0 />
+                                        [attr.stroke-width]="frameThickness" [attr.stroke]="colorFrame" [attr.stroke-opacity]="frameTransparency/400" fill-opacity=0 />
                                     
                                 </svg>
                         
@@ -407,7 +404,7 @@
                                     
                                     <polygon 
                                         id="polygonFrameG" #svgPolyG points="" class="shellX" 
-                                        [attr.stroke-width]="frameThickness" [attr.stroke]="colorFrame" [attr.stroke-opacity]="frameTransparency/100" 
+                                        [attr.stroke-width]="frameThickness" [attr.stroke]="colorFrame" [attr.stroke-opacity]="frameTransparency/400" 
                                         [attr.fill]="colorBackground" [attr.fill-opacity]="glazingTransparency/100" />
                                         
                                 </svg>
@@ -419,14 +416,18 @@
                                         [attr.x]="textX" [attr.y]="textY" fill="black" > {{coreData.datumText}} </text>
                         
                                     <image *ngIf="datumType === 'image'"
+                                        [attr.x]="frameThickness/2"  [attr.y]="frameThickness/2"
                                         [attr.href]="coreData.datumText" [attr.width]="coreData.datumSize[0]"/>             
                                     
-                                    
-                                    <rect [attr.rx]="rectBorderRadius +'px'" ry="10px" class="shellX"
-                                        [attr.x]="frameThickness/2"  [attr.y]="frameThickness/2"  [attr.width]="shellSize[0] - (frameThickness)" [attr.height]="shellSize[1] - (frameThickness)"  
-                                        [attr.stroke-width]="frameThickness" [attr.stroke]="colorFrame" [attr.stroke-opacity]="frameTransparency/100" 
+                                    <rect [attr.rx]="rectBorderRadius +'px'" class="shellX"
+                                        [attr.x]="frameThickness"  [attr.y]="frameThickness"  [attr.width]="shellSize[0]" [attr.height]="shellSize[1]"       
                                         [attr.fill]="colorBackground" [attr.fill-opacity]="glazingTransparency/100" />
-                        
+                                    
+                                    <rect [attr.rx]="(rectBorderRadius + (frameThickness/2)) +'px'" class="shellX"
+                                        [attr.x]="frameThickness/2"  [attr.y]="frameThickness/2"  [attr.width]="shellSize[0] + (frameThickness)" [attr.height]="shellSize[1] + (frameThickness)"
+                                        [attr.stroke-width]="frameThickness" [attr.stroke]="colorFrame" [attr.stroke-opacity]="frameTransparency/400"
+                                        fill-opacity="0" />
+
                                 </svg>
                             </div>
                         </div>
@@ -532,7 +533,8 @@
                         
                                     <ellipse *ngIf="shellShape === 'ellipse'"
                                         [attr.rx]="coreData.size[0]/2" [attr.ry]="coreData.size[1]/2" [attr.cx]="coreData.size[0]/2 + frameThickness/2"  [attr.cy]="coreData.size[1]/2  + frameThickness/2"
-                                        [attr.stroke-width]="frameThickness" stroke="white" stroke-opacity="0.5" fill="white" fill-opacity="0" />
+                                        [attr.stroke-width]="frameThickness" [attr.stroke]="colorFrame" [attr.stroke-opacity]="frameTransparency/400" 
+                                        fill-opacity="0" />
                                     
                                 </svg>
                         
@@ -545,7 +547,8 @@
                                     
                                     <polygon *ngIf="shellShape === 'polyline'"
                                         id="polygonFrameD" #svgPolyD points="" class="shellX" 
-                                        [attr.stroke-width]="frameThickness" stroke="white" stroke-opacity="0.5" fill="white" fill-opacity="0.1"  />
+                                        [attr.stroke-width]="frameThickness" [attr.stroke]="colorFrame" [attr.stroke-opacity]="frameTransparency/400" 
+                                        fill-opacity="0" />
                                         
                                 </svg>
                         
@@ -554,15 +557,16 @@
                         
                                     <text *ngIf="datumType === 'text'"  
                                         [attr.x]="textX" [attr.y]="textY" fill="black" > {{coreData.datumText}} </text>
-                        
+                                   
                                     <image *ngIf="datumType === 'image'"
-                                        [attr.href]="coreData.datumText" [attr.width]="coreData.datumSize[0]"/>             
+                                        [attr.x]="frameThickness/2"  [attr.y]="frameThickness/2"
+                                        [attr.href]="coreData.datumText" [attr.width]="coreData.datumSize[0]"/>                                      
                                     
-                                    
-                                    <rect [attr.rx]="rectBorderRadius +'px'" ry="10px" class="shellX"
-                                        [attr.x]="frameThickness/2"  [attr.y]="frameThickness/2"  [attr.width]="shellSize[0] - (coreData.frameThickness)" [attr.height]="shellSize[1] - (frameThickness)"  
-                                        [attr.stroke-width]="frameThickness" stroke="white" stroke-opacity="0.5" fill="white" fill-opacity="0.1" />
-                        
+                                    <rect [attr.rx]="(rectBorderRadius + (frameThickness/2)) +'px'" class="shellX"
+                                        [attr.x]="frameThickness/2"  [attr.y]="frameThickness/2"  [attr.width]="shellSize[0] + (frameThickness)" [attr.height]="shellSize[1] + (frameThickness)"
+                                        [attr.stroke-width]="frameThickness" [attr.stroke]="colorFrame" [attr.stroke-opacity]="frameTransparency/400"
+                                        fill-opacity="0" />
+
                                 </svg>
                             </div>
                         </div>
@@ -739,40 +743,57 @@
             
         </svg>
 
-        <!-- POLYLINE SHELL -->
-        <svg *ngSwitchCase="'polyline'" xmlns="http://www.w3.org/2000/svg" id="SVGpolygonFrame" #svgPolyFrame class="svgShell"  [attr.width]="shellSize[0] + frameThickness" [attr.height]="shellSize[1] + frameThickness">
+        <!-- POLYLINE SHELL   -->
+        <svg *ngSwitchCase="'polyline'" xmlns="http://www.w3.org/2000/svg" id="SVGpolygonFrame" #svgPolyFrame class="svgShell"  [attr.width]="shellSize[0] + 2*frameThickness" [attr.height]="shellSize[1] + 2*frameThickness">
             
             <text *ngIf="datumType === 'text'"  [attr.x]="textX" [attr.y]="textY" fill="black" 
                 [ngStyle]="{'clip-path':'polygon(' + pointsPXtext + ')'}" > {{coreData.datumText}} </text>
 
             <image *ngIf="datumType === 'image'"  [attr.href]="coreData.datumText" [attr.width]="coreData.datumSize[0]"
-                [ngStyle]="{'clip-path':'polygon(' + pointsPXtext + ')'}" /> 
-            
+                [ngStyle]="{'clip-path':'polygon(' + pointsPXtext + ')'}" />
+        
+            <polygon
+                id="polygonFrame" #svgPolyGlaz points="" class="shellX"  
+                [attr.fill]="colorBackground" [attr.fill-opacity]="glazingTransparency/100"
+                 />
             <polygon
                 id="polygonFrame" #svgPoly points="" class="shellX" 
                 [attr.stroke-width]="frameThickness" [attr.stroke]="colorFrame" [attr.stroke-opacity]="frameTransparency/100" 
-                [attr.fill]="colorBackground" [attr.fill-opacity]="glazingTransparency/100" />
-                
+                [attr.fill-opacity]="0"
+                [ngStyle]="{'clip-path':'polygon( '+ (-frameThickness/2) +'px '+ (shellSize[1] + frameThickness)/browserZoomLevel +'px, '
+                                                   + (-frameThickness/2) +'px '+ (-frameThickness/2) +'px,'
+                                                   + pointsPYtext + ', '
+                                                   + (shellSize[0] + frameThickness)/browserZoomLevel +'px  '+ (-frameThickness/2) +'px, '
+                                                   + (shellSize[0] + frameThickness)/browserZoomLevel +'px '+ (shellSize[1] + frameThickness)/browserZoomLevel +'px )'}"
+                 />
+
+            <!--            
+            -->
+
         </svg>
 
         <!-- RECTANGLE SHELL -->
-        <svg *ngSwitchCase="'rectangle'"  class="svgShell" [attr.width]="shellSize[0] + 2*frameThickness" [attr.height]="shellSize[1] + 2*frameThickness" >
+        <svg *ngSwitchCase="'rectangle'"  class="svgShell" [attr.width]="shellSize[0] + 2*frameThickness" [attr.height]="shellSize[1] + 2*frameThickness" 
+            xmlns="http://www.w3.org/2000/svg">
 
             <text *ngIf="datumType === 'text'"  
                 [attr.x]="textX" [attr.y]="textY" fill="black" 
-                [ngStyle]="{'clip-path':'inset( 0px ' + (coreData.datumSize[0] - shellSize[0])/browserZoomLevel + 'px ' + ((coreData.datumSize[0]*(imageHeight/imageWidth)) - shellSize[1])/(browserZoomLevel) + 'px 0px round ' + (rectBorderRadius + (coreData.frameThickness/2))/(browserZoomLevel) +'px )'}" 
+                [ngStyle]="{'clip-path':'inset( ' + frameThickness/(2*browserZoomLevel) + 'px ' + (coreData.datumSize[0] - shellSize[0] - (frameThickness/2))/browserZoomLevel + 'px ' + ((coreData.datumSize[0]*(imageHeight/imageWidth)) - shellSize[1] - (frameThickness/2))/(browserZoomLevel) + 'px ' + frameThickness/(2*browserZoomLevel) + 'px round ' + (rectBorderRadius)/(browserZoomLevel) +'px )'}" 
                 > {{coreData.datumText}} </text>
 
-             <image *ngIf="datumType === 'image'" id="rectImage"
-                [ngStyle]="{'clip-path':'inset( 0px ' + (coreData.datumSize[0] - shellSize[0])/browserZoomLevel + 'px ' + ((coreData.datumSize[0]*(imageHeight/imageWidth)) - shellSize[1])/(browserZoomLevel) + 'px 0px round ' + (rectBorderRadius + (coreData.frameThickness/2))/(browserZoomLevel) +'px )'}"
+            <image *ngIf="datumType === 'image'" id="rectImage"
+                [attr.x]="frameThickness/2"  [attr.y]="frameThickness/2"
+                [ngStyle]="{'clip-path':'inset( ' + frameThickness/(2*browserZoomLevel) + 'px ' + (coreData.datumSize[0] - shellSize[0] - (frameThickness/2))/browserZoomLevel + 'px ' + ((coreData.datumSize[0]*(imageHeight/imageWidth)) - shellSize[1] - (frameThickness/2))/(browserZoomLevel) + 'px ' + frameThickness/(2*browserZoomLevel) + 'px round ' + (rectBorderRadius)/(browserZoomLevel) +'px )'}"
                 [attr.href]="coreData.datumText" [attr.width]="coreData.datumSize[0]" />    
 
-         
-            <rect [attr.rx]="rectBorderRadius +'px'" ry="10px" class="shellX"
-                [attr.x]="frameThickness/2"  [attr.y]="frameThickness/2"  [attr.width]="shellSize[0] - (frameThickness)" [attr.height]="shellSize[1] - (frameThickness)"  
-                [attr.stroke-width]="frameThickness" [attr.stroke]="colorFrame" [attr.stroke-opacity]="frameTransparency/100"     
+            <rect [attr.rx]="rectBorderRadius +'px'" class="shellX"
+                [attr.x]="frameThickness"  [attr.y]="frameThickness"  [attr.width]="shellSize[0]" [attr.height]="shellSize[1]"       
                 [attr.fill]="colorBackground" [attr.fill-opacity]="glazingTransparency/100" />
             
+            <rect [attr.rx]="(rectBorderRadius + (frameThickness/2)) +'px'" class="shellY"
+                [attr.x]="frameThickness/2"  [attr.y]="frameThickness/2"  [attr.width]="shellSize[0] + (frameThickness)" [attr.height]="shellSize[1] + (frameThickness)"  
+                [attr.stroke-width]="frameThickness" [attr.stroke]="colorFrame" [attr.stroke-opacity]="frameTransparency/100"     
+                fill-opacity=0  />
 
         </svg>
     </div>

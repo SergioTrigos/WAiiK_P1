@@ -38,6 +38,7 @@ export class CoreComponent implements OnInit, AfterViewInit {
   pointsP!: number[];
   pointsPX!: number[];
   pointsPXtext!: string;
+  pointsPYtext!: string;
 
   //Glazing Data
   drawingThickness!: number;
@@ -66,6 +67,12 @@ export class CoreComponent implements OnInit, AfterViewInit {
 
   svgPolyPoint!: SVGPoint;
   svgPolyPointTh!: SVGPoint;
+
+  @ViewChild('svgPolyGlaz')
+  svgPolyGlaz!: ElementRef;
+
+  svgPolyPointGlaz!: SVGPoint;
+  svgPolyPointGlazTh!: SVGPoint;
 
   //Design Frame PolyLine Dynamics
 
@@ -161,9 +168,14 @@ export class CoreComponent implements OnInit, AfterViewInit {
     console.log(this.browserZoomLevel);
     for (let i = 0; i < this.pointsPX.length; i = i + 2) {
       if (i == 0) {
-        this.pointsPXtext = ' ' + (this.pointsPX[i] + this.frameThickness/2) / this.browserZoomLevel + 'px ' + (this.pointsPX[i + 1] + this.frameThickness/2) / this.browserZoomLevel + 'px';
+        this.pointsPXtext = ' ' + (this.pointsPX[i] + this.frameThickness / 2) / this.browserZoomLevel + 'px ' + (this.pointsPX[i + 1] + this.frameThickness / 2) / this.browserZoomLevel + 'px';
+        this.pointsPYtext = ' ' + (this.pointsPX[0]) / this.browserZoomLevel + 'px '+ (-this.frameThickness) +'px, ' + (this.pointsPX[i]) / this.browserZoomLevel + 'px ' + (this.pointsPX[i + 1]) / this.browserZoomLevel + 'px';
+      } else if (i == this.pointsPX.length-2) {
+        this.pointsPXtext = this.pointsPXtext + ', ' + (this.pointsPX[i] + this.frameThickness/2) / this.browserZoomLevel + 'px ' + (this.pointsPX[i + 1] + this.frameThickness/2) / this.browserZoomLevel + 'px' + ', ' + (this.pointsPX[0] + this.frameThickness/2) / this.browserZoomLevel + 'px ' + (this.pointsPX[1] + this.frameThickness/2) / this.browserZoomLevel + 'px';
+        this.pointsPYtext = this.pointsPYtext + ', ' + (this.pointsPX[i]) / this.browserZoomLevel + 'px ' + (this.pointsPX[i + 1]) / this.browserZoomLevel + 'px' + ', ' + (this.pointsPX[0]) / this.browserZoomLevel + 'px ' + (this.pointsPX[1]) / this.browserZoomLevel + 'px, ' + (this.pointsPX[0]) / this.browserZoomLevel + 'px '+ (-this.frameThickness) +'px' 
       } else {
         this.pointsPXtext = this.pointsPXtext + ', ' + (this.pointsPX[i] + this.frameThickness/2) / this.browserZoomLevel + 'px ' + (this.pointsPX[i + 1] + this.frameThickness/2) / this.browserZoomLevel + 'px';
+        this.pointsPYtext = this.pointsPYtext + ', ' + (this.pointsPX[i]) / this.browserZoomLevel + 'px ' + (this.pointsPX[i + 1]) / this.browserZoomLevel + 'px';
       }
     };
   }
@@ -233,7 +245,14 @@ export class CoreComponent implements OnInit, AfterViewInit {
       this.svgPolyPoint.y = this.pointsP[i + 1] + this.frameThickness / 2;
       this.svgPoly.nativeElement.points.appendItem(this.svgPolyPoint);
     }
+    this.svgPolyPointGlaz = this.svgPolyFrame.nativeElement.createSVGPoint();
+    for (let i = 0; i < this.pointsP.length; i = i + 2) {
+      this.svgPolyPointGlaz.x = this.pointsP[i] + this.frameThickness / 2;
+      this.svgPolyPointGlaz.y = this.pointsP[i + 1] + this.frameThickness / 2;
+      this.svgPolyGlaz.nativeElement.points.appendItem(this.svgPolyPointGlaz);
+    }
   }
+
 
   polyLineDefThree() {
     this.svgPolyPointF = this.svgPolyFrame.nativeElement.createSVGPoint();
@@ -387,6 +406,13 @@ export class CoreComponent implements OnInit, AfterViewInit {
       this.svgPolyPointTh.x = this.pointsP[i] + this.frameThickness / 2;
       this.svgPolyPointTh.y = this.pointsP[i + 1] + this.frameThickness / 2;
       this.svgPoly.nativeElement.points.appendItem(this.svgPolyPointTh);
+    }
+    this.svgPolyGlaz.nativeElement.points.clear();
+    this.svgPolyPointGlazTh = this.svgPolyFrame.nativeElement.createSVGPoint();
+    for (let i = 0; i < this.pointsP.length; i = i + 2) {
+      this.svgPolyPointGlazTh.x = this.pointsP[i] + this.frameThickness / 2;
+      this.svgPolyPointGlazTh.y = this.pointsP[i + 1] + this.frameThickness / 2;
+      this.svgPolyGlaz.nativeElement.points.appendItem(this.svgPolyPointGlazTh);
     }
     this.svgPolyF.nativeElement.points.clear();
     this.svgPolyPointFTh = this.svgPolyFrame.nativeElement.createSVGPoint();
