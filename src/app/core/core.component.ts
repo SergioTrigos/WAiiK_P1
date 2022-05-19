@@ -33,8 +33,7 @@ export class CoreComponent implements OnInit, AfterViewInit {
   colorFrame!: string;
   rectBorderRadius = 10;  //This is the Recatngl Corner's Filet radius
 
-  componentPolyLinePointsData = [150, 0, 0, 260, 300, 260];
-    //Star: [100,10, 40,198, 190,78, 10,78, 160,198]
+  componentPolyLinePointsData!: number[];
   pointsP!: number[];
   pointsPX!: number[];
   pointsPXtext!: string;
@@ -56,7 +55,7 @@ export class CoreComponent implements OnInit, AfterViewInit {
   //Shape dynamics
   selectedShapeFrame!: string;
   selectedShapeDrawing = 'elipse';
-  numOfSides = 4;
+  numOfSides!: number;
 
   //polyLine Dynamicss 
   @ViewChild('svgPolyFrame')
@@ -82,20 +81,6 @@ export class CoreComponent implements OnInit, AfterViewInit {
   svgPolyPointF!: SVGPoint;
   svgPolyPointFTh!: SVGPoint;
 
-
-
-  //tRANSPARENCY DYNAMICS
-  drawingTransparency!: number;
-  glazingTransparency!: number;
-  frameTransparency!: number;
-
-  formatLabel(value: number) {
-    return value + '%';
-  }
-
-
-
-
   //Design Glazing PolyLine Dynamics
 
   @ViewChild('svgPolyG')
@@ -118,6 +103,23 @@ export class CoreComponent implements OnInit, AfterViewInit {
   svgPolyPointD!: SVGPoint;
   svgPolyPointDTh!: SVGPoint;
 
+  //Triangle dynamics
+  @ViewChild('svgPolyTri')
+  svgPolyTri!: ElementRef
+
+  svgPolyPointTri!: SVGPoint;
+  svgPolyPointTriTh!: SVGPoint;
+
+  @ViewChild('svgPolyTri2')
+  svgPolyTri2!: ElementRef
+
+  svgPolyPointTri2!: SVGPoint;
+  svgPolyPointTri2Th!: SVGPoint;
+
+  pointsPXtriText!: string;
+  pointsPYtriText!: string;
+  triPonts!: number[];
+
   //Rectangle dynamics
   @ViewChild('rectImage')
   rectPoly!: ElementRef;
@@ -127,6 +129,15 @@ export class CoreComponent implements OnInit, AfterViewInit {
   imageWidth!: number;
 
   //
+
+  //tRANSPARENCY DYNAMICS
+  drawingTransparency!: number;
+  glazingTransparency!: number;
+  frameTransparency!: number;
+
+  formatLabel(value: number) {
+    return value + '%';
+  }
 
   @ViewChild(MatMenuTrigger)
   trigger!: MatMenuTrigger;
@@ -170,6 +181,7 @@ export class CoreComponent implements OnInit, AfterViewInit {
     this.browserZoomLevel = window.devicePixelRatio;
     console.log("the window was zoomed");
     this.polyLineDefOne();
+    this.triangleDefOne();
   }
 
   polyLineDefOne() {
@@ -177,18 +189,32 @@ export class CoreComponent implements OnInit, AfterViewInit {
     for (let i = 0; i < this.pointsPX.length; i = i + 2) {
       if (i == 0) {
         this.pointsPXtext = ' ' + (this.pointsPX[i] + this.frameThickness) / this.browserZoomLevel + 'px ' + (this.pointsPX[i + 1] + this.frameThickness) / this.browserZoomLevel + 'px';
-        this.pointsPYtext = ' ' + (this.pointsPX[0]) / this.browserZoomLevel + 'px '+ (-this.frameThickness) +'px, ' + (this.pointsPX[i]) / this.browserZoomLevel + 'px ' + (this.pointsPX[i + 1]) / this.browserZoomLevel + 'px';
+        this.pointsPYtext = ' ' + (this.pointsPX[i]) / this.browserZoomLevel + 'px '+ (-this.frameThickness)/this.browserZoomLevel +'px, ' + (this.pointsPX[i]) / this.browserZoomLevel + 'px ' + (this.pointsPX[i + 1]) / this.browserZoomLevel + 'px';
       } else if (i == this.pointsPX.length-2) {
         this.pointsPXtext = this.pointsPXtext + ', ' + (this.pointsPX[i] + this.frameThickness) / this.browserZoomLevel + 'px ' + (this.pointsPX[i + 1] + this.frameThickness) / this.browserZoomLevel + 'px' + ', ' + (this.pointsPX[0] + this.frameThickness) / this.browserZoomLevel + 'px ' + (this.pointsPX[1] + this.frameThickness) / this.browserZoomLevel + 'px';
-        this.pointsPYtext = this.pointsPYtext + ', ' + (this.pointsPX[i]) / this.browserZoomLevel + 'px ' + (this.pointsPX[i + 1]) / this.browserZoomLevel + 'px' + ', ' + (this.pointsPX[0]) / this.browserZoomLevel + 'px ' + (this.pointsPX[1]) / this.browserZoomLevel + 'px, ' + (this.pointsPX[0]) / this.browserZoomLevel + 'px '+ (-this.frameThickness) +'px' 
+        this.pointsPYtext = this.pointsPYtext + ', ' + (this.pointsPX[i]) / this.browserZoomLevel + 'px ' + (this.pointsPX[i + 1]) / this.browserZoomLevel + 'px' + ', ' + (this.pointsPX[0]) / this.browserZoomLevel + 'px ' + (this.pointsPX[1]) / this.browserZoomLevel + 'px, ' + (this.pointsPX[0]) / this.browserZoomLevel + 'px '+ (-this.frameThickness)/this.browserZoomLevel +'px' 
       } else {
         this.pointsPXtext = this.pointsPXtext + ', ' + (this.pointsPX[i] + this.frameThickness) / this.browserZoomLevel + 'px ' + (this.pointsPX[i + 1] + this.frameThickness) / this.browserZoomLevel + 'px';
         this.pointsPYtext = this.pointsPYtext + ', ' + (this.pointsPX[i]) / this.browserZoomLevel + 'px ' + (this.pointsPX[i + 1]) / this.browserZoomLevel + 'px';
       }
     };
   }
+  
+  
+  triangleDefOne() {
+    this.pointsPXtriText = ' ' + ((this.shellSize[0] / 2) + this.frameThickness) / this.browserZoomLevel + 'px ' + (this.frameThickness) / this.browserZoomLevel + 'px, '
+      + (this.frameThickness) / this.browserZoomLevel + 'px ' + (this.shellSize[1] + this.frameThickness) / this.browserZoomLevel + 'px, '
+      + (this.shellSize[0] + this.frameThickness) / this.browserZoomLevel + 'px ' + (this.shellSize[1] + this.frameThickness) / this.browserZoomLevel + 'px ';
+      
+    this.pointsPYtriText = ' ' + (this.shellSize[0] / 2) / this.browserZoomLevel + 'px ' + (-this.frameThickness) / this.browserZoomLevel + 'px, '
+      + (this.shellSize[0] / 2) / this.browserZoomLevel + 'px 0px, '
+      + '0px ' + (this.shellSize[1]) / this.browserZoomLevel + 'px, '
+      + (this.shellSize[0]) / this.browserZoomLevel + 'px ' + (this.shellSize[1]) / this.browserZoomLevel + 'px, '
+      + ((this.shellSize[0] / 2)) / this.browserZoomLevel + 'px 0px,'
+      + (this.shellSize[0] / 2) / this.browserZoomLevel + 'px ' + (-this.frameThickness) / this.browserZoomLevel + 'px';
+  };
 
-  rectImageOne() {
+  rectDefOne() {
     if (this.coreData.datumType == "image") { 
       this.myRectImg.src = this.coreData.datumText;
       this.imageWidth = this.myRectImg.width;
@@ -196,7 +222,19 @@ export class CoreComponent implements OnInit, AfterViewInit {
     }
   }
 
+  shapesDefOne() {
+    if (this.shellShape == 'polyline') {
+      this.polyLineDefOne();
+    } else if (this.shellShape == 'polygon' && this.numOfSides == 3) {
+      this.triangleDefOne();
+    } else if (this.shellShape == 'polygon' && this.numOfSides == 4) {
+      this.rectDefOne();
+    }
+  }
+  
+
   ngOnInit(): void {
+    //Core position data init
     this.pos.x = this.coreData.position[0];
     this.pos.y = this.coreData.position[1];
     this.positionX = this.coreData.position[0] + "px";
@@ -210,9 +248,21 @@ export class CoreComponent implements OnInit, AfterViewInit {
     this.desLineRef.x2 = this.pos.x;
     this.desLineRef.y2 = this.pos.y;
 
+    //Core Visibility
+    this.coreMenuIsVis = false;
+    this.shouldOpen = true;
+
     //Frame Data Init
     this.frameThickness = this.coreData.frameThickness;
     this.colorFrame = this.coreData.frameColor;
+    this.numOfSides = this.coreData.frameData[0];
+    this.componentPolyLinePointsData = this.coreData.frameData;
+    this.shellShape = this.coreData.frameShape;
+    this.shellSize = this.coreData.size;
+    this.pointsP = [0, 0].concat(this.componentPolyLinePointsData);
+    this.pointsPX = this.componentPolyLinePointsData;
+    this.shapesDefOne();
+    this.selectedShapeFrame = this.coreData.frameFile;
 
     //Glazing Data Init  
     this.colorBackground = this.coreData.glazingColor;
@@ -221,28 +271,19 @@ export class CoreComponent implements OnInit, AfterViewInit {
     this.colorDrawing = "black";
 
     //Datum Data Init
-    this.shouldOpen = true;
-    this.shellShape = this.coreData.frameFile;
-    this.shellSize = this.coreData.size;
     this.datumType = this.coreData.datumType;
-    this.pointsP = [0, 0].concat(this.componentPolyLinePointsData);
-    this.pointsPX = this.componentPolyLinePointsData;
-    this.polyLineDefOne()
     this.textXdef();
 
     //shapes
-    this.selectedShapeFrame = this.coreData.frameFile;
+
 
     //transparency
     this.drawingTransparency = 100;
     this.glazingTransparency = this.coreData.glazingTransparency; 
     this.frameTransparency = this.coreData.frameTransparency;
 
-    //Core Visibility
-    this.coreMenuIsVis = false;
 
-    //Rectangle image stuff
-    this.rectImageOne();
+
   }
 
 
@@ -261,6 +302,31 @@ export class CoreComponent implements OnInit, AfterViewInit {
     }
   }
 
+  triangleDefTwo() {
+    this.svgPolyPointTri = this.svgPolyFrame.nativeElement.createSVGPoint();
+    this.triPonts = [0,0,((this.shellSize[0]/2) + this.frameThickness), this.frameThickness,
+      this.frameThickness, (this.shellSize[1] + this.frameThickness),
+      (this.shellSize[0] + this.frameThickness), (this.shellSize[1] + this.frameThickness)];
+    for (let i = 0; i < this.triPonts.length; i = i + 2) {
+      this.svgPolyPointTri.x = this.triPonts[i];
+      this.svgPolyPointTri.y = this.triPonts[i+1];
+      this.svgPolyTri.nativeElement.points.appendItem(this.svgPolyPointTri);
+    }
+    this.svgPolyPointTri2 = this.svgPolyFrame.nativeElement.createSVGPoint();
+    for (let i = 0; i < this.triPonts.length; i = i + 2) {
+      this.svgPolyPointTri2.x = this.triPonts[i];
+      this.svgPolyPointTri2.y = this.triPonts[i+1];
+      this.svgPolyTri2.nativeElement.points.appendItem(this.svgPolyPointTri2);
+    }
+  }
+
+  ngAfterViewInit(): void {
+    if (this.shellShape == 'polyline') {
+      this.polyLineDefTwo();
+    } else if (this.shellShape == 'polygon' && this.numOfSides == 3) {
+      this.triangleDefTwo();
+    }
+  }
 
   polyLineDefThree() {
     this.svgPolyPointF = this.svgPolyFrame.nativeElement.createSVGPoint();
@@ -287,12 +353,6 @@ export class CoreComponent implements OnInit, AfterViewInit {
       this.svgPolyPointD.y = this.pointsP[i + 1] + this.frameThickness;
       this.svgPolyD.nativeElement.points.appendItem(this.svgPolyPointD);
     };
-  }
-
-  ngAfterViewInit(): void {
-    if (this.shellShape === 'polyline') {
-      this.polyLineDefTwo();
-    }
   }
 
   //Position Dynamcs

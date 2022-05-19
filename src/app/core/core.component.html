@@ -140,7 +140,7 @@
                                     <img src="assets\Icon\Design_Frame_AspectRatio.png" class="iconC">
                                 </mat-button-toggle>
 
-                                <button  *ngIf="selectedShapeFrame === 'Polygon' && desFrameOne.value === 'Shapes'" 
+                                <button  *ngIf="selectedShapeFrame === 'polygon' && desFrameOne.value === 'Shapes'" 
                                     [matMenuTriggerFor]="numberSides"  class="ToolButtonX"
                                     matTooltip="Number of Sides" matTooltipShowDelay="500" matTooltipPosition="before">
                                     {{numOfSides}} 
@@ -152,7 +152,7 @@
                                 <mat-form-field appearance="fill" class="shapesForm" matTooltip="Select Frame Shape" matTooltipShowDelay="500" matTooltipPosition="before">
                                     <mat-select [(value)]="selectedShapeFrame" class="shapesFormSel"> 
                                         <mat-option value="elypse">Circle</mat-option>
-                                        <mat-option value="Polygon">Polygon</mat-option>
+                                        <mat-option value="polygon">Polygon</mat-option>
                                     </mat-select>
                                 </mat-form-field>
                             </div>
@@ -197,7 +197,7 @@
 
                         <!-- Frame Tab DISPLAY -->
                         <div class="desDivs">
-                            <div [ngSwitch]="coreData.frameFile" class="svgDesign">
+                            <div [ngSwitch]="shellShape" class="svgDesign">
 
                                 <!-- CIRCLE/ELLIPSE Frame -->
                                 <svg *ngSwitchCase="'ellipse'"  class="svgDesign">
@@ -221,7 +221,7 @@
                                         [attr.stroke-width]="frameThickness" [attr.stroke]="colorFrame" [attr.stroke-opacity]="frameTransparency/100" 
                                         fill="white" fill-opacity="0" />
                                     
-                                </svg>
+                                </svg> 
                                 
                         
                                 <!-- POLYLINE Frame  -->
@@ -248,7 +248,7 @@
                                                                             + (shellSize[0] + frameThickness)/browserZoomLevel +'px '+ (shellSize[1] + frameThickness)/browserZoomLevel +'px )'}"
                                     />
 
-                                </svg>
+                                </svg> 
                         
                                 <!-- RECTANGLE Frame -->
                                 <svg *ngSwitchCase="'rectangle'"   class="svgDesign" >
@@ -345,7 +345,7 @@
                                     <img src="assets\Icon\Design_Frame_AspectRatio.png" class="iconC">
                                 </mat-button-toggle>
 
-                                <button  *ngIf="selectedShapeDrawing === 'Polygon' && desFrameTwo.value === 'Shapes'" 
+                                <button  *ngIf="shellShape === 'Polygon' && desFrameTwo.value === 'Shapes'" 
                                     [matMenuTriggerFor]="numberSides"  class="ToolButtonX"
                                     matTooltip="Number of Sides" matTooltipShowDelay="500" matTooltipPosition="after">
                                     {{numOfSides}} 
@@ -355,7 +355,7 @@
 
                             <div class="toolRow" *ngIf="desFrameTwo.value === 'Shapes'"  >
                                 <mat-form-field appearance="fill" class="shapesForm" matTooltip="Select Frame Shape" matTooltipShowDelay="500" matTooltipPosition="before">
-                                    <mat-select [(value)]="selectedShapeDrawing" class="shapesFormSel"> 
+                                    <mat-select [(value)]="shellShape" class="shapesFormSel"> 
                                         <mat-option value="elypse">Circle</mat-option>
                                         <mat-option value="Polygon">Polygon</mat-option>
                                     </mat-select>
@@ -380,7 +380,7 @@
 
                         <!-- Glazing Tab DISPLAY -->
                         <div class="desDivs">
-                            <div [ngSwitch]="coreData.frameFile"  class="svgDesign" >
+                            <div [ngSwitch]="shellShape"  class="svgDesign" >
 
                                 <!-- CIRCLE/ELLIPSE Glazing -->
                                 <svg *ngSwitchCase="'ellipse'" class="svgDesign" >
@@ -536,7 +536,7 @@
                         <!-- Datum Tab DISPLAY -->
                         
                         <div class="desDivs">
-                            <div [ngSwitch]="coreData.frameFile" class="svgDesign">
+                            <div [ngSwitch]="shellShape" class="svgDesign">
 
                                 <!-- CIRCLE/ELLIPSE Datum -->
                                 <svg *ngSwitchCase="'ellipse'" class="svgDesign"  >
@@ -661,24 +661,6 @@
         </div>
     </mat-menu>
 
-    <mat-menu #Drawingthickness="matMenu">
-        <div class="thickMenu" fxLayout="row" (click)="$event.stopPropagation()">
-            <div FxFlex class="thickNum" >
-                <p style="font-size:25px;" >
-                    {{drawingThickness}}
-                </p>
-            </div>
-            <div FxFlex class="thickButOne" >
-                <button class="thickButTwo" (click)="drawingThickUp()">
-                    <img src="assets\Icon\arrowUp.png" class="iconTh">
-                </button>
-                <button class="thickButTwo" (click)="drawingThickDown()"> 
-                    <img src="assets\Icon\arrowDown.png" class="iconTh">
-                </button>
-            </div>
-        </div>
-    </mat-menu>
-
         <!-- GLAZING TAB -->
     <mat-menu #colourGlazingBackground="matMenu"  >
         
@@ -731,6 +713,24 @@
         </div>
     </mat-menu>
 
+    <mat-menu #Drawingthickness="matMenu">
+        <div class="thickMenu" fxLayout="row" (click)="$event.stopPropagation()">
+            <div FxFlex class="thickNum" >
+                <p style="font-size:25px;" >
+                    {{drawingThickness}}
+                </p>
+            </div>
+            <div FxFlex class="thickButOne" >
+                <button class="thickButTwo" (click)="drawingThickUp()">
+                    <img src="assets\Icon\arrowUp.png" class="iconTh">
+                </button>
+                <button class="thickButTwo" (click)="drawingThickDown()"> 
+                    <img src="assets\Icon\arrowDown.png" class="iconTh">
+                </button>
+            </div>
+        </div>
+    </mat-menu>
+
         <!-- DATUM TAB -->
     <mat-menu #colourDatum="matMenu"  >
         
@@ -742,7 +742,7 @@
 
     <!-- Shell -->
 
-    <div [ngSwitch]="coreData.frameFile">
+    <div [ngSwitch]="shellShape">
 
         <!-- CIRCLE/ELLIPSE SHELL -->
         <svg *ngSwitchCase="'ellipse'" class="svgShell"  [attr.width]="shellSize[0] + 2*frameThickness" [attr.height]="shellSize[1] + 2*frameThickness">
@@ -778,46 +778,77 @@
                 id="polygonFrame" #svgPolyGlaz points="" class="shellX"  
                 [attr.fill]="colorBackground" [attr.fill-opacity]="glazingTransparency/100"
                  />
-            <polygon
+            <polygon [attr.width]="shellSize[0] + 2*frameThickness" [attr.height]="shellSize[1] + 2*frameThickness"
                 id="polygonFrame" #svgPoly points="" class="shellX" 
                 [attr.stroke-width]="frameThickness*2" [attr.stroke]="colorFrame" [attr.stroke-opacity]="frameTransparency/100" 
                 fill-opacity="0"
-                [ngStyle]="{'clip-path':'polygon( '+ (-frameThickness) +'px '+ (shellSize[1] + frameThickness)/browserZoomLevel +'px, '
-                                                   + (-frameThickness) +'px '+ (-frameThickness/2) +'px,'
+                [ngStyle]="{'clip-path':'polygon( '+ (-frameThickness)/browserZoomLevel +'px '+ (shellSize[1] + frameThickness)/browserZoomLevel +'px, '
+                                                   + (-frameThickness)/browserZoomLevel +'px '+ (-frameThickness/2)/browserZoomLevel +'px,'
                                                    + pointsPYtext + ', '
-                                                   + (shellSize[0] + frameThickness)/browserZoomLevel +'px  '+ (-frameThickness) +'px, '
-                                                   + (shellSize[0] + frameThickness)/browserZoomLevel +'px '+ (shellSize[1] + frameThickness)/browserZoomLevel +'px )'}"
+                                                   + (shellSize[0] + frameThickness)/browserZoomLevel +'px  '+ (-frameThickness)/browserZoomLevel +'px, '
+                                                   + (shellSize[0] + frameThickness)/browserZoomLevel +'px '+ (shellSize[1] + frameThickness)/browserZoomLevel +'px)'}"
                  />
 
-            <!--            
-            -->
-
         </svg>
 
-        <!-- RECTANGLE SHELL -->
-        <svg *ngSwitchCase="'rectangle'"  class="svgShell" [attr.width]="shellSize[0] + 2*frameThickness" [attr.height]="shellSize[1] + 2*frameThickness" 
-            xmlns="http://www.w3.org/2000/svg">
+                
+        <!-- POLYGON SHELL   -->
 
-            <text *ngIf="datumType === 'text'"  
-                [attr.x]="textX" [attr.y]="textY" fill="black" 
-                [ngStyle]="{'clip-path':'inset( ' + frameThickness/(2*browserZoomLevel) + 'px ' + (coreData.datumSize[0] - shellSize[0] - (frameThickness/2))/browserZoomLevel + 'px ' + ((coreData.datumSize[0]*(imageHeight/imageWidth)) - shellSize[1] - (frameThickness/2))/(browserZoomLevel) + 'px ' + frameThickness/(2*browserZoomLevel) + 'px round ' + (rectBorderRadius)/(browserZoomLevel) +'px )'}" 
-                > {{coreData.datumText}} </text>
+        <div *ngSwitchCase="'polygon'" [ngSwitch]="numOfSides"> 
+                                    <!-- TRIANGLE SHELL -->
+            <svg *ngSwitchCase="3" xmlns="http://www.w3.org/2000/svg" id="SVGpolygonFrame" #svgPolyFrame class="svgShell"  [attr.width]="shellSize[0] + 2*frameThickness" [attr.height]="shellSize[1] + 2*frameThickness">
+                
+                <text *ngIf="datumType === 'text'"  [attr.x]="textX" [attr.y]="textY" fill="black" 
+                    [ngStyle]="{'clip-path':'polygon(' + pointsPXtriText + ')'}" > {{coreData.datumText}} </text>
 
-            <image *ngIf="datumType === 'image'" id="rectImage"
-                [attr.x]="frameThickness/2"  [attr.y]="frameThickness/2"
-                [ngStyle]="{'clip-path':'inset( ' + frameThickness/(2*browserZoomLevel) + 'px ' + (coreData.datumSize[0] - shellSize[0] - (frameThickness/2))/browserZoomLevel + 'px ' + ((coreData.datumSize[0]*(imageHeight/imageWidth)) - shellSize[1] - (frameThickness/2))/(browserZoomLevel) + 'px ' + frameThickness/(2*browserZoomLevel) + 'px round ' + (rectBorderRadius)/(browserZoomLevel) +'px )'}"
-                [attr.href]="coreData.datumText" [attr.width]="coreData.datumSize[0]" />    
-
-            <rect [attr.rx]="rectBorderRadius +'px'" class="shellX"
-                [attr.x]="frameThickness"  [attr.y]="frameThickness"  [attr.width]="shellSize[0]" [attr.height]="shellSize[1]"       
-                [attr.fill]="colorBackground" [attr.fill-opacity]="glazingTransparency/100" />
+                <image *ngIf="datumType === 'image'"  [attr.href]="coreData.datumText" [attr.width]="coreData.datumSize[0]"
+                    [ngStyle]="{'clip-path':'polygon(' + pointsPXtriText + ')'}" />
             
-            <rect [attr.rx]="(rectBorderRadius + (frameThickness/2)) +'px'" class="shellY"
-                [attr.x]="frameThickness/2"  [attr.y]="frameThickness/2"  [attr.width]="shellSize[0] + (frameThickness)" [attr.height]="shellSize[1] + (frameThickness)"  
-                [attr.stroke-width]="frameThickness" [attr.stroke]="colorFrame" [attr.stroke-opacity]="frameTransparency/100"     
-                fill-opacity=0  />
+                <polygon
+                    #svgPolyTri points="" class="shellX"  
+                    [attr.fill]="colorBackground" [attr.fill-opacity]="glazingTransparency/100"
+                     />
+                <polygon
+                    #svgPolyTri2 points="" class="shellX" 
+                    [attr.stroke-width]="frameThickness*2" [attr.stroke]="colorFrame" [attr.stroke-opacity]="frameTransparency/100" 
+                    fill-opacity="0"
+                    [ngStyle]="{'clip-path':'polygon( '+ (-frameThickness)/browserZoomLevel +'px '+ (shellSize[1] + 2*frameThickness)/browserZoomLevel +'px, '
+                                                       + (-frameThickness)/browserZoomLevel +'px '+ (-frameThickness)/browserZoomLevel +'px,'
+                                                       + pointsPYtriText  + ', '
+                                                       + (shellSize[0] + 2*frameThickness)/browserZoomLevel +'px  '+ (-frameThickness)/browserZoomLevel +'px, '
+                                                       + (shellSize[0] + 2*frameThickness)/browserZoomLevel +'px '+ (shellSize[1] + 2*frameThickness)/browserZoomLevel +'px )'}"
+                     
+                    />
+                    
+            </svg>
+                        <!-- RECTANGLE SHELL -->
+            <svg *ngSwitchCase="4"  class="svgShell" [attr.width]="shellSize[0] + 2*frameThickness" [attr.height]="shellSize[1] + 2*frameThickness" 
+                xmlns="http://www.w3.org/2000/svg">
 
-        </svg>
+                <text *ngIf="datumType === 'text'"  
+                    [attr.x]="textX" [attr.y]="textY" fill="black" 
+                    [ngStyle]="{'clip-path':'inset( ' + frameThickness/(2*browserZoomLevel) + 'px ' + (coreData.datumSize[0] - shellSize[0] - (frameThickness/2))/browserZoomLevel + 'px ' + ((coreData.datumSize[0]*(imageHeight/imageWidth)) - shellSize[1] - (frameThickness/2))/(browserZoomLevel) + 'px ' + frameThickness/(2*browserZoomLevel) + 'px round ' + (rectBorderRadius)/(browserZoomLevel) +'px )'}" 
+                    > {{coreData.datumText}} </text>
+
+                <image *ngIf="datumType === 'image'" id="rectImage"
+                    [attr.x]="frameThickness/2"  [attr.y]="frameThickness/2"
+                    [ngStyle]="{'clip-path':'inset( ' + frameThickness/(2*browserZoomLevel) + 'px ' + (coreData.datumSize[0] - shellSize[0] - (frameThickness/2))/browserZoomLevel + 'px ' + ((coreData.datumSize[0]*(imageHeight/imageWidth)) - shellSize[1] - (frameThickness/2))/(browserZoomLevel) + 'px ' + frameThickness/(2*browserZoomLevel) + 'px round ' + (rectBorderRadius)/(browserZoomLevel) +'px )'}"
+                    [attr.href]="coreData.datumText" [attr.width]="coreData.datumSize[0]" />    
+
+                <rect [attr.rx]="rectBorderRadius +'px'" class="shellX"
+                    [attr.x]="frameThickness"  [attr.y]="frameThickness"  [attr.width]="shellSize[0]" [attr.height]="shellSize[1]"       
+                    [attr.fill]="colorBackground" [attr.fill-opacity]="glazingTransparency/100" />
+                
+                <rect [attr.rx]="(rectBorderRadius + (frameThickness/2)) +'px'" class="shellY"
+                    [attr.x]="frameThickness/2"  [attr.y]="frameThickness/2"  [attr.width]="shellSize[0] + (frameThickness)" [attr.height]="shellSize[1] + (frameThickness)"  
+                    [attr.stroke-width]="frameThickness" [attr.stroke]="colorFrame" [attr.stroke-opacity]="frameTransparency/100"     
+                    fill-opacity=0  />
+
+            </svg>
+
+        </div>
+
+
     </div>
 </div>
 

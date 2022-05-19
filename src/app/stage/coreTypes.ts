@@ -8,7 +8,8 @@ export interface Core {
   datumText: string;
   datumSize: number[];
   shellDimension: number;
-  frameFile: string;
+  frameShape: string;
+  frameData: number[];
   frameColor: string;
   frameTransparency: number;
   frameThickness: number;
