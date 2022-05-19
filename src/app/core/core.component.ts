@@ -103,23 +103,6 @@ export class CoreComponent implements OnInit, AfterViewInit {
   svgPolyPointD!: SVGPoint;
   svgPolyPointDTh!: SVGPoint;
 
-  //Triangle dynamics
-  @ViewChild('svgPolyTri')
-  svgPolyTri!: ElementRef
-
-  svgPolyPointTri!: SVGPoint;
-  svgPolyPointTriTh!: SVGPoint;
-
-  @ViewChild('svgPolyTri2')
-  svgPolyTri2!: ElementRef
-
-  svgPolyPointTri2!: SVGPoint;
-  svgPolyPointTri2Th!: SVGPoint;
-
-  pointsPXtriText!: string;
-  pointsPYtriText!: string;
-  triPonts!: number[];
-
   //Rectangle dynamics
   @ViewChild('rectImage')
   rectPoly!: ElementRef;
@@ -150,7 +133,6 @@ export class CoreComponent implements OnInit, AfterViewInit {
   @Output()
   coreMoved = new EventEmitter();
 
-
   //Datum Dynamics
   selectedDatumType = "verse";
 
@@ -161,6 +143,7 @@ export class CoreComponent implements OnInit, AfterViewInit {
   
   constructor() {
   }
+
   //Core Visibility dynamics
   coreMenuIsVis!: boolean;
 
@@ -169,19 +152,17 @@ export class CoreComponent implements OnInit, AfterViewInit {
     console.log("CoreMenu is VISIBLE");
   };
 
-
   mouseOutCore() {
     this.coreMenuIsVis = false;
     console.log("CoreMenu is NOT visible");
   };
-
 
   @HostListener('window:resize', ['$event'])
   onResize() {
     this.browserZoomLevel = window.devicePixelRatio;
     console.log("the window was zoomed");
     this.polyLineDefOne();
-    this.triangleDefOne();
+    this.regularPolygonDefOne();
   }
 
   polyLineDefOne() {
@@ -199,20 +180,6 @@ export class CoreComponent implements OnInit, AfterViewInit {
       }
     };
   }
-  
-  
-  triangleDefOne() {
-    this.pointsPXtriText = ' ' + ((this.shellSize[0] / 2) + this.frameThickness) / this.browserZoomLevel + 'px ' + (this.frameThickness) / this.browserZoomLevel + 'px, '
-      + (this.frameThickness) / this.browserZoomLevel + 'px ' + (this.shellSize[1] + this.frameThickness) / this.browserZoomLevel + 'px, '
-      + (this.shellSize[0] + this.frameThickness) / this.browserZoomLevel + 'px ' + (this.shellSize[1] + this.frameThickness) / this.browserZoomLevel + 'px ';
-      
-    this.pointsPYtriText = ' ' + (this.shellSize[0] / 2) / this.browserZoomLevel + 'px ' + (-this.frameThickness) / this.browserZoomLevel + 'px, '
-      + (this.shellSize[0] / 2) / this.browserZoomLevel + 'px 0px, '
-      + '0px ' + (this.shellSize[1]) / this.browserZoomLevel + 'px, '
-      + (this.shellSize[0]) / this.browserZoomLevel + 'px ' + (this.shellSize[1]) / this.browserZoomLevel + 'px, '
-      + ((this.shellSize[0] / 2)) / this.browserZoomLevel + 'px 0px,'
-      + (this.shellSize[0] / 2) / this.browserZoomLevel + 'px ' + (-this.frameThickness) / this.browserZoomLevel + 'px';
-  };
 
   rectDefOne() {
     if (this.coreData.datumType == "image") { 
@@ -225,9 +192,9 @@ export class CoreComponent implements OnInit, AfterViewInit {
   shapesDefOne() {
     if (this.shellShape == 'polyline') {
       this.polyLineDefOne();
-    } else if (this.shellShape == 'polygon' && this.numOfSides == 3) {
-      this.triangleDefOne();
-    } else if (this.shellShape == 'polygon' && this.numOfSides == 4) {
+    } else if (this.shellShape == 'polygon'){
+      this.regularPolygonDefOne();
+    } else if (this.shellShape == 'rectangle') {
       this.rectDefOne();
     }
   }
@@ -302,29 +269,12 @@ export class CoreComponent implements OnInit, AfterViewInit {
     }
   }
 
-  triangleDefTwo() {
-    this.svgPolyPointTri = this.svgPolyFrame.nativeElement.createSVGPoint();
-    this.triPonts = [0,0,((this.shellSize[0]/2) + this.frameThickness), this.frameThickness,
-      this.frameThickness, (this.shellSize[1] + this.frameThickness),
-      (this.shellSize[0] + this.frameThickness), (this.shellSize[1] + this.frameThickness)];
-    for (let i = 0; i < this.triPonts.length; i = i + 2) {
-      this.svgPolyPointTri.x = this.triPonts[i];
-      this.svgPolyPointTri.y = this.triPonts[i+1];
-      this.svgPolyTri.nativeElement.points.appendItem(this.svgPolyPointTri);
-    }
-    this.svgPolyPointTri2 = this.svgPolyFrame.nativeElement.createSVGPoint();
-    for (let i = 0; i < this.triPonts.length; i = i + 2) {
-      this.svgPolyPointTri2.x = this.triPonts[i];
-      this.svgPolyPointTri2.y = this.triPonts[i+1];
-      this.svgPolyTri2.nativeElement.points.appendItem(this.svgPolyPointTri2);
-    }
-  }
 
   ngAfterViewInit(): void {
     if (this.shellShape == 'polyline') {
       this.polyLineDefTwo();
-    } else if (this.shellShape == 'polygon' && this.numOfSides == 3) {
-      this.triangleDefTwo();
+    } else if (this.shellShape == 'polygon') {
+      this.regularPolygonDefTwo();
     }
   }
 
@@ -471,7 +421,7 @@ export class CoreComponent implements OnInit, AfterViewInit {
     }, 300);
   }
 
-  //Frame Dynamics  [150, 0, 0, 260, 300, 260];
+  //Frame Dynamics;
 
   polyLineDefThick() {
     this.svgPoly.nativeElement.points.clear();
@@ -538,6 +488,79 @@ export class CoreComponent implements OnInit, AfterViewInit {
       }
     }
   };
+
+  //Polygon Complex number multiplication dynamics
+  complexP!: number[];
+  complexPone!: number[];
+
+  complex_miltiply_Poly(polyNum: number, index:number, a:number, b:number) {
+    var rads = ((2 * Math.PI) / polyNum) * index;
+    var c = Math.cos(rads);
+    var d = Math.sin(rads);
+    return [(a * c)-(b * d), (a * d)+(b * c)];
+  }
+
+  pointsPolyXText!: string;
+  pointsPolyYText!: string;
+  polygonPonts!: number[];
+  
+  regularPolygonDefOne() {
+    for (let i = 0; i < this.numOfSides; i = i++) {
+      if (i == 0) {
+        this.complexPone = this.complex_miltiply_Poly(this.numOfSides, i, 0, this.shellSize[1]/2);
+        this.pointsPolyXText = ' ' + (this.complexPone[0] + (this.shellSize[0] / 2) + this.frameThickness) / this.browserZoomLevel + 'px ' + (-this.complexPone[1] + (this.shellSize[1] / 2) + this.frameThickness) / this.browserZoomLevel + 'px ';
+        this.pointsPolyYText = ' 0px 0px, '
+        + (this.complexPone[0] + (this.shellSize[0] / 2) + this.frameThickness) / this.browserZoomLevel + 'px ' + (-this.complexPone[1] + (this.shellSize[1] / 2) + this.frameThickness) / this.browserZoomLevel + 'px ';
+        
+      } else if (i == this.numOfSides - 1) {
+        this.complexP = this.complex_miltiply_Poly(this.numOfSides, i, 0, this.shellSize[1]/2);
+        this.pointsPolyXText = this.pointsPolyXText + ', '
+        + (this.complexP[0] + (this.shellSize[0] / 2) + this.frameThickness) / this.browserZoomLevel + 'px ' + (-this.complexP[1] + (this.shellSize[1] / 2) + this.frameThickness) / this.browserZoomLevel + 'px '
+        
+        this.pointsPolyYText = this.pointsPolyYText + ', '
+        + (this.complexP[0] + (this.shellSize[0] / 2) + this.frameThickness) / this.browserZoomLevel + 'px ' + (-this.complexP[1] + (this.shellSize[1] / 2) + this.frameThickness) / this.browserZoomLevel + 'px, '
+        + (this.complexPone[0] + (this.shellSize[0] / 2) + this.frameThickness) / this.browserZoomLevel + 'px ' + (-this.complexPone[1] + (this.shellSize[1] / 2) + this.frameThickness) / this.browserZoomLevel + 'px, 0px 0px'
+        
+      } else {
+        this.complexP = this.complex_miltiply_Poly(this.numOfSides, i, 0, this.shellSize[1]/2);
+        this.pointsPolyXText = this.pointsPolyXText + ', '
+        + (this.complexP[0] + (this.shellSize[0] / 2) + this.frameThickness) / this.browserZoomLevel + 'px ' + (-this.complexP[1] + (this.shellSize[1] / 2) + this.frameThickness) / this.browserZoomLevel + 'px'
+        this.pointsPolyYText = this.pointsPolyYText + ', '
+        + (this.complexP[0] + (this.shellSize[0] / 2) + this.frameThickness) / this.browserZoomLevel + 'px ' + (-this.complexP[1] + (this.shellSize[1] / 2) + this.frameThickness) / this.browserZoomLevel + 'px'
+        
+      };
+    };
+  };
+
+  @ViewChild('svgPolyX')
+  svgPolyX!: ElementRef
+
+  svgPolyPointX!: SVGPoint;
+  svgPolyPointXTh!: SVGPoint;
+
+  @ViewChild('svgPolyX2')
+  svgPolyX2!: ElementRef
+
+  svgPolyPointX2!: SVGPoint;
+  svgPolyPointX2Th!: SVGPoint;
+  
+  regularPolygonDefTwo() {
+    this.svgPolyPointX = this.svgPolyFrame.nativeElement.createSVGPoint();
+    for (let i = 0; i < this.numOfSides; i = i++) {
+      this.complexP = this.complex_miltiply_Poly(this.numOfSides, i, 0, this.shellSize[1]/2);
+      this.svgPolyPointX.x = this.complexP[0] + (this.shellSize[0] / 2) + this.frameThickness;
+      this.svgPolyPointX.y = -this.complexP[1] + (this.shellSize[1] / 2) + this.frameThickness;
+      this.svgPolyX.nativeElement.points.appendItem(this.svgPolyPointX);
+    }
+    this.svgPolyPointX2 = this.svgPolyFrame.nativeElement.createSVGPoint();
+    for (let i = 0; i < this.pointsP.length; i = i++) {
+      this.complexP = this.complex_miltiply_Poly(this.numOfSides, i, 0, this.shellSize[1]/2);
+      this.svgPolyPointX2.x = this.complexP[0] + (this.shellSize[0] / 2) + this.frameThickness;
+      this.svgPolyPointX2.y = -this.complexP[1] + (this.shellSize[1] / 2) + this.frameThickness;
+      this.svgPolyX2.nativeElement.points.appendItem(this.svgPolyPointX2);
+    }
+  }
+
 
   //Glazing Dynamics
   drawingThickUp() {
