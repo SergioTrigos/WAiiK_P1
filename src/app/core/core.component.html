@@ -225,9 +225,9 @@
                                 
                         
                                 <!-- POLYLINE Frame  -->
-                                <svg *ngSwitchCase="'polyline'" xmlns="http://www.w3.org/2000/svg" id="SVGpolygonFrameF" #svgPolyFrameF  class="svgDesign" >
+                                <svg *ngSwitchCase="'polyline'" xmlns="http://www.w3.org/2000/svg" id="SVGpolylineFrameF" #svgPolyFrame  class="svgDesign" >
                                     
-                                    <text *ngIf="datumType === 'text'"  [attr.x]="textX" [attr.y]="textY" fill="black" > {{coreData.datumText}} </text>
+                                    <text *ngIf="datumType === 'text'"  [attr.x]="textX" [attr.y]="textY" fill="black" opacity="0.5"> {{coreData.datumText}} </text>
                         
                                     <image *ngIf="datumType === 'image'"  [attr.href]="coreData.datumText" [attr.width]="coreData.datumSize[0]" opacity="0.5" /> 
 
@@ -249,6 +249,33 @@
                                     />
 
                                 </svg> 
+
+                                <!-- POLYGON SHELL   -->
+                                <svg *ngSwitchCase="'polygon'" xmlns="http://www.w3.org/2000/svg" id="SVGpolygonFrameF" #svgPolygonFrame class="svgDesign">
+                                        
+                                    <text *ngIf="datumType === 'text'"  [attr.x]="textX" [attr.y]="textY" fill="black" opacity="0.5"> {{coreData.datumText}} </text>
+                        
+                                    <image *ngIf="datumType === 'image'"  [attr.href]="coreData.datumText" [attr.width]="coreData.datumSize[0]" opacity="0.5" /> 
+                                    
+                                    <text *ngIf="datumType === 'text'"  [attr.x]="textX" [attr.y]="textY" fill="black" 
+                                        [ngStyle]="{'clip-path':'polygon(' + pointsPolyXText + ')'}" > {{coreData.datumText}} </text>
+
+                                    <image *ngIf="datumType === 'image'"  [attr.href]="coreData.datumText" [attr.width]="coreData.datumSize[0]"
+                                        [ngStyle]="{'clip-path':'polygon(' + pointsPolyXText + ')'}" />
+                                    
+                                    <polygon [attr.width]="shellSize[0] + 2*frameThickness" [attr.height]="shellSize[1] + 2*frameThickness"
+                                        #svgPolyX2F points="" class="shellX" 
+                                        [attr.stroke-width]="frameThickness*2" [attr.stroke]="colorFrame" [attr.stroke-opacity]="frameTransparency/100" 
+                                        fill-opacity="0"
+                                        [ngStyle]="{'clip-path':'polygon( '+ (-frameThickness)/browserZoomLevel +'px '+ (shellSize[1] + frameThickness)/browserZoomLevel +'px, '
+                                                                        + (-frameThickness)/browserZoomLevel +'px '+ (-frameThickness/2)/browserZoomLevel +'px,'
+                                                                        + pointsPolyYText + ', '
+                                                                        + (shellSize[0] + frameThickness)/browserZoomLevel +'px '+ (-frameThickness)/browserZoomLevel +'px, '
+                                                                        + (shellSize[0] + frameThickness)/browserZoomLevel +'px '+ (shellSize[1] + frameThickness)/browserZoomLevel +'px)'}"
+                                
+                                        />
+                                            
+                                </svg>
                         
                                 <!-- RECTANGLE Frame -->
                                 <svg *ngSwitchCase="'rectangle'"   class="svgDesign" >
@@ -402,7 +429,7 @@
                                 </svg>
                         
                                 <!-- POLYLINE Glazing -->
-                                <svg *ngSwitchCase="'polyline'" xmlns="http://www.w3.org/2000/svg" id="SVGpolygonFrameG" #svgPolyFrameG  class="svgDesign"  >
+                                <svg *ngSwitchCase="'polyline'" xmlns="http://www.w3.org/2000/svg" id="SVGpolylineFrameG" #svgPolyFrame  class="svgDesign"  >
                                     
                                     <text *ngIf="datumType === 'text'"  [attr.x]="textX" [attr.y]="textY" fill="black" > {{coreData.datumText}} </text>
                         
@@ -423,6 +450,31 @@
                                                                             + (shellSize[0] + frameThickness)/browserZoomLevel +'px '+ (shellSize[1] + frameThickness)/browserZoomLevel +'px )'}"
                                     />
 
+                                </svg>
+
+                                <!-- POLYGON Glazing   -->
+                                <svg *ngSwitchCase="'polygon'" xmlns="http://www.w3.org/2000/svg" id="SVGpolygonFrameG" #svgPolygonFrame class="svgDesign">
+                                        
+                                    <text *ngIf="datumType === 'text'"  [attr.x]="textX" [attr.y]="textY" fill="black"> {{coreData.datumText}} </text>
+
+                                    <image *ngIf="datumType === 'image'"  [attr.href]="coreData.datumText" [attr.width]="coreData.datumSize[0]" />
+                                    
+                                    <polygon
+                                        #svgPolyXG points="" class="shellX"  
+                                        [attr.fill]="colorBackground" [attr.fill-opacity]="glazingTransparency/100"
+                                    />
+                                    <polygon [attr.width]="shellSize[0] + 2*frameThickness" [attr.height]="shellSize[1] + 2*frameThickness"
+                                        #svgPolyX2G points="" class="shellX" 
+                                        [attr.stroke-width]="frameThickness*2" [attr.stroke]="colorFrame" [attr.stroke-opacity]="frameTransparency/400" 
+                                        fill-opacity="0"
+                                        [ngStyle]="{'clip-path':'polygon( '+ (-frameThickness)/browserZoomLevel +'px '+ (shellSize[1] + frameThickness)/browserZoomLevel +'px, '
+                                                                        + (-frameThickness)/browserZoomLevel +'px '+ (-frameThickness/2)/browserZoomLevel +'px,'
+                                                                        + pointsPolyYText + ', '
+                                                                        + (shellSize[0] + frameThickness)/browserZoomLevel +'px '+ (-frameThickness)/browserZoomLevel +'px, '
+                                                                        + (shellSize[0] + frameThickness)/browserZoomLevel +'px '+ (shellSize[1] + frameThickness)/browserZoomLevel +'px)'}"
+                                
+                                        />
+                                             
                                 </svg>
                         
                                 <!-- RECTANGLE Glazing -->
@@ -555,7 +607,7 @@
                                 </svg>
                         
                                 <!-- POLYLINE Datum -->
-                                <svg *ngSwitchCase="'polyline'" xmlns="http://www.w3.org/2000/svg" id="SVGpolygonFrameD" #svgPolyFrameD class="svgDesign"  >
+                                <svg *ngSwitchCase="'polyline'" xmlns="http://www.w3.org/2000/svg" id="SVGpolylineFrameD" #svgPolyFrame class="svgDesign"  >
                                     
                                     <text *ngIf="datumType === 'text'"  [attr.x]="textX" [attr.y]="textY" fill="black" > {{coreData.datumText}} </text>
                         
@@ -572,6 +624,27 @@
                                                                             + (shellSize[0] + frameThickness)/browserZoomLevel +'px '+ (shellSize[1] + frameThickness)/browserZoomLevel +'px )'}"
                                     />
                                         
+                                </svg>
+
+                                <!-- POLYGON Datumm   -->
+                                <svg *ngSwitchCase="'polygon'" xmlns="http://www.w3.org/2000/svg" id="SVGpolygonFrameD" #svgPolygonFrame class="svgDesign">
+                                        
+                                    <text *ngIf="datumType === 'text'"  [attr.x]="textX" [attr.y]="textY" fill="black"></text>
+
+                                    <image *ngIf="datumType === 'image'"  [attr.href]="coreData.datumText" [attr.width]="coreData.datumSize[0]"/>
+                                    
+                                    <polygon [attr.width]="shellSize[0] + 2*frameThickness" [attr.height]="shellSize[1] + 2*frameThickness"
+                                        #svgPolyX2D points="" class="shellX" 
+                                        [attr.stroke-width]="frameThickness*2" [attr.stroke]="colorFrame" [attr.stroke-opacity]="frameTransparency/400" 
+                                        fill-opacity="0"
+                                        [ngStyle]="{'clip-path':'polygon( '+ (-frameThickness)/browserZoomLevel +'px '+ (shellSize[1] + frameThickness)/browserZoomLevel +'px, '
+                                                                        + (-frameThickness)/browserZoomLevel +'px '+ (-frameThickness/2)/browserZoomLevel +'px,'
+                                                                        + pointsPolyYText + ', '
+                                                                        + (shellSize[0] + frameThickness)/browserZoomLevel +'px '+ (-frameThickness)/browserZoomLevel +'px, '
+                                                                        + (shellSize[0] + frameThickness)/browserZoomLevel +'px '+ (shellSize[1] + frameThickness)/browserZoomLevel +'px)'}"
+                                
+                                        />
+                                            
                                 </svg>
                         
                                 <!-- RECTANGLE Datum -->
@@ -848,7 +921,3 @@
 </div>
 
 <!--coreData.frameTransparency  colorBackground-->
-<!--   [ngStyle]="{'clip-path':'inset( 0px ' + (coreData.datumSize[0] - shellSize[0])/browserZoomLevel + 'px ' + (coreData.datumSize[1] - shellSize[1])/browserZoomLevel + 'px 0px )'}" 
-
-[ngStyle]="{'border-radius': (rectBorderRadius + (frameThickness/2)) +'px'}"
--->

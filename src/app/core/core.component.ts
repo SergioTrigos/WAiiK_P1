@@ -123,6 +123,36 @@ export class CoreComponent implements OnInit, AfterViewInit {
   pointsPolyYText!: string;
   polygonPonts!: number[];
 
+  //Design Frame PolyGon Dynamics
+
+  @ViewChild('svgPolyX2F')
+  svgPolyX2F!: ElementRef
+
+  svgPolyPointX2F!: SVGPoint;
+  svgPolyPointX2FTh!: SVGPoint;
+
+  //Design Glazing PolyGon Dynamics
+
+  @ViewChild('svgPolyXG')
+  svgPolyXG!: ElementRef
+
+  svgPolyPointXG!: SVGPoint;
+  svgPolyPointXGTh!: SVGPoint;
+
+  @ViewChild('svgPolyX2G')
+  svgPolyX2G!: ElementRef
+
+  svgPolyPointX2G!: SVGPoint;
+  svgPolyPointX2GTh!: SVGPoint;
+
+  //Design Datum PolyGon Dynamics
+  
+  @ViewChild('svgPolyX2D')
+  svgPolyX2D!: ElementRef
+
+  svgPolyPointX2D!: SVGPoint;
+  svgPolyPointX2DTh!: SVGPoint;
+
   //Rectangle dynamics
   @ViewChild('rectImage')
   rectPoly!: ElementRef;
@@ -278,6 +308,77 @@ export class CoreComponent implements OnInit, AfterViewInit {
     }
   }
   
+  regularPolygonDefThree() {
+    this.svgPolyPointX2F = this.svgPolygonFrame.nativeElement.createSVGPoint();
+    for (let i = -2; i < this.complexP.length; i = i + 2) {
+      this.svgPolyPointX2F.x = this.complexP[i] + this.frameThickness;
+      this.svgPolyPointX2F.y = -this.complexP[i + 1] + this.frameThickness;
+      this.svgPolyX2F.nativeElement.points.appendItem(this.svgPolyPointX2F);
+    };
+    this.svgPolyPointXG = this.svgPolygonFrame.nativeElement.createSVGPoint();
+    for (let i = -2; i < this.complexP.length; i = i + 2) {
+      this.svgPolyPointXG.x = this.complexP[i] + this.frameThickness;
+      this.svgPolyPointXG.y = -this.complexP[i + 1] + this.frameThickness;
+      this.svgPolyXG.nativeElement.points.appendItem(this.svgPolyPointXG);
+    };
+    this.svgPolyPointX2G = this.svgPolygonFrame.nativeElement.createSVGPoint();
+    for (let i = -2; i < this.complexP.length; i = i + 2) {
+      this.svgPolyPointX2G.x = this.complexP[i] + this.frameThickness;
+      this.svgPolyPointX2G.y = -this.complexP[i + 1] + this.frameThickness;
+      this.svgPolyX2G.nativeElement.points.appendItem(this.svgPolyPointX2G);
+    };
+    this.svgPolyPointX2D = this.svgPolygonFrame.nativeElement.createSVGPoint();
+    for (let i = -2; i < this.complexP.length; i = i + 2) {
+      this.svgPolyPointX2D.x = this.complexP[i] + this.frameThickness;
+      this.svgPolyPointX2D.y = -this.complexP[i + 1] + this.frameThickness;
+      this.svgPolyX2D.nativeElement.points.appendItem(this.svgPolyPointX2D);
+    };
+  }
+
+  regularPolygonDefThick() {
+    this.svgPolyX.nativeElement.points.clear();
+    this.svgPolyPointXTh = this.svgPolygonFrame.nativeElement.createSVGPoint();
+    for (let i = -2; i < this.complexP.length; i = i+2) {
+      this.svgPolyPointXTh.x = this.complexP[i] + this.frameThickness;
+      this.svgPolyPointXTh.y = -this.complexP[i+1] + this.frameThickness;
+      this.svgPolyX.nativeElement.points.appendItem(this.svgPolyPointXTh);
+    }
+    this.svgPolyX2.nativeElement.points.clear();
+    this.svgPolyPointX2Th = this.svgPolygonFrame.nativeElement.createSVGPoint();
+    for (let i = -2; i < this.complexP.length; i = i+2) {
+      this.svgPolyPointX2Th.x = this.complexP[i] + this.frameThickness;
+      this.svgPolyPointX2Th.y = -this.complexP[i+1] + this.frameThickness;
+      this.svgPolyX2.nativeElement.points.appendItem(this.svgPolyPointX2Th);
+    }
+    this.svgPolyX2F.nativeElement.points.clear();
+    this.svgPolyPointX2FTh = this.svgPolygonFrame.nativeElement.createSVGPoint();
+    for (let i = -2; i < this.complexP.length; i = i + 2) {
+      this.svgPolyPointX2FTh.x = this.complexP[i] + this.frameThickness;
+      this.svgPolyPointX2FTh.y = -this.complexP[i + 1] + this.frameThickness;
+      this.svgPolyX2F.nativeElement.points.appendItem(this.svgPolyPointX2FTh);
+    };
+    this.svgPolyXG.nativeElement.points.clear();
+    this.svgPolyPointXGTh = this.svgPolygonFrame.nativeElement.createSVGPoint();
+    for (let i = -2; i < this.complexP.length; i = i + 2) {
+      this.svgPolyPointXGTh.x = this.complexP[i] + this.frameThickness;
+      this.svgPolyPointXGTh.y = -this.complexP[i + 1] + this.frameThickness;
+      this.svgPolyXG.nativeElement.points.appendItem(this.svgPolyPointXGTh);
+    };
+    this.svgPolyX2G.nativeElement.points.clear();
+    this.svgPolyPointX2GTh = this.svgPolygonFrame.nativeElement.createSVGPoint();
+    for (let i = -2; i < this.complexP.length; i = i + 2) {
+      this.svgPolyPointX2GTh.x = this.complexP[i] + this.frameThickness;
+      this.svgPolyPointX2GTh.y = -this.complexP[i + 1] + this.frameThickness;
+      this.svgPolyX2G.nativeElement.points.appendItem(this.svgPolyPointX2GTh);
+    };
+    this.svgPolyX2D.nativeElement.points.clear();
+    this.svgPolyPointX2DTh = this.svgPolygonFrame.nativeElement.createSVGPoint();
+    for (let i = -2; i < this.complexP.length; i = i + 2) {
+      this.svgPolyPointX2DTh.x = this.complexP[i] + this.frameThickness;
+      this.svgPolyPointX2DTh.y = -this.complexP[i + 1] + this.frameThickness;
+      this.svgPolyX2D.nativeElement.points.appendItem(this.svgPolyPointX2DTh);
+    };
+  };
 
   //POLYLINE METHODS
   polyLineDefOne() {
@@ -568,6 +669,8 @@ export class CoreComponent implements OnInit, AfterViewInit {
     this.DesignPolyLineTimeoutId = setTimeout(() => { 
       if (this.shellShape === 'polyline') {
         this.polyLineDefThree();
+      } else if (this.shellShape === 'polygon') {
+        this.regularPolygonDefThree();
       }
     }, 300);
   }
@@ -581,6 +684,9 @@ export class CoreComponent implements OnInit, AfterViewInit {
       if (this.shellShape === 'polyline') {
         this.polyLineDefOne();
         this.polyLineDefThick();
+      } else if (this.shellShape === 'polygon') {
+        this.regularPolygonDefOne();
+        this.regularPolygonDefThick();
       }
     }
   };
@@ -591,6 +697,9 @@ export class CoreComponent implements OnInit, AfterViewInit {
       if (this.shellShape === 'polyline') {
         this.polyLineDefOne();
         this.polyLineDefThick();
+      } else if (this.shellShape === 'polygon') {
+        this.regularPolygonDefOne();
+        this.regularPolygonDefThick();
       }
     }
   };
