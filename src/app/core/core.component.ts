@@ -7,9 +7,10 @@ import { FontPickerDirective } from 'ngx-font-picker';
 //let positionX: string;
 //let positionY: string; 
 @Component({
-  selector: 'app-core',
-  templateUrl: './core.component.html',
-  styleUrls: ['./core.component.sass'],
+    selector: 'app-core',
+    templateUrl: './core.component.html',
+    styleUrls: ['./core.component.sass'],
+    standalone: false
 })
 export class CoreComponent implements OnInit, AfterViewInit {
 

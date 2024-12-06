@@ -110,9 +110,10 @@ let counter = 0;
 
 
 @Component({
-  selector: 'app-stage',
-  templateUrl: './stage.component.html',
-  styleUrls: ['./stage.component.sass']
+    selector: 'app-stage',
+    templateUrl: './stage.component.html',
+    styleUrls: ['./stage.component.sass'],
+    standalone: false
 })
 export class StageComponent implements OnInit {
 
