@@ -1,33 +1,11 @@
 <div class="entireScreen" layout="column"> 
   <div flex class="toolbar" role="banner">
 
-    <div class="tabs tab">
-      <mat-tab-group>
     
-        <mat-tab class="groundTab">
-          <ng-template mat-tab-label>
-            <img class="icon" width="40" src="assets\Icon\HallIcon.png" />
-            Hall
-          </ng-template>
-        </mat-tab>
     
-        <mat-tab class="groundTab">
-          <ng-template mat-tab-label>
-            <img class="icon" width="40" src="assets\Icon\WAiiK_logo3.png" />
-            WAiiK
-          </ng-template>
-        </mat-tab>
-    
-      </mat-tab-group>
-    </div>
+  <app-top-bar></app-top-bar>
+
   
-  
-    <div class="addStage tab">
-      <button mat-button class="addStage">
-        <mat-icon>add</mat-icon>
-      </button>
-    </div>
-    
   </div>
   <div class="genDisplay">
     <app-stage>

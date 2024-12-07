@@ -1,7 +1,17 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
+import { FormsModule } from '@angular/forms'; // Required for [(ngModel)]
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatDialogModule } from '@angular/material/dialog';
+
 import { AppComponent } from './app.component';
+import { LoginComponent } from './components/login/login.component';
+import { StageComponent } from './components/stage/stage.component';
+import { CoreComponent } from './components/core/core.component';
+import { TopBarComponent } from './components/top-bar/top-bar.component';
+
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule} from '@angular/material/icon';
@@ -11,10 +21,8 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { CoreComponent } from './core/core.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatMenuModule } from '@angular/material/menu';
-import { StageComponent } from './stage/stage.component';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { MatRippleModule } from '@angular/material/core';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -40,11 +48,20 @@ const DEFAULT_FONT_PICKER_CONFIG: FontPickerConfigInterface = {
     AppComponent,
     CoreComponent,
     StageComponent,
+    LoginComponent,
+    TopBarComponent,
   ],
   imports: [
     BrowserModule,
     MatTabsModule,
     MatButtonModule,
+    FormsModule,             // Required for [(ngModel)]
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatToolbarModule,
+    MatDialogModule,
     MatIconModule,
     LayoutModule,
     MatToolbarModule,

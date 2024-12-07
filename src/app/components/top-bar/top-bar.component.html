@@ -1,0 +1,24 @@
+<mat-toolbar>
+    <!-- Left Section: Home Button -->
+    <button mat-button routerLink="/" aria-label="Home">
+      <mat-icon>home</mat-icon>
+      Home
+    </button>
+  
+    <!-- Middle Section: Tabs Bar -->
+    <mat-tab-group>
+      <mat-tab label="Hall"></mat-tab>    <!-- src="assets\Icon\HallIcon.png"    -->
+      <mat-tab label="WAiiK"></mat-tab>   <!-- src="assets\Icon\WAiiK_logo3.png" -->
+    </mat-tab-group>
+  
+    <!-- Right Section: Login/Profile -->
+    <span class="spacer"></span>
+    <ng-container *ngIf="!isLoggedIn; else loggedInTemplate">
+      <button mat-button (click)="openLogin()">Log In</button>
+    </ng-container>
+    <ng-template #loggedInTemplate>
+      <button mat-icon-button>
+        <mat-icon>account_circle</mat-icon>
+      </button>
+    </ng-template>
+</mat-toolbar>
