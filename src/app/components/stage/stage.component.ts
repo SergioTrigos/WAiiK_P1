@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { Core } from './coreTypes';
 
 //TEMPORARY DATABASE STARTS
@@ -106,7 +106,6 @@ let CoresData: Core[] = [
 ];
 //TEMPORARY DATABASE ENDS
 
-let counter = 0;
 
 
 @Component({
@@ -116,18 +115,40 @@ let counter = 0;
     standalone: false
 })
 export class StageComponent implements OnInit {
+  Kores: Core[] = CoresData;
+  @Input() kores: any[] = []; // Full list of kores (from a service or database)
+  @Input() activeTabId!: number; // Track the active tab ID
 
-  Cores: Core[] = CoresData;
+  displayedKores: any[] = []; // Filtered list of kores to display
   
-
   constructor() { }
 
   ngOnInit(): void {
 
   }
 
-  newPosition(pos: number[], index: number) {
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['activeTabId'] || changes['kores']) {
+      this.updateDisplayedKores();
+    }
+  }  
+  
+  updateDisplayedKores(): void {
+    if (this.activeTabId === 0) {
+      // Display the default Home stage (no kores)
+      this.displayedKores = [];
+    } else {
+      // Filter kores based on the container Kore associated with the active tab
+      const containerKore = this.kores.find(kore => kore.id === this.activeTabId);
+      this.displayedKores = containerKore?.containedKores || [];
+    }
+  }
+
+
+  newPosition(pos: number[], index: number): void {
     CoresData[index].position = pos
+    //this.displayedKores[index].position = pos;
     console.log("the positions changed to: " + pos[0] + " and " + pos[1]);
   }
 

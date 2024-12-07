@@ -1,16 +1,26 @@
 <mat-toolbar>
     <!-- Left Section: Home Button -->
-    <button mat-button routerLink="/" aria-label="Home">
+    <button  mat-button (click)="selectTabByIndex(0)">
       <mat-icon>home</mat-icon>
       Home
     </button>
   
     <!-- Middle Section: Tabs Bar -->
-    <mat-tab-group>
-      <mat-tab label="Hall"></mat-tab>    <!-- src="assets\Icon\HallIcon.png"    -->
-      <mat-tab label="WAiiK"></mat-tab>   <!-- src="assets\Icon\WAiiK_logo3.png" -->
-    </mat-tab-group>
-  
+    <div class="tabs-container">
+      <mat-tab-group [(selectedIndex)]="selectedTabIndex" (selectedIndexChange)="selectTabByIndex($event)">
+        <mat-tab *ngFor="let tab of tabs; index as i">
+          <ng-template mat-tab-label>
+            {{ tab.name }}
+            <button mat-icon-button *ngIf="i !== 0" (click)="removeTab(tab.id)" aria-label="Close Tab">
+              <mat-icon>close</mat-icon>
+            </button>
+          </ng-template>
+        </mat-tab>
+          <!-- <mat-tab label="Hall"></mat-tab>    src="assets\Icon\HallIcon.png"    -->
+          <!-- <mat-tab label="WAiiK"></mat-tab>  src="assets\Icon\WAiiK_logo3.png" -->
+      </mat-tab-group>
+    </div>
+
     <!-- Right Section: Login/Profile -->
     <span class="spacer"></span>
     <ng-container *ngIf="!isLoggedIn; else loggedInTemplate">
